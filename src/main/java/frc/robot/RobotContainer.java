@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.state.Strategy;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.constants.TunerConstants;
+import frc.robot.util.Tracker;
 import frc.robot.utils.localization.FieldZones;
 import frc.robot.utils.localization.LocalizationState;
 
@@ -44,6 +45,8 @@ public class RobotContainer {
   public static final Vision VISION = new Vision();
 
   public static final Structure STRUCTURE = new Structure();
+
+  public static final Tracker TRACKER = new Tracker();
 
   public RobotContainer() {
     DRIVETRAIN.registerTelemetry(DRIVETRAIN.LOGGER::telemeterize);
