@@ -1,0 +1,35 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.autos;
+
+import static frc.robot.state.logic.constants.StateConstants.*;
+
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
+
+/** Add your docs here. */
+public class AutoAlignCoral extends SequentialCommandGroup {
+
+  public AutoAlignCoral() {
+    addCommands(
+        new InstantCommand(
+            () -> {
+              System.out.println("IM HERE");
+              AutoHelpers.setWantsCoral(true);
+              System.out.println("IM AT CORAL");
+              AutoAlign.setTargetPose(
+                  RobotContainer.DRIVETRAIN
+                      .getPose()
+                      .nearest(
+                          RobotContainer.DRIVETRAIN.getAlliance() == Alliance.Red
+                              ? RED_TARGET_POSES_CORAL
+                              : BLUE_TARGET_POSES_CORAL));
+              System.out.println(AutoAlign.getTargetPose());
+            }),
+        new AutoAlign());
+  }
+}

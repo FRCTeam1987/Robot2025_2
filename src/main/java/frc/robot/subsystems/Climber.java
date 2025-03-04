@@ -24,6 +24,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
+import frc.robot.RobotContainer;
 
 public class Climber {
 
@@ -31,7 +32,7 @@ public class Climber {
 
   public final TalonFX FOLLOWER = new TalonFX(FOLLOWER_MOTOR_ID, CANBUS_NAME);
 
-  public final CANcoder ENCODER = new CANcoder(ENCODER_ID, CANBUS_NAME);
+  public final CANcoder ENCODER = new CANcoder(ENCODER_ID);
 
   private final StatusSignal<Angle> ENCODER_POSITION = ENCODER.getPosition();
   private final StatusSignal<Angle> LEADER_POSITION = LEADER.getPosition();
@@ -61,7 +62,9 @@ public class Climber {
     FOLLOWER.setPosition(0.0);
   }
 
-  public void cycle() {}
+  public void cycle() {
+    if (RobotContainer.DEBUG) log();
+  }
 
   public void log() {
     StatusCode leaderStatus = BaseStatusSignal.refreshAll(LEADER_POSITION, LEADER_SUPPLY_CURRENT);

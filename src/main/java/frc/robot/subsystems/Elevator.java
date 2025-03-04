@@ -21,10 +21,12 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DynamicMotionMagicVoltage;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
+import dev.doglog.DogLog;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
+import frc.robot.RobotContainer;
 import frc.robot.utils.Conversions;
 
 public class Elevator {
@@ -65,11 +67,20 @@ public class Elevator {
 
     StatusCode followerStatus =
         BaseStatusSignal.refreshAll(FOLLOWER_POSITION, FOLLOWER_SUPPLY_CURRENT);
+
+    DogLog.log("Elevator/leaderSupplyCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
+    DogLog.log("Elevator/leaderPosition", LEADER_POSITION.getValueAsDouble());
+    DogLog.log("Elevator/followerSupplyCurrent", FOLLOWER_SUPPLY_CURRENT.getValueAsDouble());
+    DogLog.log("Elevator/followerPosition", FOLLOWER_POSITION.getValueAsDouble());
+    DogLog.log("Elevator/isAtTarget", isAtTarget);
+    DogLog.log("Elevator/leaderIsConnected", leaderStatus.isOK());
+    DogLog.log("Elevator/followerIsConnected", followerStatus.isOK());
   }
 
   public void cycle() {
     distance = Conversions.rotationsToMeters(LEADER_POSITION.getValue(), 1.0, PULLEY_RADIUS);
     isAtTarget = isAtTargetDebouncer.calculate(distance.isNear(target, Inches.of(0.5)));
+    if (RobotContainer.DEBUG) log();
   }
 
   public void setDistance(Distance distance) {

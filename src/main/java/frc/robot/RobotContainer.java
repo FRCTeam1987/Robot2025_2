@@ -24,6 +24,8 @@ import frc.robot.utils.localization.FieldZones;
 import frc.robot.utils.localization.LocalizationState;
 
 public class RobotContainer {
+
+  public static final boolean DEBUG = true;
   public static final LinearVelocity MAX_SPEED = TunerConstants.kSpeedAt12Volts;
   public static final AngularVelocity MAX_ANGULAR_RATE = RotationsPerSecond.of(0.75);
 

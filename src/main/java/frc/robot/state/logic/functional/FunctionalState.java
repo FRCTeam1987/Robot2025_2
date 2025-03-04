@@ -6,7 +6,6 @@ import static frc.robot.state.Abomination.getCollectMode;
 import static frc.robot.state.Abomination.getScoreMode;
 import static frc.robot.state.logic.constants.StateConstants.COLLECT_ZONES;
 
-import frc.robot.RobotContainer;
 import frc.robot.state.logic.constants.MechanismConstant;
 
 public enum FunctionalState {
@@ -23,22 +22,22 @@ public enum FunctionalState {
   COLLECTED_CORAL(
       new FunctionalAction(
           // stroke behaivor
-          () ->
-              ELEVATOR.setDistance(
-                  Meters.of(
-                      Math.max(
-                          0,
-                          Math.max(
-                                  getScoreMode()
-                                      .getMechanismConstant()
-                                      .getElevatorDistance()
-                                      .in(Meters),
-                                  MechanismConstant.L3.getElevatorDistance().in(Meters))
-                              * (1
-                                  - (RobotContainer.getLocalizationState()
-                                          .distanceToGoal()
-                                          .in(Meters)
-                                      / 4))))),
+          // ELEVATOR.setDistance(
+          //                  Meters.of(
+          //                      Math.max(
+          //                          0,
+          //                          Math.max(
+          //                                  getScoreMode()
+          //                                      .getMechanismConstant()
+          //                                      .getElevatorDistance()
+          //                                      .in(Meters),
+          //                                  MechanismConstant.L3.getElevatorDistance().in(Meters))
+          //                              * (1
+          //                                  - (RobotContainer.getLocalizationState()
+          //                                          .distanceToGoal()
+          //                                          .in(Meters)
+          //                                      / 4))))
+          () -> ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance()),
           () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.45)),
           INTAKE::stop)),
@@ -100,9 +99,7 @@ public enum FunctionalState {
   LEVEL_X_ELEVATE(
       new FunctionalAction(
           () -> {
-            if (DRIVETRAIN.isMoving()) {
-              ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance());
-            }
+            ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance());
           },
           () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
@@ -110,9 +107,7 @@ public enum FunctionalState {
   LEVEL_X_ROTATE(
       new FunctionalAction(
           () -> {
-            if (DRIVETRAIN.isMoving()) {
-              ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance());
-            }
+            ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance());
           },
           () -> ARM.setArmPosition(getScoreMode().getMechanismConstant().getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
@@ -128,7 +123,7 @@ public enum FunctionalState {
                 Volts.of(
                     switch (getScoreMode()) {
                       case L1 -> inBack ? -8.0 : -16.0;
-                      case L4 -> inBack ? -8.0 : -6.0;
+                      case L4 -> inBack ? -8.0 : -2.5;
                       default -> inBack ? -8.0 : -1.4;
                     }));
           },

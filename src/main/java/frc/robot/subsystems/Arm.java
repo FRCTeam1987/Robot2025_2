@@ -24,6 +24,7 @@ import com.ctre.phoenix6.hardware.CANdi;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.S1StateValue;
 import com.ctre.phoenix6.signals.S2StateValue;
+import dev.doglog.DogLog;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -104,11 +105,28 @@ public class Arm {
     StatusCode coralStatus = BaseStatusSignal.refreshAll(CORAL_S1_SIGNAL, CORAL_S2_SIGNAL);
 
     StatusCode algaeStatus = BaseStatusSignal.refreshAll(ALGAE_S1_SIGNAL, ALGAE_S2_SIGNAL);
+
+    DogLog.log("Arm/armSupplyCurrent", ARM_SUPPLY_CURRENT.getValueAsDouble());
+    DogLog.log("Arm/armPosition", ARM_POSITION.getValueAsDouble());
+    DogLog.log("Arm/armVelocity", ARM_VELOCITY.getValueAsDouble());
+    DogLog.log("Arm/effectorSupplyCurrent", EFFECTOR_SUPPLY_CURRENT.getValueAsDouble());
+    DogLog.log("Arm/effectorPosition", EFFECTOR_POSITION.getValueAsDouble());
+    DogLog.log("Arm/encoderPosition", ENCODER_POSITION.getValueAsDouble());
+    DogLog.log("Arm/isAtTarget", isAtTarget);
+    DogLog.log("Arm/coralS1", CORAL_S1_SIGNAL.getValue());
+    DogLog.log("Arm/coralS2", CORAL_S2_SIGNAL.getValue());
+    DogLog.log("Arm/algaeS1", ALGAE_S1_SIGNAL.getValue());
+    DogLog.log("Arm/armIsConnected", leaderStatus.isOK());
+    DogLog.log("Arm/effectorIsConnected", followerStatus.isOK());
+    DogLog.log("Arm/encoderIsConnected", encoderStatus.isOK());
+    DogLog.log("Arm/coralIsConnected", coralStatus.isOK());
+    DogLog.log("Arm/algaeIsConnected", algaeStatus.isOK());
   }
 
   public void cycle() {
     isAtTarget = isAtTargetDebouncer.calculate(getArmPosition().isNear(getTarget(), Degrees.of(1)));
     if (isFollowing) setEffectorPosition(getArmPosition());
+    if (RobotContainer.DEBUG) log();
   }
 
   public void setClawVoltage(Voltage voltage) {

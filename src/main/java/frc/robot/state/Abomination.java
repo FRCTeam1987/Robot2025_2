@@ -3,7 +3,7 @@ package frc.robot.state;
 import static frc.robot.RobotContainer.*;
 import static frc.robot.state.logic.functional.FunctionalState.*;
 
-import com.ctre.phoenix6.SignalLogger;
+import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.state.commands.DriveToPose;
@@ -13,7 +13,6 @@ import frc.robot.state.logic.functional.FunctionalState;
 import frc.robot.state.logic.mode.CollectMode;
 import frc.robot.state.logic.mode.DriveMode;
 import frc.robot.state.logic.mode.ScoreMode;
-import frc.robot.utils.localization.FieldZones;
 import frc.robot.utils.localization.LocalizationState;
 
 public class Abomination {
@@ -43,6 +42,7 @@ public class Abomination {
           case HUMAN_PLAYER_STATION -> {
             if (isAutomatic()) schedulePathfind();
             if (ARM.hasGamePiece()) {
+              Strategy.next();
               return COLLECTED_CORAL;
             }
             return COLLECT;
@@ -82,16 +82,8 @@ public class Abomination {
         if (!ARM.hasGamePieceEntrance()) return COLLECT;
         switch (SCORE_MODE) {
           case L1, L2, L3, L4 -> {
-            if (isAutomatic()) {
-              schedulePathfind();
-              if (LOC.fieldZone() == FieldZones.Zone.ALLIANCE_REEF) {
-                return LEVEL_X_ELEVATE;
-              }
-            } else {
-              if (DESIRED_ACTION == DesiredAction.INIT) {
-
-                return LEVEL_X_ELEVATE;
-              }
+            if (DESIRED_ACTION == DesiredAction.INIT) {
+              return LEVEL_X_ELEVATE;
             }
           }
         }
@@ -127,7 +119,6 @@ public class Abomination {
           }
           case NET_UNELEVATE -> {
             if (ELEVATOR.isAtTarget()) {
-              Strategy.next();
               setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
               return COLLECT;
             }
@@ -143,9 +134,6 @@ public class Abomination {
           }
           case PROCESSOR_ROTATE -> {
             if (!ARM.isAtTarget()) return PROCESSOR_ROTATE;
-            if (isAutomatic()) {
-              if (ARM.isAtTarget()) return PROCESSOR_SCORE;
-            }
             if (DESIRED_ACTION == DesiredAction.SCORE) {
               return PROCESSOR_SCORE;
             }
@@ -163,24 +151,11 @@ public class Abomination {
       case LEVEL_X_ELEVATE, LEVEL_X_ROTATE, LEVEL_X_SCORE, LEVEL_X_UNROTATE, LEVEL_X_UNELEVATE -> {
         switch (PREVIOUS_STATE) {
           case LEVEL_X_ELEVATE -> {
-            if (isAutomatic()) {
-              scheduleHolo();
-              if (LOC.fieldZone() != FieldZones.Zone.ALLIANCE_REEF) {
-                return LEVEL_X_UNELEVATE;
-              }
-            }
             if (ELEVATOR.isAtTarget()) return LEVEL_X_ROTATE;
             return LEVEL_X_ELEVATE;
           }
           case LEVEL_X_ROTATE -> {
             if (!ARM.isAtTarget()) return LEVEL_X_ROTATE;
-            if (isAutomatic()) {
-              scheduleHolo();
-              if (LOC.fieldZone() != FieldZones.Zone.ALLIANCE_REEF) {
-                return LEVEL_X_UNROTATE;
-              }
-              if (HOLONOMIC_COMMAND.atGoal()) return LEVEL_X_SCORE;
-            }
             if (DESIRED_ACTION == DesiredAction.SCORE) {
               return LEVEL_X_SCORE;
             }
@@ -196,9 +171,6 @@ public class Abomination {
           }
           case LEVEL_X_UNELEVATE -> {
             if (!ELEVATOR.isAtTarget()) return LEVEL_X_UNELEVATE;
-            if (isAutomatic()) {
-              Strategy.next();
-            }
             return COLLECT;
           }
         }
@@ -246,11 +218,11 @@ public class Abomination {
   public static FunctionalState getState() {
 
     FunctionalState STATE = calculateRobotState();
-    SignalLogger.writeString("STATE/Robot State", STATE.toString());
-    SignalLogger.writeString("STATE/Drive Mode", DRIVE_MODE.toString());
-    SignalLogger.writeString("STATE/Score Mode", SCORE_MODE.toString());
-    SignalLogger.writeString("STATE/Desired Action", DESIRED_ACTION.toString());
-    SignalLogger.writeString("STATE/Strategy State", Strategy.getCurrentFieldPosition().toString());
+    DogLog.log("STATE/Robot State", STATE.toString());
+    DogLog.log("STATE/Drive Mode", DRIVE_MODE.toString());
+    DogLog.log("STATE/Score Mode", SCORE_MODE.toString());
+    DogLog.log("STATE/Desired Action", DESIRED_ACTION.toString());
+    DogLog.log("STATE/Strategy State", Strategy.getCurrentFieldPosition().toString());
     PREVIOUS_STATE = STATE;
     return STATE;
   }

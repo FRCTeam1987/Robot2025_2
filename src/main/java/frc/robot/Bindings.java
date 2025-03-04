@@ -1,15 +1,21 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.state.Abomination;
+import frc.robot.state.commands.AsyncRumble;
+import frc.robot.state.commands.DriveToNearest;
 import frc.robot.state.logic.actions.DesiredAction;
 import frc.robot.state.logic.constants.PositionConstant;
 import frc.robot.state.logic.mode.CollectMode;
-import frc.robot.state.logic.mode.DriveMode;
 import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.utils.InstCmd;
 
 public class Bindings extends RobotContainer {
+  private static DriveToNearest NEAREST = new DriveToNearest();
+
   public static void configureBindings() {
+
     // Note that X is defined as forward according to WPILib convention,
     // and Y is defined as to the left according to WPILib convention.
     DRIVETRAIN.setDefaultCommand(
@@ -35,10 +41,10 @@ public class Bindings extends RobotContainer {
     JOYSTICK.rightBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
     JOYSTICK.leftBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.INIT)));
 
-    JOYSTICK
-        .rightTrigger()
-        .onTrue(new InstCmd(() -> Abomination.setDriveMode(DriveMode.AUTOMATIC)));
-    JOYSTICK.leftTrigger().onTrue(new InstCmd(() -> Abomination.setDriveMode(DriveMode.MANUAL)));
+    JOYSTICK.rightTrigger().whileTrue(NEAREST);
+    new Trigger(() -> NEAREST.isFinished())
+        .whileTrue(
+            new AsyncRumble(JOYSTICK.getHID(), GenericHID.RumbleType.kBothRumble, 1.0, 3000));
     JOYSTICK
         .povUp()
         .onTrue(new InstCmd(() -> Abomination.setCollectMode(CollectMode.HUMAN_PLAYER_STATION)));

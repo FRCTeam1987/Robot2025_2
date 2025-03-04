@@ -1,12 +1,12 @@
 package frc.robot.state.commands;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import dev.doglog.DogLog;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -23,11 +23,11 @@ public class DriveToPose extends Command {
   private final HolonomicDriveController HOLONOMIC =
       new HolonomicDriveController(
           // PID constants for translation
-          new PIDController(4.25, 0, 0),
+          new PIDController(7.5, 0, 0.0003),
           // PID constants for rotation
-          new PIDController(4.25, 0, 0),
+          new PIDController(7.5, 0, 0.0003),
           new ProfiledPIDController(
-              4.0,
+              12.0,
               0,
               0,
               new TrapezoidProfile.Constraints(Units.degreesToRadians(360.0), 8.0),
@@ -42,6 +42,13 @@ public class DriveToPose extends Command {
     addRequirements(drive);
     this.DRIVE = drive;
     this.TARGET = () -> target;
+    this.ROBOT = RobotContainer.DRIVETRAIN::getPose;
+  }
+
+  public DriveToPose(Drivetrain drive, Supplier<Pose2d> target) {
+    addRequirements(drive);
+    this.DRIVE = drive;
+    this.TARGET = target;
     this.ROBOT = RobotContainer.DRIVETRAIN::getPose;
   }
 
@@ -85,6 +92,9 @@ public class DriveToPose extends Command {
 
     // Command speeds
     DRIVE.setControl(request);
+
+    DogLog.log("DriveToPose/targetPose", targetPose);
+    DogLog.log("DriveToPose/isRunning", running);
   }
 
   @Override
@@ -104,12 +114,5 @@ public class DriveToPose extends Command {
         && DRIVE.getPose().getTranslation().getDistance(TARGET.get().getTranslation()) < 0.02
         && DRIVE.getState().Speeds.vxMetersPerSecond < 0.01
         && DRIVE.getState().Speeds.vyMetersPerSecond < 0.01;
-  }
-
-  /** Checks if the robot pose is within the allowed drive and theta tolerances. */
-  public boolean withinTolerance(double driveTolerance, Rotation2d thetaTolerance) {
-    return running
-        && Math.abs(driveErrorAbs) < driveTolerance
-        && Math.abs(thetaErrorAbs) < thetaTolerance.getRadians();
   }
 }
