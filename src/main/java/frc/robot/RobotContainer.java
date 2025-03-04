@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 public class RobotContainer {
   private final double MAX_SPEED =
@@ -41,8 +42,9 @@ public class RobotContainer {
 
   private final CommandXboxController JOYSTICK = new CommandXboxController(0);
 
-  public final CommandSwerveDrivetrain DRIVETRAIN = TunerConstants.createDrivetrain();
-  public final IntakeSubsystem INTAKE = new IntakeSubsystem();
+  public static final CommandSwerveDrivetrain DRIVETRAIN = TunerConstants.createDrivetrain();
+  public static final IntakeSubsystem INTAKE = new IntakeSubsystem();
+  public static final VisionSubsystem VISION = new VisionSubsystem();
 
   public RobotContainer() {
     // https://doglog.dev

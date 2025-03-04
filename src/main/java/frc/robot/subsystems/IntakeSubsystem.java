@@ -92,7 +92,7 @@ public class IntakeSubsystem extends SubsystemBase {
             m_signalMotorSupplyCurrent,
             m_signalMotorVelocity);
     // These signals are logged by default,
-    // but this lets us view them on NT with less effor than CTRE's Telemetry until we have more
+    // but this lets us view them on NT with less effort than CTRE's Telemetry until we have more
     // time
     DogLog.log("intake/appliedVoltage", m_signalMotorAppliedVoltage.getValueAsDouble());
     DogLog.log("intake/statorCurrent", m_signalMotorStatorCurrent.getValueAsDouble());
