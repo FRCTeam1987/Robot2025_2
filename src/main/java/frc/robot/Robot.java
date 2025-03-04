@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import au.grapplerobotics.CanBridge;
+import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathfindingCommand;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -14,12 +18,18 @@ public class Robot extends TimedRobot {
   private final RobotContainer ROBOT_CONTAINER;
 
   public Robot() {
+    CanBridge.runTCP();
+    RobotController.setBrownoutVoltage(6.0);
+
+    FollowPathCommand.warmupCommand().schedule();
+    PathfindingCommand.warmupCommand().schedule();
     ROBOT_CONTAINER = new RobotContainer();
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    RobotContainer.updateLocalizationState();
   }
 
   @Override

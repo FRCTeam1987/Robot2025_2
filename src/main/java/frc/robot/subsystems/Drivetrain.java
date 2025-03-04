@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.subsystems.constants.TunerConstants.STOP_SPEED;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
@@ -10,6 +11,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -19,17 +21,21 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.RobotContainer;
+import frc.robot.Telemetry;
+import frc.robot.subsystems.constants.TunerConstants.TunerSwerveDrivetrain;
 import java.util.function.Supplier;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements Subsystem so it can easily
  * be used in command-based projects.
  */
-public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
+public class Drivetrain extends TunerSwerveDrivetrain implements Subsystem {
   private static final double SIM_PERIOD = 0.005; // 5 ms
   private Notifier simNotifier = null;
   private double lastSimTime;
+
+  public final Telemetry LOGGER = new Telemetry(RobotContainer.MAX_SPEED.in(MetersPerSecond));
 
   /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
   private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -107,7 +113,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    * @param drivetrainConstants Drivetrain-wide constants for the swerve drive
    * @param modules Constants for each specific module
    */
-  public CommandSwerveDrivetrain(
+  public Drivetrain(
       SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
     super(drivetrainConstants, modules);
     if (Utils.isSimulation()) {
@@ -126,7 +132,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    *     0 Hz, this is 250 Hz on CAN FD, and 100 Hz on CAN 2.0.
    * @param modules Constants for each specific module
    */
-  public CommandSwerveDrivetrain(
+  public Drivetrain(
       SwerveDrivetrainConstants drivetrainConstants,
       double odometryUpdateFrequency,
       SwerveModuleConstants<?, ?, ?>... modules) {
@@ -151,7 +157,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
    *     theta]ᵀ, with units in meters and radians
    * @param modules Constants for each specific module
    */
-  public CommandSwerveDrivetrain(
+  public Drivetrain(
       SwerveDrivetrainConstants drivetrainConstants,
       double odometryUpdateFrequency,
       Matrix<N3, N1> odometryStandardDeviation,
@@ -271,5 +277,30 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
       Matrix<N3, N1> visionMeasurementStdDevs) {
     super.addVisionMeasurement(
         visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
+  }
+
+  // TEAM STUFF
+  private Alliance alliance = Alliance.Red;
+
+  public Alliance getAlliance() {
+    return alliance;
+  }
+
+  public void setAlliance(final Alliance newAlliance) {
+    alliance = newAlliance;
+  }
+
+  public Pose2d getPose() {
+    return getStateCopy().Pose;
+  }
+
+  public ChassisSpeeds getChassisSpeeds() {
+    return getStateCopy().Speeds;
+  }
+
+  public boolean isMoving() {
+    ChassisSpeeds speeds = getState().Speeds;
+    return Math.abs(speeds.vyMetersPerSecond) < STOP_SPEED
+        && Math.abs(speeds.vxMetersPerSecond) < STOP_SPEED;
   }
 }
