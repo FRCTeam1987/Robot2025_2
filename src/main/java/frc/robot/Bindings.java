@@ -36,7 +36,7 @@ public class Bindings extends RobotContainer {
     JOYSTICK.a().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.PROCESSOR)));
     JOYSTICK.b().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L2)));
     JOYSTICK.x().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)));
-    JOYSTICK.y().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3)));
+    JOYSTICK.y().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.CLIMB)));
 
     JOYSTICK.rightBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
     JOYSTICK.leftBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.INIT)));
@@ -55,5 +55,7 @@ public class Bindings extends RobotContainer {
         .start()
         .onTrue(
             new InstCmd(() -> DRIVETRAIN.resetPose(PositionConstant.SIDE_1_ALGAE.getRedPose())));
+
+    JOYSTICK.back().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.RECOVERY)));
   }
 }

@@ -36,6 +36,11 @@ public class Abomination {
     if (SCORE_MODE != MODE && isAutomatic()) {
       SCORE_MODE = MODE;
     }
+    // master overrides
+    if (SCORE_MODE == ScoreMode.CLIMB) {
+      return CLIMB_DEPLOY;
+    }
+
     switch (PREVIOUS_STATE) {
       case COLLECT -> {
         switch (COLLECT_MODE) {
@@ -173,6 +178,32 @@ public class Abomination {
           case LEVEL_X_UNELEVATE -> {
             if (!ELEVATOR.isAtTarget()) return LEVEL_X_UNELEVATE;
             return COLLECT;
+          }
+        }
+      }
+      case CLIMB_DEPLOY, CLIMB_CLIMB, CLIMB_STOW -> {
+        switch (PREVIOUS_STATE) {
+          case CLIMB_DEPLOY -> {
+            if (CLIMBER.isAtTarget()) {
+              if (DESIRED_ACTION == DesiredAction.SCORE) {
+                return CLIMB_CLIMB;
+              }
+              if (DESIRED_ACTION == DesiredAction.RECOVERY) {
+                return CLIMB_STOW;
+              }
+            }
+            return CLIMB_DEPLOY;
+          }
+          case CLIMB_CLIMB -> {
+            if (CLIMBER.isAtTarget()) {}
+
+            return CLIMB_CLIMB;
+          }
+          case CLIMB_STOW -> {
+            if (CLIMBER.isAtTarget()) {
+              return COLLECT;
+            }
+            return CLIMB_STOW;
           }
         }
       }

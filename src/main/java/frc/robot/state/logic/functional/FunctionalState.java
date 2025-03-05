@@ -18,7 +18,9 @@ public enum FunctionalState {
                   COLLECT_ZONES.contains(getLocalizationState().fieldZone())
                       ? Volts.of(4.0)
                       : Volts.of(0.0)),
-              COLLECT_ZONES.contains(getLocalizationState().fieldZone()) ? INTAKE::start : INTAKE::stop)),
+          COLLECT_ZONES.contains(getLocalizationState().fieldZone())
+              ? INTAKE::start
+              : INTAKE::stop)),
   COLLECTED_CORAL(
       new FunctionalAction(
           // stroke behaivor
@@ -26,7 +28,7 @@ public enum FunctionalState {
           //                  Meters.of(
           //                      Math.max(
           //                          0,
-          //                          Math.max(
+          //                          Math.min(
           //                                  getScoreMode()
           //                                      .getMechanismConstant()
           //                                      .getElevatorDistance()
@@ -152,28 +154,21 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(MechanismConstant.CLIMB.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop,
-          () -> CLIMBER.setVoltage(Volt.of(4.0)))),
-  CLIMB_RETRACT(
+          CLIMBER::deploy)),
+  CLIMB_CLIMB(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(MechanismConstant.CLIMB.getElevatorDistance()),
           () -> ARM.setArmPosition(MechanismConstant.CLIMB.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop,
-          () -> CLIMBER.setVoltage(Volt.of(4.0)))),
-  CLIMB_LATCH(
+          CLIMBER::climb)),
+  CLIMB_STOW(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(MechanismConstant.CLIMB.getElevatorDistance()),
           () -> ARM.setArmPosition(MechanismConstant.CLIMB.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop,
-          () -> CLIMBER.setVoltage(Volt.of(4.0)))),
-  CLIMB_RAISE(
-      new FunctionalAction(
-          () -> ELEVATOR.setDistance(MechanismConstant.CLIMB.getElevatorDistance()),
-          () -> ARM.setArmPosition(MechanismConstant.CLIMB.getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(0.0)),
-          INTAKE::stop,
-          () -> CLIMBER.setVoltage(Volt.of(4.0)))),
+          CLIMBER::stow)),
   ;
 
   public final FunctionalAction ACTION;

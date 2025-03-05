@@ -197,7 +197,7 @@ public class SubsystemConstants {
 
     public static final Angle FULLY_STOWED = Rotations.of(0.338135);
     public static final Angle FULLY_EXTENDED = Rotations.of(0.598736);
-    public static final Angle FULLY_CLIMBED = Rotations.of(0.380);
+    public static final Angle FULLY_CLIMBED = Rotations.of(0.375);
 
     public static final double CLIMBER_REDUCTION = (54.0 / 8.0);
 
@@ -222,9 +222,12 @@ public class SubsystemConstants {
       CFG.Slot0.withKI(0.0);
       CFG.Slot0.withKD(0.1);
 
+      CFG.MotionMagic.withMotionMagicAcceleration(0.3);
+      CFG.MotionMagic.withMotionMagicCruiseVelocity(1);
+
       // Feedback
       CFG.Feedback.withFeedbackRemoteSensorID(ENCODER_ID);
-      CFG.Feedback.withFeedbackSensorSource(FeedbackSensorSourceValue.FusedCANcoder);
+      CFG.Feedback.withFeedbackSensorSource(FeedbackSensorSourceValue.RemoteCANcoder);
       CFG.Feedback.withSensorToMechanismRatio(CLIMBER_REDUCTION);
 
       // CurrentLimits
@@ -237,7 +240,7 @@ public class SubsystemConstants {
 
   public static class VisionConstants {
     public static final String LIMELIGHT_SCORING_NAME = "limelight-scoring";
-    //public static final String LIMELIGHT_INTAKE_NAME = "limelight-fr";
+    // public static final String LIMELIGHT_INTAKE_NAME = "limelight-fr";
 
     public static final List<String> LIMELIGHTS = List.of(LIMELIGHT_SCORING_NAME);
   }

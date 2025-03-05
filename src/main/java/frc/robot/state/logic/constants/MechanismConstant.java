@@ -27,7 +27,7 @@ public enum MechanismConstant {
   IDLE_ALGAE_PROCESSOR(Inches.of(3.0), Degrees.of(34)),
   IDLE_ALGAE_NET(Inches.of(3.0), Degrees.of(-45)),
 
-  CLIMB(Inches.of(0.0), Degrees.of(0)),
+  CLIMB(Inches.of(0.0), Degrees.of(100.0)),
   DEFENSE(Inches.of(0.0), Degrees.of(0)),
   ;
 

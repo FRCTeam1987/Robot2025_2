@@ -22,5 +22,6 @@ public class Structure extends SubsystemBase {
     STATE.ACTION.getRoller().run();
     STATE.ACTION.getElev().run();
     STATE.ACTION.getIntake().run();
+    STATE.ACTION.getClimb().run();
   }
 }
