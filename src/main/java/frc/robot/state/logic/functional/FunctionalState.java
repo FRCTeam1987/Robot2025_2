@@ -18,7 +18,7 @@ public enum FunctionalState {
                   COLLECT_ZONES.contains(getLocalizationState().fieldZone())
                       ? Volts.of(4.0)
                       : Volts.of(0.0)),
-              COLLECT_ZONES.contains(getLocalizationState().fieldZone()) ? INTAKE::start : INTAKE::stop)),
+          INTAKE::start)),
   COLLECTED_CORAL(
       new FunctionalAction(
           // stroke behaivor
@@ -39,7 +39,7 @@ public enum FunctionalState {
           //                                      / 4))))
           () -> ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance()),
           () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(0.45)),
+          () -> ARM.setClawVoltage(Volts.of(0.6)), // 0.45
           INTAKE::stop)),
   COLLECTED_ALGAE(
       new FunctionalAction(

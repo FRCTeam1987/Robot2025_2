@@ -1,5 +1,7 @@
 package frc.robot.state.commands;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import dev.doglog.DogLog;
 import edu.wpi.first.math.controller.HolonomicDriveController;
@@ -23,9 +25,9 @@ public class DriveToPose extends Command {
   private final HolonomicDriveController HOLONOMIC =
       new HolonomicDriveController(
           // PID constants for translation
-          new PIDController(7.5, 0, 0.0003),
+          new PIDController(7.7, 0, 0.0003),
           // PID constants for rotation
-          new PIDController(7.5, 0, 0.0003),
+          new PIDController(7.7, 0, 0.0003),
           new ProfiledPIDController(
               12.0,
               0,
@@ -60,7 +62,7 @@ public class DriveToPose extends Command {
 
   @Override
   public void initialize() {
-    this.hasTargetDebounce = new Debouncer(1.5);
+    this.hasTargetDebounce = new Debouncer(0.06);
     Pose2d currentPose = ROBOT.get();
 
     ChassisSpeeds fieldVelocity = RobotContainer.DRIVETRAIN.getState().Speeds;
@@ -110,9 +112,14 @@ public class DriveToPose extends Command {
 
   /** Checks if the robot is stopped at the final pose. */
   public boolean atGoal() {
-    return running
-        && DRIVE.getPose().getTranslation().getDistance(TARGET.get().getTranslation()) < 0.02
-        && DRIVE.getState().Speeds.vxMetersPerSecond < 0.01
-        && DRIVE.getState().Speeds.vyMetersPerSecond < 0.01;
+    final Pose2d pose = DRIVE.getPose();
+    return hasTargetDebounce.calculate(
+        running
+            && pose.getTranslation().getDistance(TARGET.get().getTranslation()) < 0.007
+            && pose.getRotation()
+                .getMeasure()
+                .isNear(TARGET.get().getRotation().getMeasure(), Degrees.of(1.0))
+            && DRIVE.getState().Speeds.vxMetersPerSecond < 0.001
+            && DRIVE.getState().Speeds.vyMetersPerSecond < 0.001);
   }
 }
