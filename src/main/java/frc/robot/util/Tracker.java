@@ -7,6 +7,7 @@ package frc.robot.util;
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.state.logic.constants.FieldPosition;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,6 +54,14 @@ public class Tracker {
         });
   }
 
+  public boolean isScored(final FieldPosition position) {
+    return isScored(position.name());
+  }
+
+  public void setScored(final FieldPosition position, boolean isScored) {
+    setScored(position.toString(), isScored);
+  }
+
   public boolean isScored(final String branchLevel) {
     return subscribers.get(branchLevel.toUpperCase()).get();
   }
@@ -63,5 +72,9 @@ public class Tracker {
 
   public void setScored(final String branch, final String level, final boolean isScored) {
     publishers.get(branch.toUpperCase() + level).set(isScored);
+  }
+
+  public void setScored(final String branchlevel, final boolean isScored) {
+    publishers.get(branchlevel.toUpperCase()).set(isScored);
   }
 }

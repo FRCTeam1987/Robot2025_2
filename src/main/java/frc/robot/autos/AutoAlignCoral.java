@@ -10,26 +10,16 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.state.commands.DriveToNearest;
 
 /** Add your docs here. */
 public class AutoAlignCoral extends SequentialCommandGroup {
 
   public AutoAlignCoral() {
     addCommands(
-        new InstantCommand(
-            () -> {
-              System.out.println("IM HERE");
-              AutoHelpers.setWantsCoral(true);
-              System.out.println("IM AT CORAL");
-              AutoAlign.setTargetPose(
-                  RobotContainer.DRIVETRAIN
-                      .getPose()
-                      .nearest(
-                          RobotContainer.DRIVETRAIN.getAlliance() == Alliance.Red
-                              ? RED_TARGET_POSES_CORAL
-                              : BLUE_TARGET_POSES_CORAL));
-              System.out.println(AutoAlign.getTargetPose());
-            }),
-        new AutoAlign());
+            new DriveToNearest(
+                    RobotContainer.DRIVETRAIN.getAlliance() == Alliance.Red
+                            ? RED_TARGET_POSES_CORAL
+                            : BLUE_TARGET_POSES_CORAL));
   }
 }

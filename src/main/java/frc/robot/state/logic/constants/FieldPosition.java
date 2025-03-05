@@ -1,5 +1,6 @@
 package frc.robot.state.logic.constants;
 
+import frc.robot.RobotContainer;
 import frc.robot.state.logic.mode.CollectMode;
 import frc.robot.state.logic.mode.ScoreMode;
 
@@ -64,6 +65,14 @@ public enum FieldPosition {
     return PRE_LOCATION != null ? PRE_LOCATION : LOCATION;
   }
 
+  public boolean isScored() {
+    return RobotContainer.TRACKER.isScored(this);
+  }
+
+  public void setScored(boolean setScored) {
+    RobotContainer.TRACKER.setScored(this, setScored);
+  }
+
   public ScoreMode getMode() {
     return SCORE_MODE;
   }
@@ -77,7 +86,6 @@ public enum FieldPosition {
     this.SCORE_MODE = mode;
     this.LOCATION = location;
     this.PRE_LOCATION = preloc;
-
     this.COLLECT_MODE = CollectMode.HUMAN_PLAYER_STATION;
   }
 
