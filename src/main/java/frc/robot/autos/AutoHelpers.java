@@ -9,7 +9,6 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
 import frc.robot.state.Abomination;
-import frc.robot.state.commands.DriveToNearest;
 import frc.robot.state.logic.constants.FieldPosition;
 import frc.robot.state.logic.constants.MechanismConstant;
 import frc.robot.state.logic.mode.ScoreMode;
