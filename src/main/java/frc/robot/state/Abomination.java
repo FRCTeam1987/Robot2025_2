@@ -62,7 +62,7 @@ public class Abomination {
           case NET -> {
             if (isAutomatic()) {
             } else {
-              if (DESIRED_ACTION == DesiredAction.INIT) {
+              if (DESIRED_ACTION == DesiredAction.INIT || DESIRED_ACTION == DesiredAction.SCORE) {
                 return NET_ELEVATE;
               }
             }
@@ -70,7 +70,7 @@ public class Abomination {
           case PROCESSOR -> {
             if (isAutomatic()) {
             } else {
-              if (DESIRED_ACTION == DesiredAction.INIT) {
+              if (DESIRED_ACTION == DesiredAction.INIT || DESIRED_ACTION == DesiredAction.SCORE) {
                 return PROCESSOR_ELEVATE;
               }
             }
@@ -82,7 +82,7 @@ public class Abomination {
         if (!ARM.hasGamePieceEntrance()) return COLLECT;
         switch (SCORE_MODE) {
           case L1, L2, L3, L4 -> {
-            if (DESIRED_ACTION == DesiredAction.INIT) {
+            if (DESIRED_ACTION == DesiredAction.INIT || DESIRED_ACTION == DesiredAction.SCORE) {
               return LEVEL_X_ELEVATE;
             }
           }
@@ -119,6 +119,7 @@ public class Abomination {
           }
           case NET_UNELEVATE -> {
             if (ELEVATOR.isAtTarget()) {
+              setAction(DesiredAction.IDLE_CORAL);
               setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
               return COLLECT;
             }

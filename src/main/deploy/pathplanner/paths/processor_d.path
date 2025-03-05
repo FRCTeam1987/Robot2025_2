@@ -1,0 +1,89 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.961792819782839,
+        "y": 2.761918614274364
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.2155767223232816,
+        "y": 2.114912805473437
+      },
+      "isLocked": false,
+      "linkedName": "processor_c_end"
+    },
+    {
+      "anchor": {
+        "x": 1.6915481826006356,
+        "y": 1.2556036480402541
+      },
+      "prevControl": {
+        "x": 1.8888047927487026,
+        "y": 0.8215646603487607
+      },
+      "nextControl": {
+        "x": 1.366102486326961,
+        "y": 1.971707004237786
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.0264764300847458,
+        "y": 3.86
+      },
+      "prevControl": {
+        "x": 2.8281511647191775,
+        "y": 3.707792611487888
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -125.00000000000001
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Slow Coral Station",
+      "minWaypointRelativePos": 0.8551384420955882,
+      "maxWaypointRelativePos": 1.0798483455882355,
+      "constraints": {
+        "maxVelocity": 1.25,
+        "maxAcceleration": 4.75,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.75,
+    "maxAcceleration": 4.75,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "processor_side",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -119.99999999999999
+  },
+  "useDefaultConstraints": true
+}

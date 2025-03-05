@@ -18,7 +18,7 @@ public enum FunctionalState {
                   COLLECT_ZONES.contains(getLocalizationState().fieldZone())
                       ? Volts.of(4.0)
                       : Volts.of(0.0)),
-          INTAKE::start)),
+              COLLECT_ZONES.contains(getLocalizationState().fieldZone()) ? INTAKE::start : INTAKE::stop)),
   COLLECTED_CORAL(
       new FunctionalAction(
           // stroke behaivor

@@ -1,0 +1,89 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.940248444120763,
+        "y": 5.389122086864407
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.706374829848601,
+        "y": 6.025031809574739
+      },
+      "isLocked": false,
+      "linkedName": "climb_c_end"
+    },
+    {
+      "anchor": {
+        "x": 1.8399865101959745,
+        "y": 7.088271318855932
+      },
+      "prevControl": {
+        "x": 2.070898935402009,
+        "y": 7.184080774993975
+      },
+      "nextControl": {
+        "x": 0.5992996323606887,
+        "y": 6.573489427422661
+      },
+      "isLocked": false,
+      "linkedName": "climb_collect"
+    },
+    {
+      "anchor": {
+        "x": 3.02,
+        "y": 4.2
+      },
+      "prevControl": {
+        "x": 2.8966706776628994,
+        "y": 4.4655147111596385
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 125.00000000000001
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Slow Coral Station",
+      "minWaypointRelativePos": 0.9193761488970591,
+      "maxWaypointRelativePos": 1.079948874080883,
+      "constraints": {
+        "maxVelocity": 1.25,
+        "maxAcceleration": 4.75,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.75,
+    "maxAcceleration": 4.75,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "climb_side",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 119.99999999999999
+  },
+  "useDefaultConstraints": true
+}

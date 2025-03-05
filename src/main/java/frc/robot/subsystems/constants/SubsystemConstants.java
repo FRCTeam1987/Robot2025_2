@@ -196,7 +196,8 @@ public class SubsystemConstants {
     public static final int ENCODER_ID = 6;
 
     public static final Angle FULLY_STOWED = Rotations.of(0.338135);
-    public static final Angle FULLY_EXTENDED = Rotations.of(0.604736);
+    public static final Angle FULLY_EXTENDED = Rotations.of(0.598736);
+    public static final Angle FULLY_CLIMBED = Rotations.of(0.380);
 
     public static final double CLIMBER_REDUCTION = (54.0 / 8.0);
 
@@ -236,6 +237,7 @@ public class SubsystemConstants {
 
   public static class VisionConstants {
     public static final String LIMELIGHT_SCORING_NAME = "limelight-scoring";
+    //public static final String LIMELIGHT_INTAKE_NAME = "limelight-fr";
 
     public static final List<String> LIMELIGHTS = List.of(LIMELIGHT_SCORING_NAME);
   }

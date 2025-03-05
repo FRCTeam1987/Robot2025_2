@@ -9,9 +9,11 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
 import frc.robot.state.Abomination;
+import frc.robot.state.logic.actions.DesiredAction;
 import frc.robot.state.logic.constants.FieldPosition;
 import frc.robot.state.logic.constants.MechanismConstant;
 import frc.robot.state.logic.mode.ScoreMode;
+import frc.robot.utils.InstCmd;
 import java.util.List;
 
 /** Add your docs here. */
@@ -47,6 +49,8 @@ public class AutoHelpers {
     NamedCommands.registerCommand("WaitUntilAlgae", new WaitUntilCommand(AutoHelpers::hasAlgae));
     NamedCommands.registerCommand("AutoAlignAlgae", new AutoAlignAlgae());
     NamedCommands.registerCommand("AutoAlignCoral", new AutoAlignCoral());
+    NamedCommands.registerCommand(
+        "AutoScore", new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
   }
 
   public static List<FieldPosition> processorQueue =
