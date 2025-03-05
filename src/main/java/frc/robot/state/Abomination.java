@@ -18,7 +18,7 @@ import frc.robot.utils.localization.LocalizationState;
 public class Abomination {
 
   private static CollectMode COLLECT_MODE = CollectMode.HUMAN_PLAYER_STATION;
-  private static ScoreMode SCORE_MODE = ScoreMode.L3;
+  private static ScoreMode SCORE_MODE = ScoreMode.L4;
   private static DriveMode DRIVE_MODE = DriveMode.MANUAL;
   private static DesiredAction DESIRED_ACTION = DesiredAction.IDLE_CORAL;
   private static FunctionalState PREVIOUS_STATE = FunctionalState.COLLECT;

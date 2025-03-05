@@ -11,22 +11,15 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "WaitUntilScored"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAlignCoral"
-                }
-              }
-            ]
+            "name": "AutoAlignCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoScore"
           }
         },
         {
@@ -36,22 +29,15 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "WaitUntilScored"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAlignCoral"
-                }
-              }
-            ]
+            "name": "AutoAlignCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoScore"
           }
         },
         {
@@ -61,47 +47,15 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "WaitUntilScored"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAlignCoral"
-                }
-              }
-            ]
+            "name": "AutoAlignCoral"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "processor_d"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "WaitUntilScored"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAlignCoral"
-                }
-              }
-            ]
+            "name": "AutoScore"
           }
         }
       ]

@@ -6,6 +6,7 @@ package frc.robot.autos;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotContainer;
 import frc.robot.state.Abomination;
@@ -19,7 +20,11 @@ import java.util.List;
 /** Add your docs here. */
 public class AutoHelpers {
 
-  private static Distance DRIVING_MAX_HEIGHT = MechanismConstant.L3.getElevatorDistance();
+  private static Distance DRIVING_MAX_HEIGHT =
+      MechanismConstant.L3
+          .getElevatorDistance()
+          .plus(MechanismConstant.L2.getElevatorDistance())
+          .div(2.0);
   private static boolean WANTS_CORAL = true;
 
   public static void setScoreMode(ScoreMode mode) {
@@ -50,7 +55,11 @@ public class AutoHelpers {
     NamedCommands.registerCommand("AutoAlignAlgae", new AutoAlignAlgae());
     NamedCommands.registerCommand("AutoAlignCoral", new AutoAlignCoral());
     NamedCommands.registerCommand(
-        "AutoScore", new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
+        "AutoScore",
+        new ParallelDeadlineGroup(
+            new WaitUntilCommand(AutoHelpers::hasScored),
+            new AutoAlignCoral(),
+            new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE))));
   }
 
   public static List<FieldPosition> processorQueue =
