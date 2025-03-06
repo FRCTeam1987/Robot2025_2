@@ -12,6 +12,7 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Rotations;
 import static frc.robot.subsystems.constants.SubsystemConstants.ClimberConstants.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -85,6 +86,10 @@ public class Climber {
     setPosition(FULLY_STOWED);
   }
 
+  public void stop() {
+    LEADER.stopMotor();
+  }
+
   public boolean isAtTarget() {
     return getPosition().isNear(target, Degrees.of(3.5));
   }
@@ -98,6 +103,7 @@ public class Climber {
     DogLog.log("Climber/encoderPosition", ENCODER_POSITION.getValueAsDouble());
     DogLog.log("Climber/leaderCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
     DogLog.log("Climber/isAtTarget", isAtTarget());
+    DogLog.log("Climber/target", target.in(Rotations));
   }
 
   public void setPosition(Angle pos) {

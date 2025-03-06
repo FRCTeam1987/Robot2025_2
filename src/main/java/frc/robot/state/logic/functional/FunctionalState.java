@@ -26,7 +26,14 @@ public enum FunctionalState {
                           : Volts.of(8.0)
                       : Volts.of(0.0)),
           INTAKE::start,
-          CLIMBER::stow)),
+          () -> {
+            if (CODRIVER_JOSYTICK.start().getAsBoolean()) {
+              CLIMBER.stow();
+            } else {
+              CLIMBER.stop();
+            }
+          })),
+
   COLLECTED_CORAL(
       new FunctionalAction(
           // stroke behaivor

@@ -1,16 +1,12 @@
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.state.Abomination;
 import frc.robot.state.commands.DriveToNearest;
-import frc.robot.state.commands.DriveToPose;
 import frc.robot.state.logic.actions.DesiredAction;
 import frc.robot.state.logic.constants.PositionConstant;
 import frc.robot.state.logic.mode.CollectMode;
 import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.utils.InstCmd;
-import frc.robot.utils.localization.LocalizationUtil;
 
 public class Bindings extends RobotContainer {
 
@@ -59,7 +55,8 @@ public class Bindings extends RobotContainer {
     JOYSTICK
         .start()
         .onTrue(
-            new InstCmd(() -> DRIVETRAIN.resetPose(PositionConstant.SIDE_1_ALGAE.getRedPose())));
+            new InstCmd(
+                () -> DRIVETRAIN.resetPose(PositionConstant.SIDE_1_ALGAE.getAlliancePose())));
 
     JOYSTICK
         .back()
@@ -91,11 +88,11 @@ public class Bindings extends RobotContainer {
         .leftTrigger()
         .onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.CLIMB)));
 
-    CODRIVER_JOSYTICK
-        .start()
-        .whileTrue(
-            new DriveToPose(
-                DRIVETRAIN,
-                LocalizationUtil.blueFlipToRed(new Pose2d(7.15, 5.07, new Rotation2d(0.0)))));
+    //    CODRIVER_JOSYTICK
+    //        .start()
+    //        .whileTrue(
+    //            new DriveToPose(
+    //                DRIVETRAIN,
+    //                LocalizationUtil.blueFlipToRed(new Pose2d(7.15, 5.07, new Rotation2d(0.0)))));
   }
 }

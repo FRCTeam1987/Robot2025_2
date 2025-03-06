@@ -230,6 +230,7 @@ public class Drivetrain extends TunerSwerveDrivetrain implements Subsystem {
                         ? kRedAlliancePerspectiveRotation
                         : kBlueAlliancePerspectiveRotation);
                 hasAppliedOperatorPerspective = true;
+                setAlliance(allianceColor);
               });
     }
   }
