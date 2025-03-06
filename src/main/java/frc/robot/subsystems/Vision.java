@@ -11,16 +11,27 @@ public class Vision {
 
   public Vision() {}
 
+  private static final double BASE_CONFIDENCE = 0.2;
+
+  public double maPoseConfidence(LimelightHelpers.PoseEstimate estimate) {
+    return BASE_CONFIDENCE * Math.pow(estimate.avgTagDist, 2.0) / (double) estimate.tagCount;
+  }
+
   public void cycle() {
     for (String limelight : LIMELIGHTS) {
       double yaw = RobotContainer.DRIVETRAIN.getPigeon2().getYaw().getValueAsDouble();
       LimelightHelpers.SetRobotOrientation(limelight, yaw, 0.0, 0.0, 0.0, 0.0, 0.0);
       LimelightHelpers.PoseEstimate estimate =
           LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight);
-      RobotContainer.DRIVETRAIN.setVisionMeasurementStdDevs(VecBuilder.fill(.1, .1, 32));
+
       if (estimate != null && estimate.rawFiducials != null && estimate.rawFiducials.length > 0) {
-        RobotContainer.DRIVETRAIN.addVisionMeasurement(estimate.pose, estimate.timestampSeconds);
+        double confidence = maPoseConfidence(estimate);
+        RobotContainer.DRIVETRAIN.addVisionMeasurement(
+            estimate.pose,
+            estimate.timestampSeconds,
+            VecBuilder.fill(confidence, confidence, 99999999));
         DogLog.log("Vision/" + limelight + "Pose", estimate.pose);
+        DogLog.log("Vision/" + limelight + "Confidence", confidence);
       }
     }
   }

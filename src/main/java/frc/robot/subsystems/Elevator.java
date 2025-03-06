@@ -73,6 +73,8 @@ public class Elevator {
     DogLog.log("Elevator/followerSupplyCurrent", FOLLOWER_SUPPLY_CURRENT.getValueAsDouble());
     DogLog.log("Elevator/followerPosition", FOLLOWER_POSITION.getValueAsDouble());
     DogLog.log("Elevator/isAtTarget", isAtTarget);
+    DogLog.log("Elevator/target", target.in(Meters));
+    DogLog.log("Elevator/distance", distance.in(Meters));
     DogLog.log("Elevator/leaderIsConnected", leaderStatus.isOK());
     DogLog.log("Elevator/followerIsConnected", followerStatus.isOK());
   }
