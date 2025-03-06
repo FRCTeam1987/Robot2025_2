@@ -55,6 +55,10 @@ public class Climber {
   public void cycle() {
     if (RobotContainer.DEBUG) log();
 
+    if (ENCODER_POSITION.getValue().lt(Degrees.of(89))) {
+      LEADER.stopMotor();
+    }
+
     //        double voltage = Math.abs(getPosition().minus(target).in(Rotations)) * 100;
     //        if (getPosition().lt(FULLY_STOWED)) {
     //
@@ -91,7 +95,7 @@ public class Climber {
   }
 
   public boolean isAtTarget() {
-    return getPosition().isNear(target, Degrees.of(3.5));
+    return getPosition().isNear(target, Degrees.of(0.5));
   }
 
   public void log() {

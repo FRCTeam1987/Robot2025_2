@@ -194,9 +194,9 @@ public class SubsystemConstants {
     public static final String CANBUS_NAME = "canfd";
     public static final int ENCODER_ID = 6;
 
-    public static final Angle FULLY_STOWED = Degrees.of(0.0);
-    public static final Angle FULLY_EXTENDED = Degrees.of(90.0);
-    public static final Angle FULLY_CLIMBED = Degrees.of(3.0);
+    public static final Angle FULLY_STOWED = Degrees.of(90.0);
+    public static final Angle FULLY_EXTENDED = Degrees.of(180.0);
+    public static final Angle FULLY_CLIMBED = Degrees.of(93.0);
 
     // public static final double CLIMBER_REDUCTION = (54.0 / 8.0);
 
@@ -204,7 +204,7 @@ public class SubsystemConstants {
       final CANcoderConfiguration CFG = new CANcoderConfiguration();
       // MagnetSensor
       CFG.MagnetSensor.withSensorDirection(SensorDirectionValue.CounterClockwise_Positive);
-      CFG.MagnetSensor.withMagnetOffset(Rotations.of(-0.347168));
+      CFG.MagnetSensor.withMagnetOffset(Rotations.of(-0.347168).plus(Degrees.of(90.0)));
       CFG.MagnetSensor.withAbsoluteSensorDiscontinuityPoint(Rotations.of(1.0));
 
       return CFG;

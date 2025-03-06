@@ -10,6 +10,7 @@ import frc.robot.state.Abomination;
 import frc.robot.state.logic.functional.FunctionalState;
 import frc.robot.state.logic.mode.CollectMode;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class DriveToNearest extends SequentialCommandGroup {
   public DriveToNearest() {
@@ -40,10 +41,11 @@ public class DriveToNearest extends SequentialCommandGroup {
             }));
   }
 
-  public DriveToNearest(List<Pose2d> poses) {
+  public DriveToNearest(Supplier<List<Pose2d>> poses) {
     super();
     addCommands(
         new DriveToPose(
-            RobotContainer.DRIVETRAIN, () -> RobotContainer.DRIVETRAIN.getPose().nearest(poses)));
+            RobotContainer.DRIVETRAIN,
+            () -> RobotContainer.DRIVETRAIN.getPose().nearest(poses.get())));
   }
 }

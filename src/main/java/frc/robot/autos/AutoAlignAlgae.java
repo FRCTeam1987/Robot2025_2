@@ -23,8 +23,9 @@ public class AutoAlignAlgae extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new DriveToNearest(
-            RobotContainer.DRIVETRAIN.getAlliance() == Alliance.Red
-                ? RED_TARGET_POSES_ALGAE
-                : BLUE_TARGET_POSES_ALGAE));
+            () ->
+                RobotContainer.DRIVETRAIN.getAlliance() == Alliance.Red
+                    ? RED_TARGET_POSES_ALGAE
+                    : BLUE_TARGET_POSES_ALGAE));
   }
 }

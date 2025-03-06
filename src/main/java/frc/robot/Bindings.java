@@ -85,8 +85,11 @@ public class Bindings extends RobotContainer {
                   Abomination.setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
                 }));
     CODRIVER_JOSYTICK
-        .leftTrigger()
+        .leftBumper()
         .onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.CLIMB)));
+    CODRIVER_JOSYTICK
+        .rightBumper()
+        .onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
 
     //    CODRIVER_JOSYTICK
     //        .start()

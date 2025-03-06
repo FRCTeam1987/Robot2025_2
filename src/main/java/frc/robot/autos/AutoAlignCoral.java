@@ -17,8 +17,9 @@ public class AutoAlignCoral extends SequentialCommandGroup {
   public AutoAlignCoral() {
     addCommands(
         new DriveToNearest(
-            RobotContainer.DRIVETRAIN.getAlliance() == Alliance.Red
-                ? RED_TARGET_POSES_CORAL
-                : BLUE_TARGET_POSES_CORAL));
+            () ->
+                RobotContainer.DRIVETRAIN.getAlliance() == Alliance.Red
+                    ? RED_TARGET_POSES_CORAL
+                    : BLUE_TARGET_POSES_CORAL));
   }
 }

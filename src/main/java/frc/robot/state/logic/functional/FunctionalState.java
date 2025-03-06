@@ -25,14 +25,7 @@ public enum FunctionalState {
                           ? ARM.hasGamePieceEntrance() ? Volts.of(9.0) : Volts.of(2.5)
                           : Volts.of(8.0)
                       : Volts.of(0.0)),
-          INTAKE::start,
-          () -> {
-            if (CODRIVER_JOSYTICK.start().getAsBoolean()) {
-              CLIMBER.stow();
-            } else {
-              CLIMBER.stop();
-            }
-          })),
+          INTAKE::start)),
 
   COLLECTED_CORAL(
       new FunctionalAction(
@@ -139,13 +132,13 @@ public enum FunctionalState {
   LEVEL_X_UNROTATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
-          () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
+          () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(-0.3)),
           INTAKE::stop)),
   LEVEL_X_UNELEVATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance()),
-          () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
+          () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop)),
   DEFENSE(

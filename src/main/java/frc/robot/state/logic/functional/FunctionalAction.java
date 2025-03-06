@@ -1,6 +1,7 @@
 package frc.robot.state.logic.functional;
 
-import frc.robot.RobotContainer;
+import static frc.robot.RobotContainer.CLIMBER;
+import static frc.robot.RobotContainer.CODRIVER_JOSYTICK;
 
 public class FunctionalAction {
   public final Runnable ELEVATOR_RUNNABLE;
@@ -10,7 +11,18 @@ public class FunctionalAction {
   public final Runnable CLIMBER_RUNNABLE;
 
   public FunctionalAction(Runnable ELEV, Runnable ARM, Runnable ROLL, Runnable INTAKE) {
-    this(ELEV, ARM, ROLL, INTAKE, RobotContainer.CLIMBER::stow);
+    this(
+        ELEV,
+        ARM,
+        ROLL,
+        INTAKE,
+        () -> {
+          if (CODRIVER_JOSYTICK.start().getAsBoolean()) {
+            CLIMBER.stow();
+          } else {
+            CLIMBER.stop();
+          }
+        });
   }
 
   public FunctionalAction(
