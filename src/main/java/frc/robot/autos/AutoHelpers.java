@@ -6,8 +6,7 @@ package frc.robot.autos;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.state.Abomination;
 import frc.robot.state.logic.actions.DesiredAction;
@@ -50,15 +49,19 @@ public class AutoHelpers {
   public static void registerNamedCommands() {
     NamedCommands.registerCommand("WaitUntilScored", new WaitUntilCommand(AutoHelpers::hasScored));
     NamedCommands.registerCommand("WaitUntilAlgae", new WaitUntilCommand(AutoHelpers::hasAlgae));
-    NamedCommands.registerCommand("AutoAlignAlgae", new AutoAlignAlgae());
-    NamedCommands.registerCommand("AutoAlignCoral", new AutoAlignCoral());
+    NamedCommands.registerCommand("AutoAlignAlgae", new InstCmd());
     NamedCommands.registerCommand(
-        "AutoScore",
-        new ParallelDeadlineGroup(
-            new WaitUntilCommand(AutoHelpers::hasScored),
-            new AutoAlignCoral().withTimeout(2.5),
-            new InstCmd(() -> Abomination.setAction(DesiredAction.INIT))
-                .andThen(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)))));
+        "AutoAlignCoral",
+        new InstCmd());
+
+    NamedCommands.registerCommand("AutoScore", new SequentialCommandGroup(
+            new ParallelCommandGroup(new AutoAlignCoral(), new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3)), new InstCmd(() -> Abomination.setAction(DesiredAction.INIT))).withTimeout(2.5),
+            new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)),
+            new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget),
+            new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
+            new WaitUntilCommand(AutoHelpers::hasScored)
+    ));
+
   }
 
   public static List<FieldPosition> processorQueue =

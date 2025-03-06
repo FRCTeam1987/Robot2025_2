@@ -41,7 +41,7 @@ public class SubsystemConstants {
       final TalonFXConfiguration CFG = new TalonFXConfiguration();
 
       // MotorOutput
-      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
+      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
 
       // Slot0
       CFG.Slot0.withKP(20.0);
@@ -114,7 +114,7 @@ public class SubsystemConstants {
       final TalonFXConfiguration CFG = new TalonFXConfiguration();
 
       // MotorOutput
-      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
+      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
 
       // Slot0
       CFG.Slot0.withKP(120);
@@ -196,7 +196,7 @@ public class SubsystemConstants {
 
     public static final Angle FULLY_STOWED = Degrees.of(90.0);
     public static final Angle FULLY_EXTENDED = Degrees.of(180.0);
-    public static final Angle FULLY_CLIMBED = Degrees.of(93.0);
+    public static final Angle FULLY_CLIMBED = Degrees.of(100.0);
 
     // public static final double CLIMBER_REDUCTION = (54.0 / 8.0);
 

@@ -186,7 +186,7 @@ public class Abomination {
             return LEVEL_X_UNROTATE;
           }
           case LEVEL_X_UNELEVATE -> {
-            setAction(DesiredAction.IDLE_ALGAE);
+            setAction(DesiredAction.IDLE_CORAL);
             if (!ELEVATOR.isAtTarget()) return LEVEL_X_UNELEVATE;
             return COLLECT;
           }
