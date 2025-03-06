@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.325237106064618,
-        "y": 5.206309586864406
+        "x": 5.48716603053435,
+        "y": 5.07
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.798231681766716,
-        "y": 4.563936070918451
+        "x": 5.960160606236449,
+        "y": 4.427626484054045
       },
       "isLocked": true,
       "linkedName": "climb_a_end"
@@ -20,12 +20,12 @@
         "y": 7.108650086014359
       },
       "prevControl": {
-        "x": 1.496411167520843,
+        "x": 1.496411167520844,
         "y": 8.160785525403288
       },
       "nextControl": {
-        "x": 1.5821536139581707,
-        "y": 6.271898547256798
+        "x": 1.5598094536052112,
+        "y": 6.764135418048343
       },
       "isLocked": true,
       "linkedName": "climb_collect"
@@ -53,10 +53,10 @@
   "constraintZones": [
     {
       "name": "Slow Coral Station",
-      "minWaypointRelativePos": 0.9,
-      "maxWaypointRelativePos": 1.0,
+      "minWaypointRelativePos": 0.8217194570135745,
+      "maxWaypointRelativePos": 1.0226244343891404,
       "constraints": {
-        "maxVelocity": 0.5,
+        "maxVelocity": 0.25,
         "maxAcceleration": 4.75,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,

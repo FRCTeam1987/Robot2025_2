@@ -18,7 +18,7 @@ public class Vision {
       LimelightHelpers.PoseEstimate estimate =
           LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight);
       RobotContainer.DRIVETRAIN.setVisionMeasurementStdDevs(VecBuilder.fill(.1, .1, 32));
-      if (estimate.rawFiducials.length > 0) {
+      if (estimate.rawFiducials != null && estimate.rawFiducials.length > 0) {
         RobotContainer.DRIVETRAIN.addVisionMeasurement(estimate.pose, estimate.timestampSeconds);
         DogLog.log("Vision/" + limelight + "Pose", estimate.pose);
       }

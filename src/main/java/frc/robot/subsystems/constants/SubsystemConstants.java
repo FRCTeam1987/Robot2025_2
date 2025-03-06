@@ -89,7 +89,7 @@ public class SubsystemConstants {
     public static final DebounceType ALGAE_DEBOUNCE_TYPE = DebounceType.kBoth;
 
     // Mechanism properties
-    public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.079590);
+    public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.463379);
 
     // Dynamic configs
     public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(10.0);
@@ -162,7 +162,7 @@ public class SubsystemConstants {
       CFG.Slot1.withKD(0.0);
 
       // CurrentLimits
-      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(30.0));
+      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(20.0));
       CFG.CurrentLimits.withSupplyCurrentLowerTime(Seconds.of(4.0));
       CFG.CurrentLimits.withSupplyCurrentLimitEnable(false);
 
@@ -177,7 +177,7 @@ public class SubsystemConstants {
     public static final int MOTOR_ID = 20;
     public static final String CAN_BUS = "rio";
     public static final double MOTOR_CONNECTED_DEBOUNCE_SECONDS = 0.5;
-    public static final double MOTOR_RUN_VOLTS = -3.5;
+    public static final double MOTOR_RUN_VOLTS = -6.5;
 
     public static TalonFXConfiguration intakeConfig() {
       TalonFXConfiguration CFG = new TalonFXConfiguration();
@@ -191,21 +191,20 @@ public class SubsystemConstants {
 
   public static class ClimberConstants {
     public static final int LEADER_MOTOR_ID = 9;
-    public static final int FOLLOWER_MOTOR_ID = 10;
     public static final String CANBUS_NAME = "canfd";
     public static final int ENCODER_ID = 6;
 
-    public static final Angle FULLY_STOWED = Rotations.of(0.338135);
-    public static final Angle FULLY_EXTENDED = Rotations.of(0.598736);
-    public static final Angle FULLY_CLIMBED = Rotations.of(0.375);
+    public static final Angle FULLY_STOWED = Degrees.of(0.0);
+    public static final Angle FULLY_EXTENDED = Degrees.of(90.0);
+    public static final Angle FULLY_CLIMBED = Degrees.of(3.0);
 
-    public static final double CLIMBER_REDUCTION = (54.0 / 8.0);
+    // public static final double CLIMBER_REDUCTION = (54.0 / 8.0);
 
     public static CANcoderConfiguration encoderConfig() {
       final CANcoderConfiguration CFG = new CANcoderConfiguration();
       // MagnetSensor
       CFG.MagnetSensor.withSensorDirection(SensorDirectionValue.CounterClockwise_Positive);
-      CFG.MagnetSensor.withMagnetOffset(0.0);
+      CFG.MagnetSensor.withMagnetOffset(Rotations.of(-0.347168));
       CFG.MagnetSensor.withAbsoluteSensorDiscontinuityPoint(Rotations.of(1.0));
 
       return CFG;
@@ -218,17 +217,17 @@ public class SubsystemConstants {
       CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
 
       // Slot0
-      CFG.Slot0.withKP(3.0);
+      CFG.Slot0.withKP(750);
       CFG.Slot0.withKI(0.0);
       CFG.Slot0.withKD(0.1);
 
-      CFG.MotionMagic.withMotionMagicAcceleration(0.3);
-      CFG.MotionMagic.withMotionMagicCruiseVelocity(1);
+      CFG.MotionMagic.withMotionMagicAcceleration(200);
+      CFG.MotionMagic.withMotionMagicCruiseVelocity(60);
 
       // Feedback
       CFG.Feedback.withFeedbackRemoteSensorID(ENCODER_ID);
-      CFG.Feedback.withFeedbackSensorSource(FeedbackSensorSourceValue.RemoteCANcoder);
-      CFG.Feedback.withSensorToMechanismRatio(CLIMBER_REDUCTION);
+      CFG.Feedback.withFeedbackSensorSource(FeedbackSensorSourceValue.FusedCANcoder);
+      // CFG.Feedback.withSensorToMechanismRatio(CLIMBER_REDUCTION);
 
       // CurrentLimits
       CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(15.0));

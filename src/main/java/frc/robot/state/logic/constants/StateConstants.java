@@ -56,4 +56,9 @@ public class StateConstants {
           PositionConstant.SIDE_4_ALGAE.getRedPose(),
           PositionConstant.SIDE_5_ALGAE.getRedPose(),
           PositionConstant.SIDE_6_ALGAE.getRedPose());
+
+  public static final List<Pose2d> RED_TARGET_POSES_COLLECT =
+      List.of(PositionConstant.RC2.getRedPose(), PositionConstant.RC2.getRedPose());
+  public static final List<Pose2d> BLUE_TARGET_POSES_COLLECT =
+      List.of(PositionConstant.RC2.getBluePose(), PositionConstant.RC2.getBluePose());
 }

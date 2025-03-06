@@ -1,18 +1,18 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.state.Abomination;
-import frc.robot.state.commands.AsyncRumble;
 import frc.robot.state.commands.DriveToNearest;
+import frc.robot.state.commands.DriveToPose;
 import frc.robot.state.logic.actions.DesiredAction;
 import frc.robot.state.logic.constants.PositionConstant;
 import frc.robot.state.logic.mode.CollectMode;
 import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.utils.InstCmd;
+import frc.robot.utils.localization.LocalizationUtil;
 
 public class Bindings extends RobotContainer {
-  private static DriveToNearest NEAREST = new DriveToNearest();
 
   public static void configureBindings() {
 
@@ -25,26 +25,31 @@ public class Bindings extends RobotContainer {
                 DRIVE
                     .withVelocityX(
                         MAX_SPEED.times(
-                            -JOYSTICK.getLeftY())) // Drive forward with negative Y (forward)
+                            -JOYSTICK.getLeftY()
+                                * (1
+                                    - (JOYSTICK.getLeftTriggerAxis()
+                                        * 0.5)))) // Drive forward with negative Y (forward)
                     .withVelocityY(
-                        MAX_SPEED.times(-JOYSTICK.getLeftX())) // Drive left with negative X (left)
+                        MAX_SPEED.times(
+                            -JOYSTICK.getLeftX()
+                                * (1
+                                    - (JOYSTICK.getLeftTriggerAxis()
+                                        * 0.5)))) // Drive left with negative X (left)
                     .withRotationalRate(
                         MAX_ANGULAR_RATE.times(
-                            -JOYSTICK
-                                .getRightX())))); // Drive counterclockwise with negative X (left)
-
-    JOYSTICK.a().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.PROCESSOR)));
-    JOYSTICK.b().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L2)));
-    JOYSTICK.x().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)));
-    JOYSTICK.y().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.CLIMB)));
+                            -JOYSTICK.getRightX()
+                                * (1
+                                    - (JOYSTICK.getLeftTriggerAxis()
+                                        * 0.5)))))); // Drive counterclockwise with negative X
+    // (left)
 
     JOYSTICK.rightBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
     JOYSTICK.leftBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.INIT)));
 
-    JOYSTICK.rightTrigger().whileTrue(NEAREST);
-    new Trigger(() -> NEAREST.isFinished())
-        .whileTrue(
-            new AsyncRumble(JOYSTICK.getHID(), GenericHID.RumbleType.kBothRumble, 1.0, 3000));
+    JOYSTICK.rightTrigger().whileTrue(new DriveToNearest());
+    //    new Trigger(() -> NEAREST.isFinished())
+    //        .whileTrue(
+    //            new AsyncRumble(JOYSTICK.getHID(), GenericHID.RumbleType.kBothRumble, 1.0, 3000));
     JOYSTICK
         .povUp()
         .onTrue(new InstCmd(() -> Abomination.setCollectMode(CollectMode.HUMAN_PLAYER_STATION)));
@@ -56,6 +61,41 @@ public class Bindings extends RobotContainer {
         .onTrue(
             new InstCmd(() -> DRIVETRAIN.resetPose(PositionConstant.SIDE_1_ALGAE.getRedPose())));
 
-    JOYSTICK.back().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.RECOVERY)));
+    JOYSTICK
+        .back()
+        .onTrue(
+            new InstCmd(
+                () -> {
+                  Abomination.setAction(DesiredAction.RECOVERY);
+                  Abomination.setScoreMode(ScoreMode.L3);
+                  Abomination.setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
+                }));
+
+    CODRIVER_JOSYTICK.x().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3)));
+    CODRIVER_JOSYTICK.y().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)));
+    CODRIVER_JOSYTICK.b().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L2)));
+    CODRIVER_JOSYTICK
+        .povLeft()
+        .onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.PROCESSOR)));
+    CODRIVER_JOSYTICK.povRight().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.NET)));
+    CODRIVER_JOSYTICK
+        .back()
+        .onTrue(
+            new InstCmd(
+                () -> {
+                  Abomination.setAction(DesiredAction.RECOVERY);
+                  Abomination.setScoreMode(ScoreMode.L3);
+                  Abomination.setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
+                }));
+    CODRIVER_JOSYTICK
+        .leftTrigger()
+        .onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.CLIMB)));
+
+    CODRIVER_JOSYTICK
+        .start()
+        .whileTrue(
+            new DriveToPose(
+                DRIVETRAIN,
+                LocalizationUtil.blueFlipToRed(new Pose2d(7.15, 5.07, new Rotation2d(0.0)))));
   }
 }

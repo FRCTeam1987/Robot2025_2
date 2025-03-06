@@ -163,7 +163,8 @@ public class Arm {
   }
 
   public boolean hasAlgae() {
-    return ALGAE_DEBOUNCE.calculate(ALGAE_S1_SIGNAL.getValue().equals(S1StateValue.High));
+    return ALGAE_DEBOUNCE.calculate(
+        ALGAE_S1_SIGNAL.getValue().equals(S1StateValue.High) && !hasGamePiece());
   }
 
   public boolean hasGamePieceBack() {

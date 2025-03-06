@@ -37,7 +37,13 @@ public class Abomination {
       SCORE_MODE = MODE;
     }
     // master overrides
-    if (SCORE_MODE == ScoreMode.CLIMB) {
+    if (DESIRED_ACTION == DesiredAction.RECOVERY) {
+      DESIRED_ACTION = DesiredAction.IDLE_CORAL;
+      return COLLECT;
+    }
+    if (SCORE_MODE == ScoreMode.CLIMB
+        && PREVIOUS_STATE != CLIMB_DEPLOY
+        && PREVIOUS_STATE != CLIMB_CLIMB) {
       return CLIMB_DEPLOY;
     }
 
@@ -54,6 +60,9 @@ public class Abomination {
           }
           case ALGAE_2, ALGAE_3 -> {
             if (ARM.hasAlgae()) {
+              if (SCORE_MODE != ScoreMode.NET && SCORE_MODE != ScoreMode.PROCESSOR) {
+                setScoreMode(ScoreMode.PROCESSOR);
+              }
               Strategy.next();
               return COLLECTED_ALGAE;
             }
@@ -124,7 +133,7 @@ public class Abomination {
           }
           case NET_UNELEVATE -> {
             if (ELEVATOR.isAtTarget()) {
-              setAction(DesiredAction.IDLE_CORAL);
+              setAction(DesiredAction.IDLE_ALGAE);
               setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
               return COLLECT;
             }
@@ -147,6 +156,7 @@ public class Abomination {
           }
           case PROCESSOR_SCORE -> {
             if (!ARM.hasAlgae()) {
+              setAction(DesiredAction.IDLE_ALGAE);
               setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
               return COLLECT;
             }
@@ -176,12 +186,13 @@ public class Abomination {
             return LEVEL_X_UNROTATE;
           }
           case LEVEL_X_UNELEVATE -> {
+            setAction(DesiredAction.IDLE_ALGAE);
             if (!ELEVATOR.isAtTarget()) return LEVEL_X_UNELEVATE;
             return COLLECT;
           }
         }
       }
-      case CLIMB_DEPLOY, CLIMB_CLIMB, CLIMB_STOW -> {
+      case CLIMB_DEPLOY, CLIMB_CLIMB -> {
         switch (PREVIOUS_STATE) {
           case CLIMB_DEPLOY -> {
             if (CLIMBER.isAtTarget()) {
@@ -195,15 +206,12 @@ public class Abomination {
             return CLIMB_DEPLOY;
           }
           case CLIMB_CLIMB -> {
+            if (DESIRED_ACTION == DesiredAction.INIT) {
+              return CLIMB_DEPLOY;
+            }
             if (CLIMBER.isAtTarget()) {}
 
             return CLIMB_CLIMB;
-          }
-          case CLIMB_STOW -> {
-            if (CLIMBER.isAtTarget()) {
-              return COLLECT;
-            }
-            return CLIMB_STOW;
           }
         }
       }

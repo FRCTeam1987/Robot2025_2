@@ -20,16 +20,14 @@ import java.util.List;
 /** Add your docs here. */
 public class AutoHelpers {
 
-  private static Distance DRIVING_MAX_HEIGHT =
-      MechanismConstant.L3
-          .getElevatorDistance()
-          .plus(MechanismConstant.L2.getElevatorDistance())
-          .div(2.0);
+  private static Distance DRIVING_MAX_HEIGHT = MechanismConstant.L3.getElevatorDistance();
   private static boolean WANTS_CORAL = true;
 
   public static void setScoreMode(ScoreMode mode) {
     Abomination.setScoreMode(ScoreMode.L4);
   }
+
+  public static double matchTimeIncrement = 0.0;
 
   public static void setWantsCoral(final boolean wantsCoral) {
     WANTS_CORAL = wantsCoral;
@@ -58,8 +56,9 @@ public class AutoHelpers {
         "AutoScore",
         new ParallelDeadlineGroup(
             new WaitUntilCommand(AutoHelpers::hasScored),
-            new AutoAlignCoral(),
-            new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE))));
+            new AutoAlignCoral().withTimeout(2.5),
+            new InstCmd(() -> Abomination.setAction(DesiredAction.INIT))
+                .andThen(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)))));
   }
 
   public static List<FieldPosition> processorQueue =

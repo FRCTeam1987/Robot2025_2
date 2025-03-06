@@ -18,10 +18,10 @@ import frc.robot.utils.localization.LocalizationUtil;
 public enum PositionConstant {
   BLUE_REEF(new Translation2d(4.495, 4.02), Degrees.of(0.0)),
 
-  SIDE_1_ENTRY(new Translation2d(2.629, 4.023), Degrees.of(0.0)),
-  SIDE_1_A(new Translation2d(3.180 - 0.04, 4.190), SIDE_1_ENTRY.getAngle()),
-  SIDE_1_ALGAE(new Translation2d(3.180 - 0.04, 4.023), SIDE_1_ENTRY.getAngle()),
-  SIDE_1_B(new Translation2d(3.180 - 0.04, 3.862), SIDE_1_ENTRY.getAngle()),
+  SIDE_1_ENTRY(new Translation2d(2.629 - 0.0254, 4.023), Degrees.of(0.0)),
+  SIDE_1_A(new Translation2d(3.180 - 0.05, 4.192 + 0.02), SIDE_1_ENTRY.getAngle()),
+  SIDE_1_ALGAE(new Translation2d(3.180 - 0.06, 4.023), SIDE_1_ENTRY.getAngle()),
+  SIDE_1_B(new Translation2d(3.180 - 0.05, 3.862 + 0.02), SIDE_1_ENTRY.getAngle()),
 
   SIDE_2_ENTRY(rotateAroundBlueReef(SIDE_1_ENTRY, Degrees.of(60.0)), Degrees.of(60.0)),
   SIDE_2_C(rotateAroundBlueReef(SIDE_1_A, Degrees.of(60.0)), SIDE_2_ENTRY.getAngle()),
@@ -53,7 +53,7 @@ public enum PositionConstant {
   LC3(new Translation2d(1.672, 6.398), Degrees.of(-55)),
   // RIGHT STATION
   RC1(new Translation2d(0.661, 1.367), Degrees.of(55)),
-  RC2(new Translation2d(1.307, 1.245), Degrees.of(55)),
+  RC2(new Translation2d(1.187, 1.173), Degrees.of(55)),
   RC3(new Translation2d(1.672, 0.651), Degrees.of(55)),
   // NET SCORING POS, CHANGE X FOR DISTANCE TO NET
   N1(new Translation2d(7.933, 7.266), Degrees.of(0.0)),

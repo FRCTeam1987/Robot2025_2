@@ -1,5 +1,7 @@
 package frc.robot.state.logic.functional;
 
+import frc.robot.RobotContainer;
+
 public class FunctionalAction {
   public final Runnable ELEVATOR_RUNNABLE;
   public final Runnable ARM_RUNNABLE;
@@ -8,7 +10,7 @@ public class FunctionalAction {
   public final Runnable CLIMBER_RUNNABLE;
 
   public FunctionalAction(Runnable ELEV, Runnable ARM, Runnable ROLL, Runnable INTAKE) {
-    this(ELEV, ARM, ROLL, INTAKE, () -> {});
+    this(ELEV, ARM, ROLL, INTAKE, RobotContainer.CLIMBER::stow);
   }
 
   public FunctionalAction(

@@ -85,9 +85,11 @@ public class Elevator {
 
   public void setDistance(Distance distance) {
     if (distance.gt(MAXIMUM_HEIGHT) || distance.lt(MINIMUM_HEIGHT)) return;
-
+    if ((RobotContainer.DRIVETRAIN.getChassisSpeeds().vyMetersPerSecond > 2.0)
+        || (RobotContainer.DRIVETRAIN.getChassisSpeeds().vxMetersPerSecond > 2.0)) return;
     Angle distanceAngle = Conversions.metersToRotations(distance, 1.0, PULLEY_RADIUS);
     if (LEADER.getPosition().getValue().lt(distanceAngle)) {
+
       LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 75, 175, 0));
     } else {
       LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 75, 35, 0));

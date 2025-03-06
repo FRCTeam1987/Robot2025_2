@@ -25,9 +25,9 @@ public class DriveToPose extends Command {
   private final HolonomicDriveController HOLONOMIC =
       new HolonomicDriveController(
           // PID constants for translation
-          new PIDController(7.7, 0, 0.0003),
+          new PIDController(4.625, 0, 0.0001),
           // PID constants for rotation
-          new PIDController(7.7, 0, 0.0003),
+          new PIDController(4.625, 0, 0.0001),
           new ProfiledPIDController(
               12.0,
               0,
@@ -115,11 +115,11 @@ public class DriveToPose extends Command {
     final Pose2d pose = DRIVE.getPose();
     return hasTargetDebounce.calculate(
         running
-            && pose.getTranslation().getDistance(TARGET.get().getTranslation()) < 0.007
+            && pose.getTranslation().getDistance(TARGET.get().getTranslation()) < 0.02
             && pose.getRotation()
                 .getMeasure()
-                .isNear(TARGET.get().getRotation().getMeasure(), Degrees.of(1.0))
-            && DRIVE.getState().Speeds.vxMetersPerSecond < 0.001
-            && DRIVE.getState().Speeds.vyMetersPerSecond < 0.001);
+                .isNear(TARGET.get().getRotation().getMeasure(), Degrees.of(1.5))
+            && DRIVE.getState().Speeds.vxMetersPerSecond < 0.015
+            && DRIVE.getState().Speeds.vyMetersPerSecond < 0.015);
   }
 }

@@ -9,8 +9,10 @@ import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.autos.AutoHelpers;
 
 public class Robot extends TimedRobot {
   private Command AUTONOMOUS_COMMAND;
@@ -44,6 +46,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     AUTONOMOUS_COMMAND = ROBOT_CONTAINER.getAutonomousCommand();
+    AutoHelpers.matchTimeIncrement = Timer.getFPGATimestamp();
 
     if (AUTONOMOUS_COMMAND != null) {
       AUTONOMOUS_COMMAND.schedule();

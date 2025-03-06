@@ -41,6 +41,7 @@ public class RobotContainer {
   public static final SwerveRequest.PointWheelsAt POINT = new SwerveRequest.PointWheelsAt();
 
   public static final CommandXboxController JOYSTICK = new CommandXboxController(0);
+  public static final CommandXboxController CODRIVER_JOSYTICK = new CommandXboxController(1);
 
   public static final Drivetrain DRIVETRAIN = TunerConstants.createDrivetrain();
   public static final Elevator ELEVATOR = new Elevator();

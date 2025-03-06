@@ -49,9 +49,9 @@
     {
       "name": "Slow Coral Station",
       "minWaypointRelativePos": 0.8,
-      "maxWaypointRelativePos": 1.147331686580883,
+      "maxWaypointRelativePos": 1.1981900452488687,
       "constraints": {
-        "maxVelocity": 0.5,
+        "maxVelocity": 0.25,
         "maxAcceleration": 4.75,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,

@@ -6,7 +6,12 @@ import static frc.robot.state.Abomination.getCollectMode;
 import static frc.robot.state.Abomination.getScoreMode;
 import static frc.robot.state.logic.constants.StateConstants.COLLECT_ZONES;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.autos.AutoHelpers;
+import frc.robot.state.Abomination;
 import frc.robot.state.logic.constants.MechanismConstant;
+import frc.robot.state.logic.mode.CollectMode;
 
 public enum FunctionalState {
   COLLECT(
@@ -16,31 +21,25 @@ public enum FunctionalState {
           () ->
               ARM.setClawVoltage(
                   COLLECT_ZONES.contains(getLocalizationState().fieldZone())
-                      ? Volts.of(4.0)
+                      ? Abomination.getCollectMode().equals(CollectMode.HUMAN_PLAYER_STATION)
+                          ? ARM.hasGamePieceEntrance() ? Volts.of(9.0) : Volts.of(2.5)
+                          : Volts.of(8.0)
                       : Volts.of(0.0)),
-          COLLECT_ZONES.contains(getLocalizationState().fieldZone())
-              ? INTAKE::start
-              : INTAKE::stop)),
+          INTAKE::start,
+          CLIMBER::stow)),
   COLLECTED_CORAL(
       new FunctionalAction(
           // stroke behaivor
-          // ELEVATOR.setDistance(
-          //                  Meters.of(
-          //                      Math.max(
-          //                          0,
-          //                          Math.min(
-          //                                  getScoreMode()
-          //                                      .getMechanismConstant()
-          //                                      .getElevatorDistance()
-          //                                      .in(Meters),
-          //                                  MechanismConstant.L3.getElevatorDistance().in(Meters))
-          //                              * (1
-          //                                  - (RobotContainer.getLocalizationState()
-          //                                          .distanceToGoal()
-          //                                          .in(Meters)
-          //                                      / 4))))
-          () -> ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance()),
-          () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
+
+          () -> {
+            if (DriverStation.isAutonomous()
+                && Timer.getFPGATimestamp() < AutoHelpers.matchTimeIncrement + 3.0) {
+              ELEVATOR.setDistance(MechanismConstant.L3.getElevatorDistance());
+              return;
+            }
+            ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance());
+          },
+          () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.45)),
           INTAKE::stop)),
   COLLECTED_ALGAE(
@@ -103,7 +102,7 @@ public enum FunctionalState {
           () -> {
             ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance());
           },
-          () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
+          () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop)),
   LEVEL_X_ROTATE(
@@ -133,13 +132,13 @@ public enum FunctionalState {
   LEVEL_X_UNROTATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
-          () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
+          () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(-0.3)),
           INTAKE::stop)),
   LEVEL_X_UNELEVATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance()),
-          () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
+          () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop)),
   DEFENSE(
