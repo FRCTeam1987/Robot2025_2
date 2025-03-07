@@ -50,18 +50,20 @@ public class AutoHelpers {
     NamedCommands.registerCommand("WaitUntilScored", new WaitUntilCommand(AutoHelpers::hasScored));
     NamedCommands.registerCommand("WaitUntilAlgae", new WaitUntilCommand(AutoHelpers::hasAlgae));
     NamedCommands.registerCommand("AutoAlignAlgae", new InstCmd());
-    NamedCommands.registerCommand(
-        "AutoAlignCoral",
-        new InstCmd());
+    NamedCommands.registerCommand("AutoAlignCoral", new InstCmd());
 
-    NamedCommands.registerCommand("AutoScore", new SequentialCommandGroup(
-            new ParallelCommandGroup(new AutoAlignCoral(), new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3)), new InstCmd(() -> Abomination.setAction(DesiredAction.INIT))).withTimeout(2.5),
+    NamedCommands.registerCommand(
+        "AutoScore",
+        new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                    new AutoAlignCoral(),
+                    new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3)),
+                    new InstCmd(() -> Abomination.setAction(DesiredAction.INIT)))
+                .withTimeout(2.5),
             new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)),
             new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget),
             new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
-            new WaitUntilCommand(AutoHelpers::hasScored)
-    ));
-
+            new WaitUntilCommand(AutoHelpers::hasScored)));
   }
 
   public static List<FieldPosition> processorQueue =
