@@ -25,7 +25,13 @@ public enum FunctionalState {
                           ? ARM.hasGamePieceEntrance() ? Volts.of(9.0) : Volts.of(2.5)
                           : Volts.of(8.0)
                       : Volts.of(0.0)),
-          INTAKE::start)),
+          () -> {
+            if (CODRIVER_JOSYTICK.leftTrigger().getAsBoolean()) {
+              INTAKE.reverse();
+            } else {
+              INTAKE.start();
+            }
+          })),
 
   COLLECTED_CORAL(
       new FunctionalAction(
@@ -125,7 +131,7 @@ public enum FunctionalState {
                     switch (getScoreMode()) {
                       case L1 -> inBack ? -8.0 : -16.0;
                       case L4 -> inBack ? -8.0 : -2.5;
-                      default -> inBack ? -8.0 : -1.4;
+                      default -> inBack ? -10.0 : -1;
                     }));
           },
           INTAKE::stop)),

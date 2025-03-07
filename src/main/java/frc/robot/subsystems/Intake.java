@@ -47,6 +47,10 @@ public class Intake {
     INTAKE_MOTOR.setControl(new VoltageOut(MOTOR_RUN_VOLTS));
   }
 
+  public void reverse() {
+    INTAKE_MOTOR.setControl(new VoltageOut(-MOTOR_RUN_VOLTS));
+  }
+
   public void stop() {
     INTAKE_MOTOR.setControl(new VoltageOut(0.0));
   }

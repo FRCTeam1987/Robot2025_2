@@ -71,6 +71,7 @@ public class Bindings extends RobotContainer {
     CODRIVER_JOSYTICK.x().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3)));
     CODRIVER_JOSYTICK.y().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)));
     CODRIVER_JOSYTICK.b().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L2)));
+    CODRIVER_JOSYTICK.a().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L1)));
     CODRIVER_JOSYTICK
         .povLeft()
         .onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.PROCESSOR)));

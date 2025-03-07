@@ -24,7 +24,10 @@ public class Vision {
       LimelightHelpers.PoseEstimate estimate =
           LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight);
 
-      if (estimate != null && estimate.rawFiducials != null && estimate.rawFiducials.length > 0) {
+      if (estimate != null
+          && estimate.rawFiducials != null
+          && estimate.rawFiducials.length > 0
+          && estimate.avgTagDist < 2.25) {
         double confidence = maPoseConfidence(estimate);
         RobotContainer.DRIVETRAIN.addVisionMeasurement(
             estimate.pose,

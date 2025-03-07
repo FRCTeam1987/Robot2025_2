@@ -18,10 +18,10 @@ import frc.robot.utils.localization.LocalizationUtil;
 public enum PositionConstant {
   BLUE_REEF(new Translation2d(4.495, 4.02), Degrees.of(0.0)),
 
-  SIDE_1_ENTRY(new Translation2d(2.629 - 0.0254, 4.023), Degrees.of(0.0)),
-  SIDE_1_A(new Translation2d(3.180 - 0.05, 4.192 + 0.02), SIDE_1_ENTRY.getAngle()),
+  SIDE_1_ENTRY(new Translation2d(2.629 - 0.0274, 4.023 - 0.01), Degrees.of(0.0)),
+  SIDE_1_A(new Translation2d(3.120 - 0.00, 4.192 + 0.005), SIDE_1_ENTRY.getAngle()),
   SIDE_1_ALGAE(new Translation2d(3.180 - 0.06, 4.023), SIDE_1_ENTRY.getAngle()),
-  SIDE_1_B(new Translation2d(3.180 - 0.05, 3.862 + 0.02), SIDE_1_ENTRY.getAngle()),
+  SIDE_1_B(new Translation2d(3.120 - 0.00, 3.862 + 0.005), SIDE_1_ENTRY.getAngle()),
 
   SIDE_2_ENTRY(rotateAroundBlueReef(SIDE_1_ENTRY, Degrees.of(60.0)), Degrees.of(60.0)),
   SIDE_2_C(rotateAroundBlueReef(SIDE_1_A, Degrees.of(60.0)), SIDE_2_ENTRY.getAngle()),

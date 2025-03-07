@@ -30,7 +30,7 @@ public class RobotContainer {
 
   public static final boolean DEBUG = true;
   public static final LinearVelocity MAX_SPEED = TunerConstants.kSpeedAt12Volts;
-  public static final AngularVelocity MAX_ANGULAR_RATE = RotationsPerSecond.of(0.75);
+  public static final AngularVelocity MAX_ANGULAR_RATE = RotationsPerSecond.of(1.15);
   private static SendableChooser<Command> autoChooser;
   public static final SwerveRequest.FieldCentric DRIVE =
       new SwerveRequest.FieldCentric()

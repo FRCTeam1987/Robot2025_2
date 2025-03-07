@@ -37,7 +37,7 @@ public class AutoHelpers {
   }
 
   public static boolean hasScored() {
-    return !RobotContainer.ARM.hasGamePiece()
+    return !RobotContainer.ARM.hasGamePieceEntrance()
         && !RobotContainer.ARM.hasAlgae()
         && RobotContainer.ELEVATOR.getPosition().lte(DRIVING_MAX_HEIGHT);
   }
@@ -61,8 +61,9 @@ public class AutoHelpers {
                     new InstCmd(() -> Abomination.setAction(DesiredAction.INIT)))
                 .withTimeout(2.5),
             new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)),
-            new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget),
+            new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget).withTimeout(1.0),
             new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
+            new WaitCommand(0.1),
             new WaitUntilCommand(AutoHelpers::hasScored)));
   }
 
