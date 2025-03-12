@@ -193,6 +193,8 @@ public class SubsystemConstants {
     public static final int LEADER_MOTOR_ID = 9;
     public static final String CANBUS_NAME = "canfd";
     public static final int ENCODER_ID = 6;
+    public static final int LASER_L_ID = 2;
+    public static final int LASER_R_ID = 1;
 
     public static final Angle FULLY_STOWED = Degrees.of(90.0);
     public static final Angle FULLY_EXTENDED = Degrees.of(180.0);

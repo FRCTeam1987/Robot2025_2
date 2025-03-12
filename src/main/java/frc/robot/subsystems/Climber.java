@@ -15,6 +15,8 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Rotations;
 import static frc.robot.subsystems.constants.SubsystemConstants.ClimberConstants.*;
 
+import au.grapplerobotics.LaserCan;
+import au.grapplerobotics.interfaces.LaserCanInterface;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
@@ -28,6 +30,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import frc.robot.RobotContainer;
+import java.util.function.Supplier;
 
 public class Climber {
 
@@ -35,9 +38,18 @@ public class Climber {
 
   public final CANcoder ENCODER = new CANcoder(ENCODER_ID, CANBUS_NAME);
 
+  public final LaserCan LASER_L = new LaserCan(LASER_L_ID);
+  ;
+  public final LaserCan LASER_R = new LaserCan(LASER_R_ID);
+  ;
+
+  public final Supplier<LaserCanInterface.Measurement> LASER_L_DATA = () -> getMeasurement(LASER_L);
+  public final Supplier<LaserCanInterface.Measurement> LASER_R_DATA = () -> getMeasurement(LASER_R);
+
   private final StatusSignal<Angle> ENCODER_POSITION = ENCODER.getPosition();
   private final StatusSignal<Angle> LEADER_POSITION = LEADER.getPosition();
   private final StatusSignal<Current> LEADER_SUPPLY_CURRENT = LEADER.getSupplyCurrent();
+
   private Angle target = FULLY_STOWED;
   private Angle current;
 
@@ -47,14 +59,20 @@ public class Climber {
     ENCODER.getConfigurator().apply(encoderConfig());
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0, ENCODER_POSITION, LEADER_POSITION, LEADER_SUPPLY_CURRENT);
-
     LEADER.optimizeBusUtilization();
     LEADER.setPosition(0.0);
   }
 
+  public LaserCanInterface.Measurement getMeasurement(LaserCan device) {
+    if (device.getMeasurement() != null && device.getMeasurement().ambient < 350) {
+      return device.getMeasurement();
+    }
+    return new LaserCanInterface.Measurement(
+        4, 200, 0, false, 0, new LaserCanInterface.RegionOfInterest(0, 0, 0, 0));
+  }
+
   public void cycle() {
     if (RobotContainer.DEBUG) log();
-
     if (ENCODER_POSITION.getValue().lt(Degrees.of(89))) {
       LEADER.stopMotor();
     }
@@ -106,6 +124,10 @@ public class Climber {
     DogLog.log("Climber/leaderPosition", LEADER_POSITION.getValueAsDouble());
     DogLog.log("Climber/encoderPosition", ENCODER_POSITION.getValueAsDouble());
     DogLog.log("Climber/leaderCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
+    DogLog.log("Climber/laserLDist", LASER_L_DATA.get().distance_mm);
+    DogLog.log("Climber/laserRDist", LASER_R_DATA.get().distance_mm);
+    DogLog.log("Climber/laserRTrip", LASER_R_DATA.get().distance_mm <= 60);
+    DogLog.log("Climber/laserLTrip", LASER_L_DATA.get().distance_mm <= 60);
     DogLog.log("Climber/isAtTarget", isAtTarget());
     DogLog.log("Climber/target", target.in(Rotations));
   }
