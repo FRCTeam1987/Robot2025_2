@@ -8,6 +8,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.ReverseLimitSourceValue;
+import com.ctre.phoenix6.signals.ReverseLimitTypeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.units.AngularAccelerationUnit;
@@ -234,6 +236,10 @@ public class SubsystemConstants {
       // CurrentLimits
       CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(15.0));
       CFG.CurrentLimits.withSupplyCurrentLimitEnable(true);
+
+      CFG.HardwareLimitSwitch.ReverseLimitSource = ReverseLimitSourceValue.LimitSwitchPin;
+      CFG.HardwareLimitSwitch.ReverseLimitType = ReverseLimitTypeValue.NormallyClosed;
+      CFG.HardwareLimitSwitch.ReverseLimitEnable = true;
 
       return CFG;
     }
