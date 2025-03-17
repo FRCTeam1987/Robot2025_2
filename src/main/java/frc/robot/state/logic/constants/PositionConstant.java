@@ -49,11 +49,11 @@ public enum PositionConstant {
   SIDE_6_L(rotateAroundBlueReef(SIDE_5_J, Degrees.of(60.0)), SIDE_6_ENTRY.getAngle()),
 
   LC1(new Translation2d(0.661, 6.66), Degrees.of(-55)),
-  LC2(new Translation2d(1.234, 7.070), Degrees.of(-55)),
+  LC2(new Translation2d(1.277, 6.955), Degrees.of(-55)),
   LC3(new Translation2d(1.672, 6.398), Degrees.of(-55)),
   // RIGHT STATION
   RC1(new Translation2d(0.661, 1.367), Degrees.of(55)),
-  RC2(new Translation2d(1.187, 1.173), Degrees.of(55)),
+  RC2(new Translation2d(1.262, 1.170), Degrees.of(55)),
   RC3(new Translation2d(1.672, 0.651), Degrees.of(55)),
   // NET SCORING POS, CHANGE X FOR DISTANCE TO NET
   N1(new Translation2d(7.933, 7.266), Degrees.of(0.0)),

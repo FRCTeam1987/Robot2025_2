@@ -30,7 +30,6 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import frc.robot.RobotContainer;
-import java.util.function.Supplier;
 
 public class Climber {
 
@@ -43,8 +42,10 @@ public class Climber {
   public final LaserCan LASER_R = new LaserCan(LASER_R_ID);
   ;
 
-  public final Supplier<LaserCanInterface.Measurement> LASER_L_DATA = () -> getMeasurement(LASER_L);
-  public final Supplier<LaserCanInterface.Measurement> LASER_R_DATA = () -> getMeasurement(LASER_R);
+  //  public final Supplier<LaserCanInterface.Measurement> LASER_L_DATA = () ->
+  // getMeasurement(LASER_L);
+  //  public final Supplier<LaserCanInterface.Measurement> LASER_R_DATA = () ->
+  // getMeasurement(LASER_R);
 
   private final StatusSignal<Angle> ENCODER_POSITION = ENCODER.getPosition();
   private final StatusSignal<Angle> LEADER_POSITION = LEADER.getPosition();
@@ -124,10 +125,10 @@ public class Climber {
     DogLog.log("Climber/leaderPosition", LEADER_POSITION.getValueAsDouble());
     DogLog.log("Climber/encoderPosition", ENCODER_POSITION.getValueAsDouble());
     DogLog.log("Climber/leaderCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
-    DogLog.log("Climber/laserLDist", LASER_L_DATA.get().distance_mm);
-    DogLog.log("Climber/laserRDist", LASER_R_DATA.get().distance_mm);
-    DogLog.log("Climber/laserRTrip", LASER_R_DATA.get().distance_mm <= 60);
-    DogLog.log("Climber/laserLTrip", LASER_L_DATA.get().distance_mm <= 60);
+    //    DogLog.log("Climber/laserLDist", LASER_L_DATA.get().distance_mm);
+    //    DogLog.log("Climber/laserRDist", LASER_R_DATA.get().distance_mm);
+    //    DogLog.log("Climber/laserRTrip", LASER_R_DATA.get().distance_mm <= 60);
+    //    DogLog.log("Climber/laserLTrip", LASER_L_DATA.get().distance_mm <= 60);
     DogLog.log("Climber/isAtTarget", isAtTarget());
     DogLog.log("Climber/target", target.in(Rotations));
   }

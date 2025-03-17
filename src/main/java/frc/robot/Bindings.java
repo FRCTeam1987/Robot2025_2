@@ -64,31 +64,35 @@ public class Bindings extends RobotContainer {
             new InstCmd(
                 () -> {
                   Abomination.setAction(DesiredAction.RECOVERY);
-                  Abomination.setScoreMode(ScoreMode.L3);
+                  Abomination.setScoreMode(ScoreMode.L4);
                   Abomination.setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
                 }));
 
-    CODRIVER_JOSYTICK.x().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3)));
-    CODRIVER_JOSYTICK.y().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)));
-    CODRIVER_JOSYTICK.b().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L2)));
-    CODRIVER_JOSYTICK.a().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L1)));
-    CODRIVER_JOSYTICK
+    JOYSTICK.x().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3)));
+    JOYSTICK.y().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)));
+    JOYSTICK.b().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L2)));
+    JOYSTICK.a().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L1)));
+    CODRIVER_JOYSTICK.x().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3)));
+    CODRIVER_JOYSTICK.y().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)));
+    CODRIVER_JOYSTICK.b().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L2)));
+    CODRIVER_JOYSTICK.a().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L1)));
+    CODRIVER_JOYSTICK
         .povLeft()
         .onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.PROCESSOR)));
-    CODRIVER_JOSYTICK.povRight().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.NET)));
-    CODRIVER_JOSYTICK
+    CODRIVER_JOYSTICK.povRight().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.NET)));
+    CODRIVER_JOYSTICK
         .back()
         .onTrue(
             new InstCmd(
                 () -> {
                   Abomination.setAction(DesiredAction.RECOVERY);
-                  Abomination.setScoreMode(ScoreMode.L3);
+                  Abomination.setScoreMode(ScoreMode.L4);
                   Abomination.setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
                 }));
-    CODRIVER_JOSYTICK
+    CODRIVER_JOYSTICK
         .leftBumper()
         .onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.CLIMB)));
-    CODRIVER_JOSYTICK
+    CODRIVER_JOYSTICK
         .rightBumper()
         .onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
 

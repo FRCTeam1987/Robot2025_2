@@ -1,5 +1,6 @@
 package frc.robot.state;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.RobotContainer.*;
 import static frc.robot.state.logic.functional.FunctionalState.*;
 
@@ -182,7 +183,8 @@ public class Abomination {
             return LEVEL_X_SCORE;
           }
           case LEVEL_X_UNROTATE -> {
-            if (ARM.isAtTarget()) return LEVEL_X_UNELEVATE;
+            if (ARM.getArmPosition().isNear(ARM.getTarget(), Degrees.of(5.0)))
+              return LEVEL_X_UNELEVATE;
             return LEVEL_X_UNROTATE;
           }
           case LEVEL_X_UNELEVATE -> {

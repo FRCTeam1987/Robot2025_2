@@ -17,12 +17,15 @@ import static frc.robot.subsystems.constants.SubsystemConstants.ArmConstants.*;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.DigitalInputsConfigs;
 import com.ctre.phoenix6.controls.DynamicMotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.CANdi;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.S1FloatStateValue;
 import com.ctre.phoenix6.signals.S1StateValue;
+import com.ctre.phoenix6.signals.S2FloatStateValue;
 import com.ctre.phoenix6.signals.S2StateValue;
 import dev.doglog.DogLog;
 import edu.wpi.first.math.filter.Debouncer;
@@ -72,6 +75,20 @@ public class Arm {
     ARM_MOTOR.getConfigurator().apply(armConfig());
     EFFECTOR_MOTOR.getConfigurator().apply(effectorConfig());
 
+    // bruh
+    CORAL_CANDI
+        .getConfigurator()
+        .apply(
+            new DigitalInputsConfigs()
+                .withS1FloatState(S1FloatStateValue.PullHigh)
+                .withS2FloatState(S2FloatStateValue.PullHigh));
+    ALGAE_CANDI
+        .getConfigurator()
+        .apply(
+            new DigitalInputsConfigs()
+                .withS1FloatState(S1FloatStateValue.PullHigh)
+                .withS2FloatState(S2FloatStateValue.PullHigh));
+
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0,
         ARM_POSITION,
@@ -116,11 +133,11 @@ public class Arm {
     DogLog.log("Arm/coralS1", CORAL_S1_SIGNAL.getValue());
     DogLog.log("Arm/coralS2", CORAL_S2_SIGNAL.getValue());
     DogLog.log("Arm/algaeS1", ALGAE_S1_SIGNAL.getValue());
-    DogLog.log("Arm/armIsConnected", leaderStatus.isOK());
-    DogLog.log("Arm/effectorIsConnected", followerStatus.isOK());
-    DogLog.log("Arm/encoderIsConnected", encoderStatus.isOK());
-    DogLog.log("Arm/coralIsConnected", coralStatus.isOK());
-    DogLog.log("Arm/algaeIsConnected", algaeStatus.isOK());
+    //    DogLog.log("Arm/armIsConnected", leaderStatus.isOK());
+    //    DogLog.log("Arm/effectorIsConnected", followerStatus.isOK());
+    //    DogLog.log("Arm/encoderIsConnected", encoderStatus.isOK());
+    //    DogLog.log("Arm/coralIsConnected", coralStatus.isOK());
+    //    DogLog.log("Arm/algaeIsConnected", algaeStatus.isOK());
   }
 
   public void cycle() {

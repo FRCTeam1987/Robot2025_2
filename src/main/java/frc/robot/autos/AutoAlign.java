@@ -70,7 +70,7 @@ public class AutoAlign extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("is running " + TARGET_POSE);
+    //    System.out.println("is running " + TARGET_POSE);
     RobotContainer.DRIVETRAIN.setControl(
         ROBOT_RELATIVE.withSpeeds(
             HOLONOMIC_CONTROLLER.calculate(
@@ -80,7 +80,7 @@ public class AutoAlign extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("COMPLETE");
+    //    System.out.println("COMPLETE");
     RobotContainer.DRIVETRAIN.setControl(ROBOT_RELATIVE.withSpeeds(STOP));
   }
 

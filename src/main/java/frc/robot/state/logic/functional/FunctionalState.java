@@ -26,7 +26,7 @@ public enum FunctionalState {
                           : Volts.of(8.0)
                       : Volts.of(0.0)),
           () -> {
-            if (CODRIVER_JOSYTICK.leftTrigger().getAsBoolean()) {
+            if (CODRIVER_JOYSTICK.leftTrigger().getAsBoolean()) {
               INTAKE.reverse();
             } else {
               INTAKE.start();
@@ -46,7 +46,7 @@ public enum FunctionalState {
             ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance());
           },
           () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(0.45)),
+          () -> ARM.setClawVoltage(Volts.of(0.75)),
           INTAKE::stop)),
   COLLECTED_ALGAE(
       new FunctionalAction(
@@ -83,7 +83,7 @@ public enum FunctionalState {
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
           () -> ARM.setArmPosition(getScoreMode().getMechanismConstant().getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(1.0)),
+          () -> ARM.setClawVoltage(Volts.of(4.25)),
           INTAKE::stop)),
   NET_SCORE(
       new FunctionalAction(
@@ -130,21 +130,32 @@ public enum FunctionalState {
                 Volts.of(
                     switch (getScoreMode()) {
                       case L1 -> inBack ? -8.0 : -16.0;
-                      case L4 -> inBack ? -8.0 : -2.5;
-                      default -> inBack ? -10.0 : -1;
+                      case L4 -> inBack ? -3.0 : -2.5;
+                      default -> inBack ? -2.0 : -1;
                     }));
           },
           INTAKE::stop)),
   LEVEL_X_UNROTATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
-          () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
+          () ->
+              ARM.setArmPosition(
+                  MechanismConstant.IDLE_CORAL
+                      .getArmAngle()
+                      .plus(getScoreMode().getMechanismConstant().getArmAngle())
+                      .div(2)
+                      .times(0.95)),
           () -> ARM.setClawVoltage(Volts.of(-0.3)),
           INTAKE::stop)),
   LEVEL_X_UNELEVATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance()),
-          () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
+          () ->
+              ARM.setArmPosition(
+                  MechanismConstant.IDLE_CORAL
+                      .getArmAngle()
+                      .plus(MechanismConstant.HP_INTAKE.getArmAngle())
+                      .div(2)),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop)),
   DEFENSE(

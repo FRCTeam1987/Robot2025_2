@@ -75,6 +75,8 @@ public class Elevator {
     DogLog.log("Elevator/isAtTarget", isAtTarget);
     DogLog.log("Elevator/target", target.in(Meters));
     DogLog.log("Elevator/distance", distance.in(Meters));
+    //    DogLog.log("Elevator/current", LEADER.getSupplyCurrent().getValueAsDouble());
+    //    DogLog.log("Elevator/voltage", LEADER.getMotorVoltage().getValueAsDouble());
     DogLog.log("Elevator/leaderIsConnected", leaderStatus.isOK());
     DogLog.log("Elevator/followerIsConnected", followerStatus.isOK());
   }
@@ -92,9 +94,9 @@ public class Elevator {
     Angle distanceAngle = Conversions.metersToRotations(distance, 1.0, PULLEY_RADIUS);
     if (LEADER.getPosition().getValue().lt(distanceAngle)) {
 
-      LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 75, 175, 0));
+      LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 225, 315, 0));
     } else {
-      LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 75, 35, 0));
+      LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 125, 60, 0));
     }
     target = distance;
   }

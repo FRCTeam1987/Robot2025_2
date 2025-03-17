@@ -59,7 +59,7 @@ public class SubsystemConstants {
       CFG.Feedback.withSensorToMechanismRatio(ELEVATOR_REDUCTION);
 
       // CurrentLimits
-      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(15.0));
+      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(32));
       CFG.CurrentLimits.withSupplyCurrentLimitEnable(true);
 
       return CFG;
@@ -94,8 +94,8 @@ public class SubsystemConstants {
     public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.463379);
 
     // Dynamic configs
-    public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(10.0);
-    public static final AngularVelocity FAST_CRUISE = RotationsPerSecond.of(5.0);
+    public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(16.0);
+    public static final AngularVelocity FAST_CRUISE = RotationsPerSecond.of(8.0);
     public static final AngularAcceleration SLOW_ACCEL = RotationsPerSecondPerSecond.of(5.0);
     public static final AngularVelocity SLOW_CRUISE = RotationsPerSecond.of(2.5);
     public static final Velocity<AngularAccelerationUnit> CARNAGE =
