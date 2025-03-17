@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6728076999470343,
-        "y": 2.9
+        "x": 3.65,
+        "y": 2.92
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4096822442612957,
-        "y": 2.784467981385015
+        "x": 3.3900043856758493,
+        "y": 2.4696743862454884
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "processor_b_end"
     },
     {
       "anchor": {
-        "x": 1.4274400684931507,
-        "y": 1.0048373287671233
+        "x": 1.84,
+        "y": 0.964
       },
       "prevControl": {
-        "x": 1.2266542133393539,
-        "y": 1.1649722127971847
+        "x": 1.6445485391213859,
+        "y": 1.119880487683403
       },
       "nextControl": {
-        "x": 1.6456318803145367,
-        "y": 0.8308204865171391
+        "x": 2.0354514608786145,
+        "y": 0.8081195123165975
       },
       "isLocked": true,
       "linkedName": "processor_collect"
     },
     {
       "anchor": {
-        "x": 3.961792819782839,
-        "y": 2.761918614274364
+        "x": 3.94,
+        "y": 2.75
       },
       "prevControl": {
-        "x": 2.4286168784341404,
-        "y": 0.9502858785068586
+        "x": 3.4399999999999995,
+        "y": 1.8839745962155614
       },
       "nextControl": null,
       "isLocked": true,
@@ -48,8 +48,8 @@
   "constraintZones": [
     {
       "name": "Slow Coral Station",
-      "minWaypointRelativePos": 0.9,
-      "maxWaypointRelativePos": 1.2,
+      "minWaypointRelativePos": 1.0,
+      "maxWaypointRelativePos": 1.06,
       "constraints": {
         "maxVelocity": 0.25,
         "maxAcceleration": 4.75,
@@ -61,10 +61,22 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "PreElevate",
+      "waypointRelativePos": 1.15,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "PreElevate"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 3.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

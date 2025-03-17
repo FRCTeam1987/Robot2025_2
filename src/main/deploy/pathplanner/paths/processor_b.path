@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.29,
-        "y": 2.9
+        "x": 5.32,
+        "y": 2.91
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1244616391659945,
-        "y": 1.1985401852959034
+        "x": 4.529206075274791,
+        "y": 2.2886745554976513
       },
       "isLocked": true,
       "linkedName": "processor_a_end"
     },
     {
       "anchor": {
-        "x": 1.4274400684931507,
-        "y": 1.0048373287671233
+        "x": 1.84,
+        "y": 0.964
       },
       "prevControl": {
-        "x": 1.1845698530210125,
-        "y": 0.7323370762250895
+        "x": 1.811822493934025,
+        "y": 0.715593019116004
       },
       "nextControl": {
-        "x": 1.5937787132742556,
-        "y": 1.1914691997120008
+        "x": 1.8681775060659749,
+        "y": 1.2124069808839946
       },
       "isLocked": false,
       "linkedName": "processor_collect"
     },
     {
       "anchor": {
-        "x": 3.6728076999470343,
-        "y": 2.9
+        "x": 3.65,
+        "y": 2.92
       },
       "prevControl": {
-        "x": 3.2897762345465345,
-        "y": 2.564709459391696
+        "x": 3.395474534619685,
+        "y": 2.4791489621411817
       },
       "nextControl": null,
       "isLocked": true,
@@ -53,10 +53,10 @@
   "constraintZones": [
     {
       "name": "Slow Coral Station",
-      "minWaypointRelativePos": 0.75,
-      "maxWaypointRelativePos": 0.98,
+      "minWaypointRelativePos": 0.85,
+      "maxWaypointRelativePos": 0.95,
       "constraints": {
-        "maxVelocity": 0.25,
+        "maxVelocity": 0.375,
         "maxAcceleration": 4.75,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -66,10 +66,22 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "PreElevate",
+      "waypointRelativePos": 1.15,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "PreElevate"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 3.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

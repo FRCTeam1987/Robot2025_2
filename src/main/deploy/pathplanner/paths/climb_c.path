@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.6084633791888192,
-        "y": 7.121112656769928
+        "x": 1.8399865101959745,
+        "y": 7.088271318855932
       },
       "prevControl": {
-        "x": 1.5229583433574019,
-        "y": 6.886189501573451
+        "x": 1.6632098148993368,
+        "y": 6.911494623559294
       },
       "nextControl": {
-        "x": 1.864978486683071,
-        "y": 7.82588212235936
+        "x": 2.0167632054926115,
+        "y": 7.265048014152568
       },
       "isLocked": false,
       "linkedName": "climb_collect"
@@ -61,10 +61,22 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "PreElevate",
+      "waypointRelativePos": 1.15,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "PreElevate"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 3.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

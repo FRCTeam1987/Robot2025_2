@@ -19,7 +19,11 @@ import java.util.List;
 /** Add your docs here. */
 public class AutoHelpers {
 
-  private static Distance DRIVING_MAX_HEIGHT = MechanismConstant.L3.getElevatorDistance();
+  public static Distance DRIVING_MAX_HEIGHT =
+      MechanismConstant.L3
+          .getElevatorDistance()
+          .plus(MechanismConstant.L4.getElevatorDistance())
+          .div(2.0);
   private static boolean WANTS_CORAL = true;
 
   public static void setScoreMode(ScoreMode mode) {
@@ -36,9 +40,8 @@ public class AutoHelpers {
     return WANTS_CORAL;
   }
 
-  public static boolean hasScored() {
+  public static boolean hasScoredCoral() {
     return !RobotContainer.ARM.hasGamePieceEntrance()
-        && !RobotContainer.ARM.hasAlgae()
         && RobotContainer.ELEVATOR.getPosition().lte(DRIVING_MAX_HEIGHT);
   }
 
@@ -46,11 +49,26 @@ public class AutoHelpers {
     return RobotContainer.ARM.hasAlgae();
   }
 
+  public static boolean hasCoral() {
+    return RobotContainer.ARM.hasGamePiece();
+  }
+
   public static void registerNamedCommands() {
-    NamedCommands.registerCommand("WaitUntilScored", new WaitUntilCommand(AutoHelpers::hasScored));
+    NamedCommands.registerCommand(
+        "WaitUntilScoredCoral", new WaitUntilCommand(AutoHelpers::hasScoredCoral));
     NamedCommands.registerCommand("WaitUntilAlgae", new WaitUntilCommand(AutoHelpers::hasAlgae));
     NamedCommands.registerCommand("AutoAlignAlgae", new InstCmd());
     NamedCommands.registerCommand("AutoAlignCoral", new InstCmd());
+    NamedCommands.registerCommand(
+        "PreElevate",
+        new WaitUntilCommand(AutoHelpers::hasCoral)
+            .andThen(new WaitCommand(0.1)) // TODO: check arm rotation instead of delay
+            .andThen(
+                new InstCmd(
+                    () -> {
+                      Abomination.setScoreMode(ScoreMode.L3);
+                      Abomination.setAction(DesiredAction.INIT);
+                    })));
 
     NamedCommands.registerCommand(
         "AutoScore",
@@ -63,8 +81,8 @@ public class AutoHelpers {
             new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)),
             new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget).withTimeout(1.0),
             new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
-            new WaitCommand(0.1),
-            new WaitUntilCommand(AutoHelpers::hasScored)));
+            new WaitCommand(0.04),
+            new WaitUntilCommand(AutoHelpers::hasScoredCoral)));
   }
 
   public static List<FieldPosition> processorQueue =

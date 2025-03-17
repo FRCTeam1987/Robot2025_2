@@ -13,12 +13,6 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoAlignCoral"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "AutoScore"
           }
         },
@@ -26,12 +20,6 @@
           "type": "path",
           "data": {
             "pathName": "climb_b"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAlignCoral"
           }
         },
         {
@@ -49,13 +37,13 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoAlignCoral"
+            "name": "AutoScore"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "AutoScore"
+            "pathName": "climb_d"
           }
         }
       ]

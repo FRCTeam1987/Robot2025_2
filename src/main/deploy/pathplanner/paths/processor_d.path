@@ -3,58 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.961792819782839,
-        "y": 2.761918614274364
+        "x": 3.94,
+        "y": 2.75
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3482947393338334,
-        "y": 1.9829207126309045
+        "x": 3.3265019195509944,
+        "y": 1.9710020983565406
       },
       "isLocked": false,
       "linkedName": "processor_c_end"
     },
     {
       "anchor": {
-        "x": 1.6915481826006356,
-        "y": 1.2556036480402541
+        "x": 1.84,
+        "y": 0.964
       },
       "prevControl": {
-        "x": 1.7784659803497893,
-        "y": 0.9320273213667633
-      },
-      "nextControl": {
-        "x": 1.508132373613785,
-        "y": 1.9384213822987095
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.0264764300847458,
-        "y": 3.86
-      },
-      "prevControl": {
-        "x": 2.8837563567947737,
-        "y": 3.07165783822037
+        "x": 2.1420473657795824,
+        "y": 1.4871613838225777
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "processor_collect"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": -125.00000000000001
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Slow Coral Station",
       "minWaypointRelativePos": 0.83,
-      "maxWaypointRelativePos": 1.08,
+      "maxWaypointRelativePos": 1,
       "constraints": {
         "maxVelocity": 20.5,
         "maxAcceleration": 4.75,
@@ -68,8 +47,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 3.75,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -77,7 +56,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -119.99999999999999
   },
   "reversed": false,
   "folder": "processor_side",
