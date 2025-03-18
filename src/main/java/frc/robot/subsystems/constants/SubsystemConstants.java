@@ -59,7 +59,7 @@ public class SubsystemConstants {
       CFG.Feedback.withSensorToMechanismRatio(ELEVATOR_REDUCTION);
 
       // CurrentLimits
-      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(32));
+      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(30)); // was 32
       CFG.CurrentLimits.withSupplyCurrentLimitEnable(true);
 
       return CFG;
@@ -116,7 +116,7 @@ public class SubsystemConstants {
       final TalonFXConfiguration CFG = new TalonFXConfiguration();
 
       // MotorOutput
-      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
+      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Coast); // TODO: brake for competition
 
       // Slot0
       CFG.Slot0.withKP(120);

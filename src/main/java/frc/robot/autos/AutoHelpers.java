@@ -41,8 +41,7 @@ public class AutoHelpers {
   }
 
   public static boolean hasScoredCoral() {
-    return !RobotContainer.ARM.hasGamePieceEntrance()
-        && RobotContainer.ELEVATOR.getPosition().lte(DRIVING_MAX_HEIGHT);
+    return RobotContainer.ELEVATOR.getPosition().lte(DRIVING_MAX_HEIGHT);
   }
 
   public static boolean hasAlgae() {
@@ -81,8 +80,9 @@ public class AutoHelpers {
             new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)),
             new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget).withTimeout(1.0),
             new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
-            new WaitCommand(0.04),
-            new WaitUntilCommand(AutoHelpers::hasScoredCoral)));
+            new WaitCommand(0.02),
+            new WaitUntilCommand(AutoHelpers::hasScoredCoral),
+            new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3))));
   }
 
   public static List<FieldPosition> processorQueue =

@@ -46,7 +46,7 @@ public enum FunctionalState {
             ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance());
           },
           () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(0.75)),
+          () -> ARM.setClawVoltage(Volts.of(1.0)),
           INTAKE::stop)),
   COLLECTED_ALGAE(
       new FunctionalAction(
@@ -109,7 +109,7 @@ public enum FunctionalState {
             ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance());
           },
           () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(0.0)),
+          () -> ARM.setClawVoltage(Volts.of(1)),
           INTAKE::stop)),
   LEVEL_X_ROTATE(
       new FunctionalAction(
@@ -117,7 +117,7 @@ public enum FunctionalState {
             ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance());
           },
           () -> ARM.setArmPosition(getScoreMode().getMechanismConstant().getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(0.0)),
+          () -> ARM.setClawVoltage(Volts.of(1)),
           INTAKE::stop)),
   LEVEL_X_SCORE(
       new FunctionalAction(

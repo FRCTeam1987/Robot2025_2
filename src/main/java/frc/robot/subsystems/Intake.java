@@ -29,7 +29,7 @@ public class Intake {
 
     BaseStatusSignal.setUpdateFrequencyForAll(50.0, INTAKE_SUPPLY_CURRENT, INTAKE_VELOCITY);
 
-    INTAKE_MOTOR.optimizeBusUtilization();
+    // INTAKE_MOTOR.optimizeBusUtilization();
   }
 
   public void cycle() {

@@ -56,8 +56,8 @@ public class Elevator {
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0, LEADER_POSITION, FOLLOWER_POSITION, LEADER_SUPPLY_CURRENT, FOLLOWER_SUPPLY_CURRENT);
 
-    LEADER.optimizeBusUtilization();
-    FOLLOWER.optimizeBusUtilization();
+    // LEADER.optimizeBusUtilization();
+    // FOLLOWER.optimizeBusUtilization();
     LEADER.setPosition(0.0);
     FOLLOWER.setPosition(0.0);
   }
