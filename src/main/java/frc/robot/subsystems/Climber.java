@@ -60,7 +60,7 @@ public class Climber {
     ENCODER.getConfigurator().apply(encoderConfig());
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0, ENCODER_POSITION, LEADER_POSITION, LEADER_SUPPLY_CURRENT);
-    LEADER.optimizeBusUtilization();
+    // LEADER.optimizeBusUtilization();
     LEADER.setPosition(0.0);
   }
 

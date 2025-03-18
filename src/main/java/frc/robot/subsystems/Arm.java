@@ -102,11 +102,11 @@ public class Arm {
         ALGAE_S1_SIGNAL,
         ALGAE_S2_SIGNAL);
 
-    ARM_MOTOR.optimizeBusUtilization(4, 0.1);
-    EFFECTOR_MOTOR.optimizeBusUtilization(4, 0.1);
-    ENCODER.optimizeBusUtilization(4, 0.1);
-    CORAL_CANDI.optimizeBusUtilization(4, 0.1);
-    ALGAE_CANDI.optimizeBusUtilization(4, 0.1);
+    // ARM_MOTOR.optimizeBusUtilization(4, 0.1);
+    // EFFECTOR_MOTOR.optimizeBusUtilization(4, 0.1);
+    // ENCODER.optimizeBusUtilization(4, 0.1);
+    // CORAL_CANDI.optimizeBusUtilization(4, 0.1);
+    // ALGAE_CANDI.optimizeBusUtilization(4, 0.1);
   }
 
   public void log() {
