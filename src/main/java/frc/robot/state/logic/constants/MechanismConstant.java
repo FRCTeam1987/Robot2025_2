@@ -18,6 +18,7 @@ public enum MechanismConstant {
   PROCESSOR(Inches.of(0.0), Degrees.of(77)),
 
   // CORAL INTAKING LOCATIONS
+  // TODO update this angle after testing
   HP_INTAKE(Inches.of(0.0), Degrees.of(96.8)),
   IDLE_CORAL(Inches.of(0.0), Degrees.of(280)),
 
