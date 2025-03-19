@@ -42,10 +42,12 @@ public class Elevator {
   private final StatusSignal<Current> FOLLOWER_SUPPLY_CURRENT = FOLLOWER.getSupplyCurrent();
 
   private final Debouncer isAtTargetDebouncer = new Debouncer(0.06);
+  private final Debouncer isNearTargetDebouncer = new Debouncer(0.06);
 
   private Distance target = Inches.of(0.0);
   private Distance distance = Inches.of(0.0);
   private boolean isAtTarget = false;
+  private boolean isNearTarget = false;
 
   public Elevator() {
 
@@ -85,6 +87,7 @@ public class Elevator {
   public void cycle() {
     distance = Conversions.rotationsToMeters(LEADER_POSITION.getValue(), 1.0, PULLEY_RADIUS);
     isAtTarget = isAtTargetDebouncer.calculate(distance.isNear(target, Inches.of(0.5)));
+    isNearTarget = isNearTargetDebouncer.calculate(distance.isNear(target, Inches.of(4.0)));
     if (RobotContainer.DEBUG) log();
     DogLog.log("Elevator/autoHasScored", AutoHelpers.hasScoredCoral()); // TODO remove this
   }
@@ -109,6 +112,10 @@ public class Elevator {
 
   public boolean isAtTarget() {
     return isAtTarget;
+  }
+
+  public boolean isNearTarget() {
+    return isNearTarget;
   }
 
   private Distance getTarget() {

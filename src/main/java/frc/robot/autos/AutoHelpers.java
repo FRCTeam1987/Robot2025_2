@@ -4,6 +4,8 @@
 
 package frc.robot.autos;
 
+import static edu.wpi.first.units.Units.Inches;
+
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.*;
@@ -20,10 +22,7 @@ import java.util.List;
 public class AutoHelpers {
 
   public static Distance DRIVING_MAX_HEIGHT =
-      MechanismConstant.L3
-          .getElevatorDistance()
-          .plus(MechanismConstant.L4.getElevatorDistance())
-          .div(2.0);
+      MechanismConstant.L4.getElevatorDistance().minus(Inches.of(6.0));
   private static boolean WANTS_CORAL = true;
 
   public static void setScoreMode(ScoreMode mode) {

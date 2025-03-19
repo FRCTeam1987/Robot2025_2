@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.AutoHelpers;
-import frc.robot.state.Strategy;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.constants.TunerConstants;
 import frc.robot.util.Tracker;
@@ -79,19 +78,19 @@ public class RobotContainer {
     final Translation2d robotTranslation = DRIVETRAIN.getPose().getTranslation();
     localizationState =
         new LocalizationState(
-            FieldZones.getZoneFromTranslation(alliance, robotTranslation),
-            Distance.ofRelativeUnits(
-                robotTranslation.getDistance(
-                    alliance == DriverStation.Alliance.Blue
-                        ? Strategy.getCurrentFieldPosition()
-                            .getLocation()
-                            .getBluePose()
-                            .getTranslation()
-                        : Strategy.getCurrentFieldPosition()
-                            .getLocation()
-                            .getRedPose()
-                            .getTranslation()),
-                Meters));
+            FieldZones.getZoneFromTranslation(alliance, robotTranslation), Inches.of(5.0));
+    //            Distance.ofRelativeUnits(
+    //                robotTranslation.getDistance(
+    //                    alliance == DriverStation.Alliance.Blue
+    //                        ? Strategy.getCurrentFieldPosition()
+    //                            .getLocation()
+    //                            .getBluePose()
+    //                            .getTranslation()
+    //                        : Strategy.getCurrentFieldPosition()
+    //                            .getLocation()
+    //                            .getRedPose()
+    //                            .getTranslation()),
+    //                Meters));
   }
 
   public Command getAutonomousCommand() {

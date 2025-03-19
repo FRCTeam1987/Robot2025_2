@@ -59,6 +59,7 @@ public class Arm {
   private final StatusSignal<S2StateValue> ALGAE_S2_SIGNAL = ALGAE_CANDI.getS2State();
 
   private final Debouncer isAtTargetDebouncer = new Debouncer(0.06);
+  private final Debouncer isNearTargetDebouncer = new Debouncer(0.06);
   public final Debouncer ENTRANCE_DEBOUNCER =
       new Debouncer(CORAL_PIECE_DEBOUNCE_SECONDS, CORAL_DEBOUNCE_TYPE);
   public final Debouncer BACK_DEBOUNCER =
@@ -69,6 +70,7 @@ public class Arm {
   public Angle target = Degrees.of(0.0);
   private boolean isFollowing = true;
   private boolean isAtTarget = false;
+  private boolean isNearTarget = false;
 
   public Arm() {
     ENCODER.getConfigurator().apply(encoderConfig());
@@ -142,6 +144,8 @@ public class Arm {
 
   public void cycle() {
     isAtTarget = isAtTargetDebouncer.calculate(getArmPosition().isNear(getTarget(), Degrees.of(1)));
+    isNearTarget =
+        isNearTargetDebouncer.calculate(getArmPosition().isNear(getTarget(), Degrees.of(5.0)));
     if (isFollowing) setEffectorPosition(getArmPosition());
     if (RobotContainer.DEBUG) log();
   }
@@ -177,6 +181,10 @@ public class Arm {
 
   public boolean isAtTarget() {
     return isAtTarget;
+  }
+
+  public boolean isNearTarget() {
+    return isNearTarget;
   }
 
   public boolean hasAlgae() {

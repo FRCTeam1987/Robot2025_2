@@ -87,7 +87,7 @@ public class SubsystemConstants {
     // Sensor configurations
     public static final double CORAL_PIECE_DEBOUNCE_SECONDS = 0.08;
     public static final DebounceType CORAL_DEBOUNCE_TYPE = DebounceType.kBoth;
-    public static final double ALGAE_PIECE_DEBOUNCE_SECONDS = 0.9;
+    public static final double ALGAE_PIECE_DEBOUNCE_SECONDS = 0.45;
     public static final DebounceType ALGAE_DEBOUNCE_TYPE = DebounceType.kBoth;
 
     // Mechanism properties

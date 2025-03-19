@@ -4,8 +4,8 @@
 
 package frc.robot.autos;
 
-import static frc.robot.state.logic.constants.StateConstants.BLUE_TARGET_POSES_ALGAE;
-import static frc.robot.state.logic.constants.StateConstants.RED_TARGET_POSES_ALGAE;
+import static frc.robot.state.logic.constants.StateConstants.BLUE_ALGAE;
+import static frc.robot.state.logic.constants.StateConstants.RED_ALGAE;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -24,8 +24,6 @@ public class AutoAlignAlgae extends SequentialCommandGroup {
     addCommands(
         new DriveToNearest(
             () ->
-                RobotContainer.DRIVETRAIN.getAlliance() == Alliance.Red
-                    ? RED_TARGET_POSES_ALGAE
-                    : BLUE_TARGET_POSES_ALGAE));
+                RobotContainer.DRIVETRAIN.getAlliance() == Alliance.Red ? RED_ALGAE : BLUE_ALGAE));
   }
 }

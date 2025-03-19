@@ -1,47 +1,28 @@
 package frc.robot.state;
 
-import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.RobotContainer.*;
 import static frc.robot.state.logic.functional.FunctionalState.*;
 
 import dev.doglog.DogLog;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
-import frc.robot.state.commands.DriveToPose;
 import frc.robot.state.logic.actions.DesiredAction;
-import frc.robot.state.logic.constants.FieldPosition;
 import frc.robot.state.logic.functional.FunctionalState;
 import frc.robot.state.logic.mode.CollectMode;
-import frc.robot.state.logic.mode.DriveMode;
 import frc.robot.state.logic.mode.ScoreMode;
-import frc.robot.utils.localization.LocalizationState;
 
 public class Abomination {
 
   private static CollectMode COLLECT_MODE = CollectMode.HUMAN_PLAYER_STATION;
   private static ScoreMode SCORE_MODE = ScoreMode.L4;
-  private static DriveMode DRIVE_MODE = DriveMode.MANUAL;
   private static DesiredAction DESIRED_ACTION = DesiredAction.IDLE_CORAL;
   private static FunctionalState PREVIOUS_STATE = FunctionalState.COLLECT;
-  private static Command PATHFINDING_COMMAND;
-  private static DriveToPose HOLONOMIC_COMMAND;
 
   public static FunctionalState calculateRobotState() {
-    LocalizationState LOC = RobotContainer.getLocalizationState();
-    FieldPosition desiredPosition = Strategy.getCurrentFieldPosition();
-    ScoreMode MODE = desiredPosition.getMode();
-
-    PATHFINDING_COMMAND = desiredPosition.getPreLocation().getAlliancePath();
-    HOLONOMIC_COMMAND = desiredPosition.getLocation().getAllianceHolo();
-
-    if (SCORE_MODE != MODE && isAutomatic()) {
-      SCORE_MODE = MODE;
-    }
     // master overrides
-    if (DESIRED_ACTION == DesiredAction.RECOVERY) {
-      DESIRED_ACTION = DesiredAction.IDLE_CORAL;
+    if (isDesired(DesiredAction.RECOVERY)) {
+      setAction(DesiredAction.IDLE_CORAL);
       return COLLECT;
     }
+
     if (SCORE_MODE == ScoreMode.CLIMB
         && PREVIOUS_STATE != CLIMB_DEPLOY
         && PREVIOUS_STATE != CLIMB_CLIMB) {
@@ -52,9 +33,13 @@ public class Abomination {
       case COLLECT -> {
         switch (COLLECT_MODE) {
           case HUMAN_PLAYER_STATION -> {
-            if (isAutomatic()) schedulePathfind();
             if (ARM.hasGamePiece()) {
-              Strategy.next();
+              if (SCORE_MODE != ScoreMode.L1
+                  && SCORE_MODE != ScoreMode.L2
+                  && SCORE_MODE != ScoreMode.L3
+                  && SCORE_MODE != ScoreMode.L4) {
+                setScoreMode(ScoreMode.L4);
+              }
               return COLLECTED_CORAL;
             }
             return COLLECT;
@@ -64,7 +49,6 @@ public class Abomination {
               if (SCORE_MODE != ScoreMode.NET && SCORE_MODE != ScoreMode.PROCESSOR) {
                 setScoreMode(ScoreMode.PROCESSOR);
               }
-              Strategy.next();
               return COLLECTED_ALGAE;
             }
             return COLLECT;
@@ -75,19 +59,13 @@ public class Abomination {
         if (!ARM.hasAlgae()) return COLLECT;
         switch (SCORE_MODE) {
           case NET -> {
-            if (isAutomatic()) {
-            } else {
-              if (DESIRED_ACTION == DesiredAction.INIT || DESIRED_ACTION == DesiredAction.SCORE) {
-                return NET_ELEVATE;
-              }
+            if (isDesired(DesiredAction.INIT, DesiredAction.SCORE)) {
+              return NET_ELEVATE;
             }
           }
           case PROCESSOR -> {
-            if (isAutomatic()) {
-            } else {
-              if (DESIRED_ACTION == DesiredAction.INIT || DESIRED_ACTION == DesiredAction.SCORE) {
-                return PROCESSOR_ELEVATE;
-              }
+            if (isDesired(DesiredAction.INIT, DesiredAction.SCORE)) {
+              return PROCESSOR_ELEVATE;
             }
           }
         }
@@ -97,7 +75,7 @@ public class Abomination {
         if (!ARM.hasGamePieceEntrance()) return COLLECT;
         switch (SCORE_MODE) {
           case L1, L2, L3, L4 -> {
-            if (DESIRED_ACTION == DesiredAction.INIT || DESIRED_ACTION == DesiredAction.SCORE) {
+            if (isDesired(DesiredAction.INIT, DesiredAction.SCORE)) {
               return LEVEL_X_ELEVATE;
             }
           }
@@ -112,10 +90,7 @@ public class Abomination {
           }
           case NET_ROTATE -> {
             if (!ARM.isAtTarget()) return NET_ROTATE;
-            if (isAutomatic()) {
-              if (ARM.isAtTarget()) return NET_SCORE;
-            }
-            if (DESIRED_ACTION == DesiredAction.SCORE) {
+            if (shouldScore()) {
               return NET_SCORE;
             }
             return NET_ROTATE;
@@ -145,12 +120,12 @@ public class Abomination {
       case PROCESSOR_ELEVATE, PROCESSOR_ROTATE, PROCESSOR_SCORE -> {
         switch (PREVIOUS_STATE) {
           case PROCESSOR_ELEVATE -> {
-            if (ELEVATOR.isAtTarget()) return PROCESSOR_ROTATE;
+            if (ELEVATOR.isNearTarget()) return PROCESSOR_ROTATE;
             return PROCESSOR_ELEVATE;
           }
           case PROCESSOR_ROTATE -> {
-            if (!ARM.isAtTarget()) return PROCESSOR_ROTATE;
-            if (DESIRED_ACTION == DesiredAction.SCORE) {
+            if (!ARM.isNearTarget()) return PROCESSOR_ROTATE;
+            if (shouldScore()) {
               return PROCESSOR_SCORE;
             }
             return PROCESSOR_ROTATE;
@@ -168,12 +143,12 @@ public class Abomination {
       case LEVEL_X_ELEVATE, LEVEL_X_ROTATE, LEVEL_X_SCORE, LEVEL_X_UNROTATE, LEVEL_X_UNELEVATE -> {
         switch (PREVIOUS_STATE) {
           case LEVEL_X_ELEVATE -> {
-            if (ELEVATOR.isAtTarget()) return LEVEL_X_ROTATE;
+            if (ELEVATOR.isNearTarget()) return LEVEL_X_ROTATE;
             return LEVEL_X_ELEVATE;
           }
           case LEVEL_X_ROTATE -> {
             if (!ARM.isAtTarget()) return LEVEL_X_ROTATE;
-            if (DESIRED_ACTION == DesiredAction.SCORE) {
+            if (shouldScore()) {
               return LEVEL_X_SCORE;
             }
             return LEVEL_X_ROTATE;
@@ -183,8 +158,7 @@ public class Abomination {
             return LEVEL_X_SCORE;
           }
           case LEVEL_X_UNROTATE -> {
-            if (ARM.getArmPosition().isNear(ARM.getTarget(), Degrees.of(5.0)))
-              return LEVEL_X_UNELEVATE;
+            if (ARM.isNearTarget()) return LEVEL_X_UNELEVATE;
             return LEVEL_X_UNROTATE;
           }
           case LEVEL_X_UNELEVATE -> {
@@ -198,21 +172,19 @@ public class Abomination {
         switch (PREVIOUS_STATE) {
           case CLIMB_DEPLOY -> {
             if (CLIMBER.isAtTarget()) {
-              if (DESIRED_ACTION == DesiredAction.SCORE) {
+              if (shouldScore()) {
                 return CLIMB_CLIMB;
               }
-              if (DESIRED_ACTION == DesiredAction.RECOVERY) {
+              if (isDesired(DesiredAction.RECOVERY)) {
                 return CLIMB_STOW;
               }
             }
             return CLIMB_DEPLOY;
           }
           case CLIMB_CLIMB -> {
-            if (DESIRED_ACTION == DesiredAction.INIT) {
+            if (isDesired(DesiredAction.INIT)) {
               return CLIMB_DEPLOY;
             }
-            if (CLIMBER.isAtTarget()) {}
-
             return CLIMB_CLIMB;
           }
         }
@@ -227,14 +199,6 @@ public class Abomination {
 
   public static ScoreMode getScoreMode() {
     return SCORE_MODE;
-  }
-
-  public static void setDriveMode(DriveMode MODE) {
-    DRIVE_MODE = MODE;
-  }
-
-  public static DriveMode getDriveMode() {
-    return DRIVE_MODE;
   }
 
   public static void setAction(DesiredAction ACTION) {
@@ -253,37 +217,28 @@ public class Abomination {
     return COLLECT_MODE;
   }
 
-  public static boolean isAutomatic() {
-    return getDriveMode() == DriveMode.AUTOMATIC;
+  public static boolean shouldScore() {
+    return DESIRED_ACTION == DesiredAction.SCORE;
+  }
+
+  public static boolean isDesired(DesiredAction... ACTION) {
+    for (DesiredAction desiredAction : ACTION) {
+      return DESIRED_ACTION == desiredAction;
+    }
+    return false;
   }
 
   public static FunctionalState getState() {
 
     FunctionalState STATE = calculateRobotState();
     DogLog.log("STATE/Robot State", STATE.toString());
-    DogLog.log("STATE/Drive Mode", DRIVE_MODE.toString());
     DogLog.log("STATE/Score Mode", SCORE_MODE.toString());
     DogLog.log("STATE/Desired Action", DESIRED_ACTION.toString());
-    DogLog.log("STATE/Strategy State", Strategy.getCurrentFieldPosition().toString());
     PREVIOUS_STATE = STATE;
     return STATE;
   }
 
   public static FunctionalState getPreviousState() {
     return PREVIOUS_STATE;
-  }
-
-  public static void schedulePathfind() {
-    if (!PATHFINDING_COMMAND.isScheduled()) {
-      HOLONOMIC_COMMAND.cancel();
-      PATHFINDING_COMMAND.schedule();
-    }
-  }
-
-  public static void scheduleHolo() {
-    PATHFINDING_COMMAND.cancel();
-    if (!HOLONOMIC_COMMAND.isScheduled()) {
-      HOLONOMIC_COMMAND.schedule();
-    }
   }
 }

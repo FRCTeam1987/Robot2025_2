@@ -21,28 +21,19 @@ public class Bindings extends RobotContainer {
                 DRIVE
                     .withVelocityX(
                         MAX_SPEED.times(
-                            -JOYSTICK.getLeftY()
-                                * (1
-                                    - (JOYSTICK.getLeftTriggerAxis()
-                                        * 0.5)))) // Drive forward with negative Y (forward)
+                            -JOYSTICK.getLeftY())) // Drive forward with negative Y (forward)
                     .withVelocityY(
-                        MAX_SPEED.times(
-                            -JOYSTICK.getLeftX()
-                                * (1
-                                    - (JOYSTICK.getLeftTriggerAxis()
-                                        * 0.5)))) // Drive left with negative X (left)
+                        MAX_SPEED.times(-JOYSTICK.getLeftX())) // Drive left with negative X (left)
                     .withRotationalRate(
                         MAX_ANGULAR_RATE.times(
-                            -JOYSTICK.getRightX()
-                                * (1
-                                    - (JOYSTICK.getLeftTriggerAxis()
-                                        * 0.5)))))); // Drive counterclockwise with negative X
+                            -JOYSTICK.getRightX())))); // Drive counterclockwise with negative X
     // (left)
 
     JOYSTICK.rightBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
     JOYSTICK.leftBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.INIT)));
 
-    JOYSTICK.rightTrigger().whileTrue(new DriveToNearest());
+    JOYSTICK.rightTrigger().whileTrue(new DriveToNearest(false));
+    JOYSTICK.leftTrigger().whileTrue(new DriveToNearest(true));
     //    new Trigger(() -> NEAREST.isFinished())
     //        .whileTrue(
     //            new AsyncRumble(JOYSTICK.getHID(), GenericHID.RumbleType.kBothRumble, 1.0, 3000));

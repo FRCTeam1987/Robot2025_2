@@ -1,6 +1,9 @@
 package frc.robot.state.commands;
 
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static frc.robot.RobotContainer.JOYSTICK;
+import static frc.robot.RobotContainer.MAX_SPEED;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import dev.doglog.DogLog;
@@ -9,6 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -39,6 +43,7 @@ public class DriveToPose extends Command {
   private double thetaErrorAbs;
   private Translation2d lastSetpointTranslation = new Translation2d();
   private Debouncer hasTargetDebounce;
+  private boolean freeY = false;
 
   public DriveToPose(Drivetrain drive, Pose2d target) {
     addRequirements(drive);
@@ -54,10 +59,12 @@ public class DriveToPose extends Command {
     this.ROBOT = RobotContainer.DRIVETRAIN::getPose;
   }
 
-  public DriveToPose() {
-    this.DRIVE = null;
-    this.TARGET = null;
-    this.ROBOT = null;
+  public DriveToPose(Drivetrain drive, Supplier<Pose2d> target, boolean freeY) {
+    addRequirements(drive);
+    this.DRIVE = drive;
+    this.TARGET = target;
+    this.ROBOT = RobotContainer.DRIVETRAIN::getPose;
+    this.freeY = freeY;
   }
 
   @Override
@@ -87,13 +94,26 @@ public class DriveToPose extends Command {
 
     driveErrorAbs = currentPose.getTranslation().getDistance(targetPose.getTranslation());
 
-    SwerveRequest request =
-        new SwerveRequest.ApplyRobotSpeeds()
-            .withSpeeds(
-                HOLONOMIC.calculate(currentPose, targetPose, 0.0, targetPose.getRotation()));
-
-    // Command speeds
-    DRIVE.setControl(request);
+    if (freeY) {
+      ChassisSpeeds speeds =
+          ChassisSpeeds.fromFieldRelativeSpeeds(
+              HOLONOMIC.calculate(currentPose, targetPose, 0.0, targetPose.getRotation()),
+              new Rotation2d());
+      DRIVE.setControl(
+          new SwerveRequest.ApplyRobotSpeeds()
+              .withSpeeds(
+                  new ChassisSpeeds(
+                      speeds.vxMetersPerSecond,
+                      MAX_SPEED.times(-JOYSTICK.getLeftX()).in(MetersPerSecond),
+                      speeds.omegaRadiansPerSecond)));
+    } else {
+      DRIVE.setControl(
+          new SwerveRequest.ApplyRobotSpeeds()
+              .withSpeeds(
+                  ChassisSpeeds.fromFieldRelativeSpeeds(
+                      HOLONOMIC.calculate(currentPose, targetPose, 0.0, targetPose.getRotation()),
+                      new Rotation2d())));
+    }
 
     DogLog.log("DriveToPose/targetPose", targetPose);
     DogLog.log("DriveToPose/isRunning", running);
