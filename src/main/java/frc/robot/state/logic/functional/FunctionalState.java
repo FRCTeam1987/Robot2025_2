@@ -46,26 +46,26 @@ public enum FunctionalState {
             ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance());
           },
           () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(1.0)),
+          () -> ARM.setClawVoltage(Volts.of(0.7)),
           INTAKE::stop)),
   COLLECTED_ALGAE(
       new FunctionalAction(
           () ->
               ELEVATOR.setDistance(getScoreMode().getIdleMechanismConstant().getElevatorDistance()),
           () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(0.75)),
+          () -> ARM.setClawVoltage(Volts.of(1.3)),
           INTAKE::stop)),
   PROCESSOR_ELEVATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
           () -> ARM.setArmPosition(MechanismConstant.A2.getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(1.0)),
+          () -> ARM.setClawVoltage(Volts.of(1.3)),
           INTAKE::stop)),
   PROCESSOR_ROTATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
           () -> ARM.setArmPosition(getScoreMode().getMechanismConstant().getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(1.0)),
+          () -> ARM.setClawVoltage(Volts.of(1.3)),
           INTAKE::stop)),
   PROCESSOR_SCORE(
       new FunctionalAction(
@@ -76,13 +76,17 @@ public enum FunctionalState {
   NET_ELEVATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
-          () -> ARM.setArmPosition(MechanismConstant.IDLE_ALGAE_NET.getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(1.0)),
+          () ->
+              ARM.setArmPosition(
+                  getScoreMode().getMechanismConstant().getArmAngle().minus(Degrees.of(35))),
+          () -> ARM.setClawVoltage(Volts.of(1.3)),
           INTAKE::stop)),
   NET_ROTATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
-          () -> ARM.setArmPosition(getScoreMode().getMechanismConstant().getArmAngle()),
+          () ->
+              ARM.setArmPosition(
+                  getScoreMode().getMechanismConstant().getArmAngle().minus(Degrees.of(35))),
           () -> ARM.setClawVoltage(Volts.of(4.25)),
           INTAKE::stop)),
   NET_SCORE(

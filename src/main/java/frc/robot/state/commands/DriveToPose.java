@@ -20,6 +20,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 public class DriveToPose extends Command {
@@ -43,7 +44,7 @@ public class DriveToPose extends Command {
   private double thetaErrorAbs;
   private Translation2d lastSetpointTranslation = new Translation2d();
   private Debouncer hasTargetDebounce;
-  private boolean freeY = false;
+  private BooleanSupplier freeY = () -> false;
 
   public DriveToPose(Drivetrain drive, Pose2d target) {
     addRequirements(drive);
@@ -59,7 +60,7 @@ public class DriveToPose extends Command {
     this.ROBOT = RobotContainer.DRIVETRAIN::getPose;
   }
 
-  public DriveToPose(Drivetrain drive, Supplier<Pose2d> target, boolean freeY) {
+  public DriveToPose(Drivetrain drive, Supplier<Pose2d> target, BooleanSupplier freeY) {
     addRequirements(drive);
     this.DRIVE = drive;
     this.TARGET = target;
@@ -94,7 +95,7 @@ public class DriveToPose extends Command {
 
     driveErrorAbs = currentPose.getTranslation().getDistance(targetPose.getTranslation());
 
-    if (freeY) {
+    if (freeY.getAsBoolean()) {
       ChassisSpeeds speeds =
           ChassisSpeeds.fromFieldRelativeSpeeds(
               HOLONOMIC.calculate(currentPose, targetPose, 0.0, targetPose.getRotation()),
