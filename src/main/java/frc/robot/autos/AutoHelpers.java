@@ -22,7 +22,7 @@ import java.util.List;
 public class AutoHelpers {
 
   public static Distance DRIVING_MAX_HEIGHT =
-      MechanismConstant.L4.getElevatorDistance().minus(Inches.of(6.0));
+      MechanismConstant.L4.getElevatorDistance().minus(Inches.of(1.0));
   private static boolean WANTS_CORAL = true;
 
   public static void setScoreMode(ScoreMode mode) {
@@ -67,19 +67,23 @@ public class AutoHelpers {
                       Abomination.setScoreMode(ScoreMode.L3);
                       Abomination.setAction(DesiredAction.INIT);
                     })));
-
+    NamedCommands.registerCommand(
+        "InitL4",
+        new InstCmd(
+            () -> {
+              Abomination.setScoreMode(ScoreMode.L4);
+              Abomination.setAction(DesiredAction.INIT);
+            }));
     NamedCommands.registerCommand(
         "AutoScore",
         new SequentialCommandGroup(
             new ParallelCommandGroup(
                     new AutoAlignCoral(),
-                    new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3)),
                     new InstCmd(() -> Abomination.setAction(DesiredAction.INIT)))
                 .withTimeout(2.5),
             new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)),
             new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget).withTimeout(1.0),
             new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
-            new WaitCommand(0.02),
             new WaitUntilCommand(AutoHelpers::hasScoredCoral),
             new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3))));
   }

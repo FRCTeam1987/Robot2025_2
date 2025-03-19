@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "processor_a"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "processor_a"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "InitL4"
+                }
+              }
+            ]
           }
         },
         {

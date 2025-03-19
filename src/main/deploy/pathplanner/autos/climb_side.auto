@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "climb_a"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "climb_a"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "InitL4"
+                }
+              }
+            ]
           }
         },
         {
@@ -38,12 +51,6 @@
           "type": "named",
           "data": {
             "name": "AutoScore"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "climb_d"
           }
         }
       ]
