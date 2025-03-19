@@ -27,6 +27,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import frc.robot.RobotContainer;
+import frc.robot.autos.AutoHelpers;
 import frc.robot.utils.Conversions;
 
 public class Elevator {
@@ -85,6 +86,7 @@ public class Elevator {
     distance = Conversions.rotationsToMeters(LEADER_POSITION.getValue(), 1.0, PULLEY_RADIUS);
     isAtTarget = isAtTargetDebouncer.calculate(distance.isNear(target, Inches.of(0.5)));
     if (RobotContainer.DEBUG) log();
+    DogLog.log("Elevator/autoHasScored", AutoHelpers.hasScoredCoral()); // TODO remove this
   }
 
   public void setDistance(Distance distance) {
