@@ -8,7 +8,6 @@ import static frc.robot.state.logic.constants.StateConstants.COLLECT_ZONES;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autos.AutoHelpers;
 import frc.robot.state.Abomination;
 import frc.robot.state.logic.constants.MechanismConstant;
@@ -18,13 +17,7 @@ public enum FunctionalState {
   COLLECT(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getCollectMode().getMechanismConstant().getElevatorDistance()),
-          // TODO temporary remove this, update MechanismConstant
-          () ->
-              ARM.setArmPosition(
-                  Degrees.of(
-                      SmartDashboard.getNumber(
-                          "COLLECT_ANGLE", MechanismConstant.HP_INTAKE.getArmAngle().magnitude()))),
-          // () -> ARM.setArmPosition(getCollectMode().getMechanismConstant().getArmAngle()),
+          () -> ARM.setArmPosition(getCollectMode().getMechanismConstant().getArmAngle()),
           () ->
               ARM.setClawVoltage(
                   COLLECT_ZONES.contains(getLocalizationState().fieldZone())

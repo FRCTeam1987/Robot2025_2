@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.AutoHelpers;
-import frc.robot.state.logic.constants.MechanismConstant;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.constants.TunerConstants;
 import frc.robot.util.Tracker;
@@ -58,9 +57,6 @@ public class RobotContainer {
     DRIVETRAIN.registerTelemetry(DRIVETRAIN.LOGGER::telemeterize);
     configureAutos();
     Bindings.configureBindings();
-    // TODO remove this temporary, update MechanismConstant
-    SmartDashboard.putNumber(
-        "COLLECT_ANGLE", MechanismConstant.HP_INTAKE.getArmAngle().magnitude());
   }
 
   private static LocalizationState localizationState =
