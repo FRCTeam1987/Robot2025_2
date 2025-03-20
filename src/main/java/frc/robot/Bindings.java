@@ -67,10 +67,8 @@ public class Bindings extends RobotContainer {
     CODRIVER_JOYSTICK.y().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)));
     CODRIVER_JOYSTICK.b().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L2)));
     CODRIVER_JOYSTICK.a().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L1)));
-    CODRIVER_JOYSTICK
-        .povLeft()
-        .onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.PROCESSOR)));
-    CODRIVER_JOYSTICK.povRight().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.NET)));
+    JOYSTICK.leftStick().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.PROCESSOR)));
+    JOYSTICK.rightStick().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.NET)));
     CODRIVER_JOYSTICK
         .back()
         .onTrue(
@@ -80,9 +78,7 @@ public class Bindings extends RobotContainer {
                   Abomination.setScoreMode(ScoreMode.L4);
                   Abomination.setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
                 }));
-    CODRIVER_JOYSTICK
-        .leftBumper()
-        .onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.CLIMB)));
+    JOYSTICK.povDown().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.CLIMB)));
     CODRIVER_JOYSTICK
         .rightBumper()
         .onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));

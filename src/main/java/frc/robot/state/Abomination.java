@@ -75,7 +75,7 @@ public class Abomination {
         if (!ARM.hasGamePieceEntrance()) return COLLECT;
         switch (SCORE_MODE) {
           case L1, L2, L3, L4 -> {
-            if (isDesired(DesiredAction.INIT, DesiredAction.SCORE)) {
+            if (isDesired(DesiredAction.INIT) || shouldScore()) {
               return LEVEL_X_ELEVATE;
             }
           }

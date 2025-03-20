@@ -18,7 +18,7 @@ public enum MechanismConstant {
   PROCESSOR(Inches.of(0.0), Degrees.of(77)),
 
   // CORAL INTAKING LOCATIONS
-  HP_INTAKE(Inches.of(0.0), Degrees.of(96.8)),
+  HP_INTAKE(Inches.of(0.0), Degrees.of(93)),
   IDLE_CORAL(Inches.of(0.0), Degrees.of(280)),
 
   // ALGAE INTAKING LOCATIONS

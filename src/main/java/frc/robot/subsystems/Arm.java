@@ -146,7 +146,7 @@ public class Arm {
     isAtTarget = isAtTargetDebouncer.calculate(getArmPosition().isNear(getTarget(), Degrees.of(1)));
     isNearTarget =
         isNearTargetDebouncer.calculate(getArmPosition().isNear(getTarget(), Degrees.of(5.0)));
-    if (isFollowing) setEffectorPosition(getArmPosition());
+    //if (isFollowing) setEffectorPosition(getArmPosition());
     if (RobotContainer.DEBUG) log();
   }
 
