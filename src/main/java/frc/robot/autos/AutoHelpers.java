@@ -4,9 +4,11 @@
 
 package frc.robot.autos;
 
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 
 import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
@@ -39,8 +41,12 @@ public class AutoHelpers {
     return WANTS_CORAL;
   }
 
+  private static final Angle ARM_UNROTATE_ANGLE =
+      MechanismConstant.L4.getArmAngle().minus(Degrees.of(2.5));
+
   public static boolean hasScoredCoral() {
-    return RobotContainer.ELEVATOR.getPosition().lte(DRIVING_MAX_HEIGHT);
+    return RobotContainer.ARM.getArmPosition().lte(ARM_UNROTATE_ANGLE);
+    // return RobotContainer.ELEVATOR.getPosition().lte(DRIVING_MAX_HEIGHT);
   }
 
   public static boolean hasAlgae() {
@@ -69,19 +75,25 @@ public class AutoHelpers {
                     })));
     NamedCommands.registerCommand(
         "InitL4",
-        new InstCmd(
-            () -> {
-              Abomination.setScoreMode(ScoreMode.L4);
-              Abomination.setAction(DesiredAction.INIT);
-            }));
+        new ConditionalCommand(
+            new InstCmd(
+                () -> {
+                  Abomination.setScoreMode(ScoreMode.L4);
+                  Abomination.setAction(DesiredAction.INIT);
+                }),
+            new InstCmd(),
+            () -> RobotContainer.ARM.hasGamePieceEntrance()));
     NamedCommands.registerCommand(
         "AutoScore",
         new SequentialCommandGroup(
             new ParallelCommandGroup(
                     new AutoAlignCoral(),
-                    new InstCmd(() -> Abomination.setAction(DesiredAction.INIT)))
+                    new InstCmd(
+                        () -> {
+                          Abomination.setScoreMode(ScoreMode.L4);
+                          Abomination.setAction(DesiredAction.INIT);
+                        }))
                 .withTimeout(2.5),
-            new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4)),
             new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget).withTimeout(1.0),
             new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
             new WaitUntilCommand(AutoHelpers::hasScoredCoral),

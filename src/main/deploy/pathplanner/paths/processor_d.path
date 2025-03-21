@@ -8,35 +8,69 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3265019195509944,
-        "y": 1.9710020983565406
+        "x": 3.121241778449963,
+        "y": 1.9098065759371106
       },
       "isLocked": false,
       "linkedName": "processor_c_end"
     },
     {
       "anchor": {
-        "x": 1.84,
-        "y": 0.964
+        "x": 1.95,
+        "y": 0.9
       },
       "prevControl": {
-        "x": 2.1420473657795824,
-        "y": 1.4871613838225777
+        "x": 2.207943278308701,
+        "y": 0.4825095870014826
+      },
+      "nextControl": {
+        "x": 1.7223333369407574,
+        "y": 1.2684866293466348
+      },
+      "isLocked": false,
+      "linkedName": "processor_collect"
+    },
+    {
+      "anchor": {
+        "x": 3.12,
+        "y": 3.75
+      },
+      "prevControl": {
+        "x": 2.37,
+        "y": 3.75
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "processor_collect"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -130.0
+    }
+  ],
   "constraintZones": [
     {
       "name": "Slow Coral Station",
-      "minWaypointRelativePos": 0.83,
-      "maxWaypointRelativePos": 1,
+      "minWaypointRelativePos": 0.9,
+      "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 20.5,
+        "maxVelocity": 0.875,
         "maxAcceleration": 4.75,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Slow Approach",
+      "minWaypointRelativePos": 1.8,
+      "maxWaypointRelativePos": 2.0,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.25,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -45,10 +79,33 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "PreElevate",
+      "waypointRelativePos": 0.85,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "PreElevate"
+        }
+      }
+    },
+    {
+      "name": "InitL4",
+      "waypointRelativePos": 1.75,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "InitL4"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 3.75,
+    "maxVelocity": 4.675,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -56,7 +113,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": -178.93908830973584
   },
   "reversed": false,
   "folder": "processor_side",

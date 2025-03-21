@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.84,
-        "y": 0.964
+        "x": 1.95,
+        "y": 0.9
       },
       "prevControl": {
-        "x": 1.811822493934025,
-        "y": 0.715593019116004
+        "x": 1.921822493934025,
+        "y": 0.6515930191160015
       },
       "nextControl": {
-        "x": 1.8681775060659749,
-        "y": 1.2124069808839946
+        "x": 1.978177506065975,
+        "y": 1.1484069808839996
       },
       "isLocked": false,
       "linkedName": "processor_collect"
@@ -33,14 +33,14 @@
     {
       "anchor": {
         "x": 3.65,
-        "y": 2.92
+        "y": 2.9
       },
       "prevControl": {
         "x": 3.395474534619685,
-        "y": 2.4791489621411817
+        "y": 2.4591489621411817
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "processor_b_end"
     }
   ],
@@ -54,10 +54,23 @@
     {
       "name": "Slow Coral Station",
       "minWaypointRelativePos": 0.85,
-      "maxWaypointRelativePos": 0.95,
+      "maxWaypointRelativePos": 0.97,
       "constraints": {
-        "maxVelocity": 0.375,
+        "maxVelocity": 0.875,
         "maxAcceleration": 4.75,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Slow Approach",
+      "minWaypointRelativePos": 1.75,
+      "maxWaypointRelativePos": 2.0,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 1.25,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -77,11 +90,22 @@
           "name": "PreElevate"
         }
       }
+    },
+    {
+      "name": "InitL4",
+      "waypointRelativePos": 1.75,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "InitL4"
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 3.75,
+    "maxVelocity": 4.675,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
