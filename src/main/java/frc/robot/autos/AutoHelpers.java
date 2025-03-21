@@ -74,6 +74,16 @@ public class AutoHelpers {
                       Abomination.setAction(DesiredAction.INIT);
                     })));
     NamedCommands.registerCommand(
+        "InitL2",
+        new ConditionalCommand(
+            new InstCmd(
+                () -> {
+                  Abomination.setScoreMode(ScoreMode.L2);
+                  Abomination.setAction(DesiredAction.INIT);
+                }),
+            new InstCmd(),
+            () -> RobotContainer.ARM.hasGamePieceEntrance()));
+    NamedCommands.registerCommand(
         "InitL4",
         new ConditionalCommand(
             new InstCmd(
@@ -83,6 +93,20 @@ public class AutoHelpers {
                 }),
             new InstCmd(),
             () -> RobotContainer.ARM.hasGamePieceEntrance()));
+    NamedCommands.registerCommand(
+        "AutoScoreL2",
+        new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                    new AutoAlignCoral(),
+                    new InstCmd(
+                        () -> {
+                          Abomination.setScoreMode(ScoreMode.L2);
+                          Abomination.setAction(DesiredAction.INIT);
+                        }))
+                .withTimeout(2.5),
+            new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
+            new WaitUntilCommand(AutoHelpers::hasScoredCoral),
+            new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4))));
     NamedCommands.registerCommand(
         "AutoScore",
         new SequentialCommandGroup(
