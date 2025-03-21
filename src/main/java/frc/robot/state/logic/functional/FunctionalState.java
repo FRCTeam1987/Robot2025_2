@@ -53,19 +53,19 @@ public enum FunctionalState {
           () ->
               ELEVATOR.setDistance(getScoreMode().getIdleMechanismConstant().getElevatorDistance()),
           () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(1.3)),
+          ARM::dynamicHold,
           INTAKE::stop)),
   PROCESSOR_ELEVATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
-          () -> ARM.setArmPosition(MechanismConstant.A2.getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(1.3)),
+          () -> ARM.setArmPosition(MechanismConstant.A2.getArmAngle()), 
+          ARM::dynamicHold,
           INTAKE::stop)),
   PROCESSOR_ROTATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
           () -> ARM.setArmPosition(getScoreMode().getMechanismConstant().getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(1.3)),
+          ARM::dynamicHold,
           INTAKE::stop)),
   PROCESSOR_SCORE(
       new FunctionalAction(
@@ -79,7 +79,7 @@ public enum FunctionalState {
           () ->
               ARM.setArmPosition(
                   getScoreMode().getMechanismConstant().getArmAngle().minus(Degrees.of(35))),
-          () -> ARM.setClawVoltage(Volts.of(1.3)),
+          ARM::dynamicHold,
           INTAKE::stop)),
   NET_ROTATE(
       new FunctionalAction(
@@ -191,7 +191,7 @@ public enum FunctionalState {
           CLIMBER::stow)),
   ;
 
-  public final FunctionalAction ACTION;
+    public final FunctionalAction ACTION;
 
   FunctionalState(FunctionalAction ACTION) {
     this.ACTION = ACTION;

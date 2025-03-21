@@ -12,6 +12,7 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.RobotContainer.ARM;
 import static frc.robot.subsystems.constants.SubsystemConstants.ArmConstants.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -29,6 +30,8 @@ import com.ctre.phoenix6.signals.S2FloatStateValue;
 import com.ctre.phoenix6.signals.S2StateValue;
 import dev.doglog.DogLog;
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -71,6 +74,9 @@ public class Arm {
   private boolean isFollowing = true;
   private boolean isAtTarget = false;
   private boolean isNearTarget = false;
+
+  private final DynamicMotionMagicVoltage SLOW_MOTION = new DynamicMotionMagicVoltage(target, SLOW_CRUISE, SLOW_ACCEL, CARNAGE);
+  private final DynamicMotionMagicVoltage FAST_MOTION = new DynamicMotionMagicVoltage(target, FAST_CRUISE, FAST_ACCEL, CARNAGE);
 
   public Arm() {
     ENCODER.getConfigurator().apply(encoderConfig());
@@ -165,9 +171,9 @@ public class Arm {
   public void setArmPosition(Angle angle) {
     target = angle;
     if (RobotContainer.ELEVATOR.getPosition().gt(SLOW_HEIGHT)) {
-      ARM_MOTOR.setControl(new DynamicMotionMagicVoltage(angle, SLOW_CRUISE, SLOW_ACCEL, CARNAGE));
+      ARM_MOTOR.setControl(SLOW_MOTION.withPosition(angle));
     } else {
-      ARM_MOTOR.setControl(new DynamicMotionMagicVoltage(angle, FAST_CRUISE, FAST_ACCEL, CARNAGE));
+      ARM_MOTOR.setControl(FAST_MOTION.withPosition(angle));
     }
   }
 
@@ -209,10 +215,18 @@ public class Arm {
   }
 
   private void setEffectorPosition(Angle angle) {
-    EFFECTOR_MOTOR.setControl(new PositionVoltage(angle));
+    StatusSignal<Angle> position = EFFECTOR_MOTOR.getPosition();
+    //suppress tiny changes
+    if (!position.getValue().isNear(angle, Angle.ofBaseUnits(0.25, Degrees))) {
+      EFFECTOR_MOTOR.setControl(new PositionVoltage(angle));
+    }
   }
 
   private void resetEffectorPosition(Angle angle) {
     EFFECTOR_MOTOR.setPosition(angle);
+  }
+
+  public void dynamicHold() {
+    setClawVoltage(Volts.of(1.3));
   }
 }
