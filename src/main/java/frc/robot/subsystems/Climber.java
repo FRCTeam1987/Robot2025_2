@@ -70,7 +70,7 @@ public class Climber {
   }
 
   public LaserCanInterface.Measurement getMeasurement(LaserCan device) {
-    if (device.getMeasurement() != null && device.getMeasurement().ambient < 350) {
+    if (device.getMeasurement() != null && device.getMeasurement().ambient < 100) {
       return device.getMeasurement();
     }
     return new LaserCanInterface.Measurement(

@@ -11,7 +11,7 @@ public enum MechanismConstant {
   L1(Inches.of(0.0), Degrees.of(140)),
   L2(Inches.of(0.0), Degrees.of(296)),
   L3(Inches.of(16.75), Degrees.of(297)),
-  L4(Inches.of(47.5), Degrees.of(313.75)),
+  L4(Inches.of(47.95), Degrees.of(313.75)),
 
   // ALGAE SCORING LOCATIONS
   NET(Inches.of(50.5), Degrees.of(-45)),
@@ -22,7 +22,7 @@ public enum MechanismConstant {
   IDLE_CORAL(Inches.of(0.0), Degrees.of(280)),
 
   // ALGAE INTAKING LOCATIONS
-  A2(Inches.of(12.0), Degrees.of(54)),
+  A2(Inches.of(13), Degrees.of(54)),
   A3(Inches.of(28), Degrees.of(54)),
   IDLE_ALGAE_PROCESSOR(Inches.of(3.0), Degrees.of(34)),
   IDLE_ALGAE_NET(Inches.of(3.0), Degrees.of(-45)),

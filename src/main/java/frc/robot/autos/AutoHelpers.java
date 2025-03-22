@@ -65,24 +65,29 @@ public class AutoHelpers {
     NamedCommands.registerCommand("AutoAlignCoral", new InstCmd());
     NamedCommands.registerCommand(
         "PreElevate",
-        new WaitUntilCommand(AutoHelpers::hasCoral)
-            .andThen(new WaitCommand(0.1)) // TODO: check arm rotation instead of delay
-            .andThen(
-                new InstCmd(
-                    () -> {
-                      Abomination.setScoreMode(ScoreMode.L3);
-                      Abomination.setAction(DesiredAction.INIT);
-                    })));
-    NamedCommands.registerCommand(
-        "InitL2",
         new ConditionalCommand(
             new InstCmd(
                 () -> {
-                  Abomination.setScoreMode(ScoreMode.L2);
+                  Abomination.setScoreMode(ScoreMode.L4);
                   Abomination.setAction(DesiredAction.INIT);
                 }),
             new InstCmd(),
-            () -> RobotContainer.ARM.hasGamePieceEntrance()));
+            AutoHelpers::hasCoral));
+    NamedCommands.registerCommand(
+        "InitL2",
+        new InstCmd(
+            () -> {
+              Abomination.setScoreMode(ScoreMode.L2);
+              Abomination.setAction(DesiredAction.INIT);
+            }));
+    //        new ConditionalCommand(
+    //            new InstCmd(
+    //                () -> {
+    //                  Abomination.setScoreMode(ScoreMode.L2);
+    //                  Abomination.setAction(DesiredAction.INIT);
+    //                }),
+    //            new InstCmd(),
+    //            () -> RobotContainer.ARM.hasGamePieceEntrance()));
     NamedCommands.registerCommand(
         "InitL4",
         new ConditionalCommand(
@@ -107,19 +112,23 @@ public class AutoHelpers {
             new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE))));
     NamedCommands.registerCommand(
         "AutoScore",
-        new SequentialCommandGroup(
-            new ParallelCommandGroup(
-                    new AutoAlignCoral(),
-                    new InstCmd(
-                        () -> {
-                          Abomination.setScoreMode(ScoreMode.L4);
-                          Abomination.setAction(DesiredAction.INIT);
-                        }))
-                .withTimeout(2.5),
-            new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget).withTimeout(1.0),
-            new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
-            new WaitUntilCommand(AutoHelpers::hasScoredCoral),
-            new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3))));
+        new ConditionalCommand(
+            new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                        new AutoAlignCoral(),
+                        new InstCmd(
+                            () -> {
+                              Abomination.setScoreMode(ScoreMode.L4);
+                              Abomination.setAction(DesiredAction.INIT);
+                            }))
+                    .withTimeout(2.5),
+                new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget).withTimeout(1.0),
+                new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
+                new WaitUntilCommand(AutoHelpers::hasScoredCoral)
+                // new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L3))),
+                ),
+            new InstCmd(),
+            RobotContainer.ARM::hasGamePiece));
   }
 
   public static List<FieldPosition> processorQueue =

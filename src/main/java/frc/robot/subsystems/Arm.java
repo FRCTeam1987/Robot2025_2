@@ -214,9 +214,8 @@ public class Arm {
   }
 
   private void setEffectorPosition(Angle angle) {
-    StatusSignal<Angle> position = EFFECTOR_MOTOR.getPosition();
     // suppress tiny changes
-    if (!position.getValue().isNear(angle, Angle.ofBaseUnits(0.25, Degrees))) {
+    if (!EFFECTOR_POSITION.getValue().isNear(angle, Angle.ofBaseUnits(0.25, Degrees))) {
       EFFECTOR_MOTOR.setControl(new PositionVoltage(angle));
     }
   }
@@ -226,6 +225,6 @@ public class Arm {
   }
 
   public void dynamicHold() {
-    setClawVoltage(Volts.of(1.3));
+    setClawVoltage(Volts.of(3.0));
   }
 }

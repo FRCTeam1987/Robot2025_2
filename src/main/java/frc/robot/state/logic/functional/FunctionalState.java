@@ -6,9 +6,6 @@ import static frc.robot.state.Abomination.getCollectMode;
 import static frc.robot.state.Abomination.getScoreMode;
 import static frc.robot.state.logic.constants.StateConstants.COLLECT_ZONES;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
-import frc.robot.autos.AutoHelpers;
 import frc.robot.state.Abomination;
 import frc.robot.state.logic.constants.MechanismConstant;
 import frc.robot.state.logic.mode.CollectMode;
@@ -23,7 +20,7 @@ public enum FunctionalState {
                   COLLECT_ZONES.contains(getLocalizationState().fieldZone())
                       ? Abomination.getCollectMode().equals(CollectMode.HUMAN_PLAYER_STATION)
                           ? ARM.hasGamePieceEntrance() ? Volts.of(9.0) : Volts.of(2.5)
-                          : Volts.of(8.0)
+                          : Volts.of(14.0)
                       : Volts.of(0.0)),
           () -> {
             if (CODRIVER_JOYSTICK.leftTrigger().getAsBoolean()) {
@@ -38,11 +35,11 @@ public enum FunctionalState {
           // stroke behaivor
 
           () -> {
-            if (DriverStation.isAutonomous()
-                && Timer.getFPGATimestamp() < AutoHelpers.matchTimeIncrement + 3.0) {
-              ELEVATOR.setDistance(MechanismConstant.L3.getElevatorDistance());
-              return;
-            }
+            //            if (DriverStation.isAutonomous()
+            //                && Timer.getFPGATimestamp() < AutoHelpers.matchTimeIncrement + 3.0) {
+            //              ELEVATOR.setDistance(MechanismConstant.L3.getElevatorDistance());
+            //              return;
+            //            }
             ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance());
           },
           () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
@@ -137,7 +134,7 @@ public enum FunctionalState {
                     switch (getScoreMode()) {
                       case L1 -> inBack ? -8.0 : -16.0;
                       case L4 -> inBack ? -3.0 : -2.5;
-                      default -> inBack ? -2.0 : -1;
+                      default -> inBack ? -2.0 : -1.4;
                     }));
           },
           INTAKE::stop)),

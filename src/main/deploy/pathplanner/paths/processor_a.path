@@ -8,36 +8,31 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.14,
-        "y": 3.0
+        "x": 6.1419890334532035,
+        "y": 2.936959452315756
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.32,
-        "y": 2.91
+        "x": 5.397853053435115,
+        "y": 2.9364980916030534
       },
       "prevControl": {
-        "x": 5.644759526419165,
-        "y": 3.0975
+        "x": 5.93086788643217,
+        "y": 2.6610072790427775
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "processor_a_end"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.75,
-      "rotationDegrees": -59.99999999999999
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Slow Approach",
-      "minWaypointRelativePos": 0.65,
+      "minWaypointRelativePos": 0.8606334841628952,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.0,
@@ -52,27 +47,27 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "InitL4",
-      "waypointRelativePos": 0.75,
+      "name": "PreElevate",
+      "waypointRelativePos": 0.28235294117647025,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "InitL4"
+          "name": "PreElevate"
         }
       }
     }
   ],
   "globalConstraints": {
     "maxVelocity": 4.675,
-    "maxAcceleration": 5.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 0.3,
     "rotation": -59.99999999999999
   },
   "reversed": false,
