@@ -104,9 +104,7 @@ public class AutoHelpers {
                           Abomination.setAction(DesiredAction.INIT);
                         }))
                 .withTimeout(2.5),
-            new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
-            new WaitUntilCommand(AutoHelpers::hasScoredCoral),
-            new InstCmd(() -> Abomination.setScoreMode(ScoreMode.L4))));
+            new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE))));
     NamedCommands.registerCommand(
         "AutoScore",
         new SequentialCommandGroup(
