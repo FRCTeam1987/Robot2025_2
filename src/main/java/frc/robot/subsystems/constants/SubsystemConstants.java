@@ -59,7 +59,7 @@ public class SubsystemConstants {
       CFG.Feedback.withSensorToMechanismRatio(ELEVATOR_REDUCTION);
 
       // CurrentLimits
-      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(30)); // was 32
+      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(32)); // was 32
       CFG.CurrentLimits.withSupplyCurrentLimitEnable(true);
 
       return CFG;
@@ -85,7 +85,7 @@ public class SubsystemConstants {
             .minus(MechanismConstant.L3.getElevatorDistance());
 
     // Sensor configurations
-    public static final double CORAL_PIECE_DEBOUNCE_SECONDS = 0.08;
+    public static final double CORAL_PIECE_DEBOUNCE_SECONDS = 0.06;
     public static final DebounceType CORAL_DEBOUNCE_TYPE = DebounceType.kBoth;
     public static final double ALGAE_PIECE_DEBOUNCE_SECONDS = 0.45;
     public static final DebounceType ALGAE_DEBOUNCE_TYPE = DebounceType.kBoth;
@@ -94,10 +94,10 @@ public class SubsystemConstants {
     public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.463379);
 
     // Dynamic configs
-    public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(16.0);
-    public static final AngularVelocity FAST_CRUISE = RotationsPerSecond.of(8.0);
-    public static final AngularAcceleration SLOW_ACCEL = RotationsPerSecondPerSecond.of(5.0);
-    public static final AngularVelocity SLOW_CRUISE = RotationsPerSecond.of(2.5);
+    public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(32.0);
+    public static final AngularVelocity FAST_CRUISE = RotationsPerSecond.of(9.0);
+    public static final AngularAcceleration SLOW_ACCEL = RotationsPerSecondPerSecond.of(8.0);
+    public static final AngularVelocity SLOW_CRUISE = RotationsPerSecond.of(4.5);
     public static final Velocity<AngularAccelerationUnit> CARNAGE =
         RotationsPerSecondPerSecond.per(Second).of(0.0);
 
@@ -200,7 +200,7 @@ public class SubsystemConstants {
 
     public static final Angle FULLY_STOWED = Degrees.of(90.0);
     public static final Angle FULLY_EXTENDED = Degrees.of(180.0);
-    public static final Angle FULLY_CLIMBED = Degrees.of(97.0);
+    public static final Angle FULLY_CLIMBED = Degrees.of(93.0);
 
     // public static final double CLIMBER_REDUCTION = (54.0 / 8.0);
 
@@ -225,7 +225,7 @@ public class SubsystemConstants {
       CFG.Slot0.withKI(0.0);
       CFG.Slot0.withKD(0.1);
 
-      CFG.MotionMagic.withMotionMagicAcceleration(200);
+      CFG.MotionMagic.withMotionMagicAcceleration(300);
       CFG.MotionMagic.withMotionMagicCruiseVelocity(60);
 
       // Feedback

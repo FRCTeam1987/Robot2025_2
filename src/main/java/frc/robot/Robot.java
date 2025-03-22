@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static frc.robot.RobotContainer.TEST_MODE;
+
 import au.grapplerobotics.CanBridge;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.commands.PathfindingCommand;
@@ -13,11 +15,14 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autos.AutoHelpers;
+import frc.robot.utils.LimelightHelpers;
 
 public class Robot extends TimedRobot {
   private Command AUTONOMOUS_COMMAND;
 
   private final RobotContainer ROBOT_CONTAINER;
+
+  private double timeToCoast;
 
   public Robot() {
     CanBridge.runTCP();
@@ -35,16 +40,28 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    if (TEST_MODE) {
+      LimelightHelpers.SetThrottle("limelight-scoring", 200);
+    }
+    timeToCoast = Timer.getFPGATimestamp();
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    if (timeToCoast + 15 < Timer.getFPGATimestamp()) {
+      RobotContainer.CLIMBER.coast();
+    }
+  }
 
   @Override
   public void disabledExit() {}
 
   @Override
   public void autonomousInit() {
+    if (TEST_MODE) {
+      LimelightHelpers.SetThrottle("limelight-scoring", 0);
+    }
     AUTONOMOUS_COMMAND = ROBOT_CONTAINER.getAutonomousCommand();
     AutoHelpers.matchTimeIncrement = Timer.getFPGATimestamp();
 
@@ -61,6 +78,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    if (TEST_MODE) {
+      LimelightHelpers.SetThrottle("limelight-scoring", 0);
+    }
+    RobotContainer.CLIMBER.brake();
     if (AUTONOMOUS_COMMAND != null) {
       AUTONOMOUS_COMMAND.cancel();
     }

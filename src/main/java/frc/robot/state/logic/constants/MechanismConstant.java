@@ -11,7 +11,7 @@ public enum MechanismConstant {
   L1(Inches.of(0.0), Degrees.of(140)),
   L2(Inches.of(0.0), Degrees.of(296)),
   L3(Inches.of(16.75), Degrees.of(297)),
-  L4(Inches.of(47.2), Degrees.of(313.5)),
+  L4(Inches.of(47.5), Degrees.of(313.75)),
 
   // ALGAE SCORING LOCATIONS
   NET(Inches.of(50.5), Degrees.of(-45)),

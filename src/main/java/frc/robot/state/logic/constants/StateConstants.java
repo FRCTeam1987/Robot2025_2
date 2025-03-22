@@ -91,8 +91,78 @@ public class StateConstants {
           PositionConstant.SIDE_5_ALGAE.getRedPose(),
           PositionConstant.SIDE_6_ALGAE.getRedPose());
 
+  public static final List<Pose2d> BLUE_PRE =
+      List.of(
+          PositionConstant.SIDE_1_ENTRY.getBluePose(),
+          PositionConstant.SIDE_2_ENTRY.getBluePose(),
+          PositionConstant.SIDE_3_ENTRY.getBluePose(),
+          PositionConstant.SIDE_4_ENTRY.getBluePose(),
+          PositionConstant.SIDE_5_ENTRY.getBluePose(),
+          PositionConstant.SIDE_6_ENTRY.getBluePose());
+  public static final List<Pose2d> RED_PRE =
+      List.of(
+          PositionConstant.SIDE_1_ENTRY.getRedPose(),
+          PositionConstant.SIDE_2_ENTRY.getRedPose(),
+          PositionConstant.SIDE_3_ENTRY.getRedPose(),
+          PositionConstant.SIDE_4_ENTRY.getRedPose(),
+          PositionConstant.SIDE_5_ENTRY.getRedPose(),
+          PositionConstant.SIDE_6_ENTRY.getRedPose());
+
+  public static final List<Pose2d> BLUE_PRE_3 =
+      List.of(
+          PositionConstant.SIDE_1_ENTRY.getBluePose(),
+          PositionConstant.SIDE_3_ENTRY.getBluePose(),
+          PositionConstant.SIDE_5_ENTRY.getBluePose());
+  public static final List<Pose2d> RED_PRE_3 =
+      List.of(
+          PositionConstant.SIDE_1_ENTRY.getRedPose(),
+          PositionConstant.SIDE_3_ENTRY.getRedPose(),
+          PositionConstant.SIDE_5_ENTRY.getRedPose());
+  public static final List<Pose2d> BLUE_PRE_2 =
+      List.of(
+          PositionConstant.SIDE_2_ENTRY.getBluePose(),
+          PositionConstant.SIDE_4_ENTRY.getBluePose(),
+          PositionConstant.SIDE_6_ENTRY.getBluePose());
+  public static final List<Pose2d> RED_PRE_2 =
+      List.of(
+          PositionConstant.SIDE_2_ENTRY.getRedPose(),
+          PositionConstant.SIDE_4_ENTRY.getRedPose(),
+          PositionConstant.SIDE_6_ENTRY.getRedPose());
+
+  public static final List<Pose2d> BLUE_ALGAE_3 =
+      List.of(
+          PositionConstant.SIDE_1_ALGAE.getBluePose(),
+          PositionConstant.SIDE_3_ALGAE.getBluePose(),
+          PositionConstant.SIDE_5_ALGAE.getBluePose());
+  public static final List<Pose2d> RED_ALGAE_3 =
+      List.of(
+          PositionConstant.SIDE_1_ALGAE.getRedPose(),
+          PositionConstant.SIDE_3_ALGAE.getRedPose(),
+          PositionConstant.SIDE_5_ALGAE.getRedPose());
+  public static final List<Pose2d> BLUE_ALGAE_2 =
+      List.of(
+          PositionConstant.SIDE_2_ALGAE.getBluePose(),
+          PositionConstant.SIDE_4_ALGAE.getBluePose(),
+          PositionConstant.SIDE_6_ALGAE.getBluePose());
+  public static final List<Pose2d> RED_ALGAE_2 =
+      List.of(
+          PositionConstant.SIDE_2_ALGAE.getRedPose(),
+          PositionConstant.SIDE_4_ALGAE.getRedPose(),
+          PositionConstant.SIDE_6_ALGAE.getRedPose());
+
   public static final List<Pose2d> RED_COLLECT =
       List.of(PositionConstant.RC2.getRedPose(), PositionConstant.LC2.getRedPose());
   public static final List<Pose2d> BLUE_COLLECT =
       List.of(PositionConstant.RC2.getBluePose(), PositionConstant.LC2.getBluePose());
+
+  public static final List<Pose2d> RED_CLIMB =
+      List.of(
+          PositionConstant.C1.getRedPose(),
+          PositionConstant.C2.getRedPose(),
+          PositionConstant.C2.getRedPose());
+  public static final List<Pose2d> BLUE_CLIMB =
+      List.of(
+          PositionConstant.C1.getBluePose(),
+          PositionConstant.C2.getBluePose(),
+          PositionConstant.C2.getBluePose());
 }

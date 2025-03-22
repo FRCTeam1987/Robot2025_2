@@ -30,8 +30,9 @@ public class DriveToNearest extends SequentialCommandGroup {
             RobotContainer.DRIVETRAIN,
             () -> calculateNearest(isLeft),
             () ->
-                Abomination.getPreviousState().equals(FunctionalState.CLIMB_DEPLOY)
-                    || Abomination.getScoreMode() == ScoreMode.NET));
+                Abomination.getScoreMode().equals(ScoreMode.CLIMB)
+                    || (Abomination.getScoreMode() == ScoreMode.NET
+                        && Abomination.getPreviousState() != FunctionalState.COLLECT)));
   }
 
   public Pose2d calculateNearest(boolean isLeft) {
@@ -40,8 +41,19 @@ public class DriveToNearest extends SequentialCommandGroup {
         case HUMAN_PLAYER_STATION -> {
           return getNearest(RED_COLLECT, BLUE_COLLECT);
         }
-        case ALGAE_2, ALGAE_3 -> {
-          return getNearest(RED_ALGAE, BLUE_ALGAE);
+        case ALGAE_2 -> {
+          if (isLeft) {
+            return getNearest(RED_PRE_2, BLUE_PRE_2);
+          } else {
+            return getNearest(RED_ALGAE_2, BLUE_ALGAE_2);
+          }
+        }
+        case ALGAE_3 -> {
+          if (isLeft) {
+            return getNearest(RED_PRE_3, BLUE_PRE_3);
+          } else {
+            return getNearest(RED_ALGAE_3, BLUE_ALGAE_3);
+          }
         }
       }
     } else {
@@ -58,10 +70,13 @@ public class DriveToNearest extends SequentialCommandGroup {
               ? PositionConstant.P1.getRedPose()
               : PositionConstant.P1.getBluePose();
         }
-        case NET, CLIMB -> {
+        case NET -> {
           return RobotContainer.DRIVETRAIN.getAlliance() == DriverStation.Alliance.Red
               ? PositionConstant.N2.getRedPose()
               : PositionConstant.N2.getBluePose();
+        }
+        case CLIMB -> {
+          return getNearest(RED_CLIMB, BLUE_CLIMB);
         }
       }
     }

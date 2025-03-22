@@ -12,7 +12,6 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.RobotContainer.ARM;
 import static frc.robot.subsystems.constants.SubsystemConstants.ArmConstants.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -30,8 +29,6 @@ import com.ctre.phoenix6.signals.S2FloatStateValue;
 import com.ctre.phoenix6.signals.S2StateValue;
 import dev.doglog.DogLog;
 import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.units.AngleUnit;
-import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -75,8 +72,10 @@ public class Arm {
   private boolean isAtTarget = false;
   private boolean isNearTarget = false;
 
-  private final DynamicMotionMagicVoltage SLOW_MOTION = new DynamicMotionMagicVoltage(target, SLOW_CRUISE, SLOW_ACCEL, CARNAGE);
-  private final DynamicMotionMagicVoltage FAST_MOTION = new DynamicMotionMagicVoltage(target, FAST_CRUISE, FAST_ACCEL, CARNAGE);
+  private final DynamicMotionMagicVoltage SLOW_MOTION =
+      new DynamicMotionMagicVoltage(target, SLOW_CRUISE, SLOW_ACCEL, CARNAGE);
+  private final DynamicMotionMagicVoltage FAST_MOTION =
+      new DynamicMotionMagicVoltage(target, FAST_CRUISE, FAST_ACCEL, CARNAGE);
 
   public Arm() {
     ENCODER.getConfigurator().apply(encoderConfig());
@@ -151,8 +150,8 @@ public class Arm {
   public void cycle() {
     isAtTarget = isAtTargetDebouncer.calculate(getArmPosition().isNear(getTarget(), Degrees.of(1)));
     isNearTarget =
-        isNearTargetDebouncer.calculate(getArmPosition().isNear(getTarget(), Degrees.of(5.0)));
-    //if (isFollowing) setEffectorPosition(getArmPosition());
+        isNearTargetDebouncer.calculate(getArmPosition().isNear(getTarget(), Degrees.of(8.0)));
+    // if (isFollowing) setEffectorPosition(getArmPosition());
     if (RobotContainer.DEBUG) log();
   }
 
@@ -216,7 +215,7 @@ public class Arm {
 
   private void setEffectorPosition(Angle angle) {
     StatusSignal<Angle> position = EFFECTOR_MOTOR.getPosition();
-    //suppress tiny changes
+    // suppress tiny changes
     if (!position.getValue().isNear(angle, Angle.ofBaseUnits(0.25, Degrees))) {
       EFFECTOR_MOTOR.setControl(new PositionVoltage(angle));
     }

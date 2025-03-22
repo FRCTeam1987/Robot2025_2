@@ -19,15 +19,15 @@ public class Vision {
 
   public void cycle() {
     for (String limelight : LIMELIGHTS) {
-      double yaw = RobotContainer.DRIVETRAIN.getPigeon2().getYaw().getValueAsDouble();
+      double yaw = RobotContainer.DRIVETRAIN.getPose().getRotation().getDegrees();
       LimelightHelpers.SetRobotOrientation(limelight, yaw, 0.0, 0.0, 0.0, 0.0, 0.0);
       LimelightHelpers.PoseEstimate estimate =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue(limelight);
+          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelight);
 
       if (estimate != null
           && estimate.rawFiducials != null
           && estimate.rawFiducials.length > 0
-          && estimate.avgTagDist < 2.25) {
+          && estimate.avgTagDist < 3.75) {
         double confidence = maPoseConfidence(estimate);
         RobotContainer.DRIVETRAIN.addVisionMeasurement(
             estimate.pose,

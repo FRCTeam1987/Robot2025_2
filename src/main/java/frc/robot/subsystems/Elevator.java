@@ -99,9 +99,9 @@ public class Elevator {
     Angle distanceAngle = Conversions.metersToRotations(distance, 1.0, PULLEY_RADIUS);
     if (LEADER.getPosition().getValue().lt(distanceAngle)) {
 
-      LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 225, 315, 0));
+      LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 235, 340, 0));
     } else {
-      LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 125, 60, 0));
+      LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 125, 80, 0));
     }
     target = distance;
   }

@@ -58,7 +58,7 @@ public enum FunctionalState {
   PROCESSOR_ELEVATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
-          () -> ARM.setArmPosition(MechanismConstant.A2.getArmAngle()), 
+          () -> ARM.setArmPosition(MechanismConstant.A2.getArmAngle()),
           ARM::dynamicHold,
           INTAKE::stop)),
   PROCESSOR_ROTATE(
@@ -92,7 +92,9 @@ public enum FunctionalState {
   NET_SCORE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
-          () -> ARM.setArmPosition(getScoreMode().getMechanismConstant().getArmAngle()),
+          () ->
+              ARM.setArmPosition(
+                  getScoreMode().getMechanismConstant().getArmAngle().plus(Degrees.of(15))),
           () -> ARM.setClawVoltage(Volts.of(-16.0)),
           INTAKE::stop)),
   NET_UNROTATE(
@@ -142,24 +144,13 @@ public enum FunctionalState {
   LEVEL_X_UNROTATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
-          () ->
-              ARM.setArmPosition(
-                  MechanismConstant.IDLE_CORAL
-                      .getArmAngle()
-                      .plus(getScoreMode().getMechanismConstant().getArmAngle())
-                      .div(2)
-                      .times(0.95)),
-          () -> ARM.setClawVoltage(Volts.of(-0.3)),
+          () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
+          () -> ARM.setClawVoltage(Volts.of(-6.0)),
           INTAKE::stop)),
   LEVEL_X_UNELEVATE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance()),
-          () ->
-              ARM.setArmPosition(
-                  MechanismConstant.IDLE_CORAL
-                      .getArmAngle()
-                      .plus(MechanismConstant.HP_INTAKE.getArmAngle())
-                      .div(2)),
+          () -> ARM.setArmPosition(MechanismConstant.HP_INTAKE.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop)),
   DEFENSE(
@@ -191,7 +182,7 @@ public enum FunctionalState {
           CLIMBER::stow)),
   ;
 
-    public final FunctionalAction ACTION;
+  public final FunctionalAction ACTION;
 
   FunctionalState(FunctionalAction ACTION) {
     this.ACTION = ACTION;

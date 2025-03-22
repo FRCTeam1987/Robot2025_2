@@ -20,16 +20,23 @@ import au.grapplerobotics.interfaces.LaserCanInterface;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import dev.doglog.DogLog;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.RobotContainer;
+import frc.robot.state.Abomination;
+import frc.robot.state.commands.AsyncRumble;
+import frc.robot.state.logic.mode.ScoreMode;
+import java.util.function.Supplier;
 
 public class Climber {
 
@@ -42,10 +49,8 @@ public class Climber {
   public final LaserCan LASER_R = new LaserCan(LASER_R_ID);
   ;
 
-  //  public final Supplier<LaserCanInterface.Measurement> LASER_L_DATA = () ->
-  // getMeasurement(LASER_L);
-  //  public final Supplier<LaserCanInterface.Measurement> LASER_R_DATA = () ->
-  // getMeasurement(LASER_R);
+  public final Supplier<LaserCanInterface.Measurement> LASER_L_DATA = () -> getMeasurement(LASER_L);
+  public final Supplier<LaserCanInterface.Measurement> LASER_R_DATA = () -> getMeasurement(LASER_R);
 
   private final StatusSignal<Angle> ENCODER_POSITION = ENCODER.getPosition();
   private final StatusSignal<Angle> LEADER_POSITION = LEADER.getPosition();
@@ -77,7 +82,17 @@ public class Climber {
     if (ENCODER_POSITION.getValue().lt(Degrees.of(89))) {
       LEADER.stopMotor();
     }
+    if (Abomination.getScoreMode() == ScoreMode.CLIMB) {
+      if (LASER_R_DATA.get().distance_mm <= 70)
+        new AsyncRumble(
+                RobotContainer.JOYSTICK.getHID(), GenericHID.RumbleType.kRightRumble, 1.0, 150)
+            .schedule();
 
+      if (LASER_L_DATA.get().distance_mm <= 70)
+        new AsyncRumble(
+                RobotContainer.JOYSTICK.getHID(), GenericHID.RumbleType.kLeftRumble, 1.0, 150)
+            .schedule();
+    }
     //        double voltage = Math.abs(getPosition().minus(target).in(Rotations)) * 100;
     //        if (getPosition().lt(FULLY_STOWED)) {
     //
@@ -113,6 +128,18 @@ public class Climber {
     LEADER.stopMotor();
   }
 
+  public void coast() {
+    LEADER
+        .getConfigurator()
+        .apply(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast));
+  }
+
+  public void brake() {
+    LEADER
+        .getConfigurator()
+        .apply(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake));
+  }
+
   public boolean isAtTarget() {
     return getPosition().isNear(target, Degrees.of(0.5));
   }
@@ -125,10 +152,12 @@ public class Climber {
     DogLog.log("Climber/leaderPosition", LEADER_POSITION.getValueAsDouble());
     DogLog.log("Climber/encoderPosition", ENCODER_POSITION.getValueAsDouble());
     DogLog.log("Climber/leaderCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
-    //    DogLog.log("Climber/laserLDist", LASER_L_DATA.get().distance_mm);
-    //    DogLog.log("Climber/laserRDist", LASER_R_DATA.get().distance_mm);
-    //    DogLog.log("Climber/laserRTrip", LASER_R_DATA.get().distance_mm <= 60);
-    //    DogLog.log("Climber/laserLTrip", LASER_L_DATA.get().distance_mm <= 60);
+    if (Abomination.getScoreMode() == ScoreMode.CLIMB) {
+      DogLog.log("Climber/laserLDist", LASER_L_DATA.get().distance_mm);
+      DogLog.log("Climber/laserRDist", LASER_R_DATA.get().distance_mm);
+      DogLog.log("Climber/laserRTrip", LASER_R_DATA.get().distance_mm <= 70);
+      DogLog.log("Climber/laserLTrip", LASER_L_DATA.get().distance_mm <= 70);
+    }
     DogLog.log("Climber/isAtTarget", isAtTarget());
     DogLog.log("Climber/target", target.in(Rotations));
   }

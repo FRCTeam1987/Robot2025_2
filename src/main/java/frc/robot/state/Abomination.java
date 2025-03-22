@@ -108,7 +108,7 @@ public class Abomination {
             return NET_UNROTATE;
           }
           case NET_UNELEVATE -> {
-            if (ELEVATOR.isAtTarget()) {
+            if (ELEVATOR.isNearTarget()) {
               setAction(DesiredAction.IDLE_ALGAE);
               setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
               return COLLECT;
@@ -158,12 +158,13 @@ public class Abomination {
             return LEVEL_X_SCORE;
           }
           case LEVEL_X_UNROTATE -> {
-            if (ARM.isNearTarget()) return LEVEL_X_UNELEVATE;
+            if (ARM.getArmPosition().lt(getScoreMode().getMechanismConstant().getArmAngle()))
+              return LEVEL_X_UNELEVATE;
             return LEVEL_X_UNROTATE;
           }
           case LEVEL_X_UNELEVATE -> {
             setAction(DesiredAction.IDLE_CORAL);
-            if (!ELEVATOR.isAtTarget()) return LEVEL_X_UNELEVATE;
+            if (!ELEVATOR.isNearTarget()) return LEVEL_X_UNELEVATE;
             return COLLECT;
           }
         }
