@@ -39,6 +39,7 @@ public class Abomination {
                   && SCORE_MODE != ScoreMode.L3
                   && SCORE_MODE != ScoreMode.L4) {
                 setScoreMode(ScoreMode.L4);
+                setAction(DesiredAction.IDLE_CORAL);
               }
               return COLLECTED_CORAL;
             }
@@ -48,6 +49,7 @@ public class Abomination {
             if (ARM.hasAlgae()) {
               if (SCORE_MODE != ScoreMode.NET && SCORE_MODE != ScoreMode.PROCESSOR) {
                 setScoreMode(ScoreMode.PROCESSOR);
+                setAction(DesiredAction.IDLE_ALGAE);
               }
               return COLLECTED_ALGAE;
             }

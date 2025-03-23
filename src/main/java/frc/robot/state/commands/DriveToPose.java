@@ -19,6 +19,8 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.state.Abomination;
+import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.subsystems.Drivetrain;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
@@ -105,7 +107,12 @@ public class DriveToPose extends Command {
               .withSpeeds(
                   new ChassisSpeeds(
                       speeds.vxMetersPerSecond,
-                      MAX_SPEED.times(-JOYSTICK.getLeftX()).in(MetersPerSecond),
+                      MAX_SPEED
+                          .times(
+                              Abomination.getScoreMode() == ScoreMode.CLIMB
+                                  ? JOYSTICK.getLeftY()
+                                  : -JOYSTICK.getLeftX())
+                          .in(MetersPerSecond),
                       speeds.omegaRadiansPerSecond)));
     } else {
       DRIVE.setControl(

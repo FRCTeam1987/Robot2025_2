@@ -179,7 +179,7 @@ public class SubsystemConstants {
     public static final int MOTOR_ID = 20;
     public static final String CAN_BUS = "rio";
     public static final double MOTOR_CONNECTED_DEBOUNCE_SECONDS = 0.5;
-    public static final double MOTOR_RUN_VOLTS = -8.5;
+    public static final double MOTOR_RUN_VOLTS = -10;
 
     public static TalonFXConfiguration intakeConfig() {
       TalonFXConfiguration CFG = new TalonFXConfiguration();
