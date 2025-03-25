@@ -151,9 +151,9 @@ public class StateConstants {
           PositionConstant.SIDE_6_ALGAE.getRedPose());
 
   public static final List<Pose2d> RED_COLLECT =
-      List.of(PositionConstant.RC2.getRedPose(), PositionConstant.LC2.getRedPose());
+      List.of(PositionConstant.RC3.getRedPose(), PositionConstant.LC3.getRedPose());
   public static final List<Pose2d> BLUE_COLLECT =
-      List.of(PositionConstant.RC2.getBluePose(), PositionConstant.LC2.getBluePose());
+      List.of(PositionConstant.RC3.getBluePose(), PositionConstant.LC3.getBluePose());
 
   public static final List<Pose2d> RED_CLIMB =
       List.of(

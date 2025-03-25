@@ -54,7 +54,7 @@ public enum PositionConstant {
   // RIGHT STATION
   RC1(new Translation2d(0.661, 1.367), Degrees.of(55)),
   RC2(new Translation2d(1.262, 1.170), Degrees.of(55)),
-  RC3(new Translation2d(1.672, 0.651), Degrees.of(55)),
+  RC3(new Translation2d(1.72, 1.12), Degrees.of(55)),
   // NET SCORING POS, CHANGE X FOR DISTANCE TO NET
   N1(new Translation2d(7.8, 7.266), Degrees.of(180)),
   N2(new Translation2d(7.3, 6.157), Degrees.of(180)),
