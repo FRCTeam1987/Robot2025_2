@@ -156,7 +156,7 @@ public class Arm {
     isNearTarget =
         isNearTargetDebouncer.calculate(getArmPosition().isNear(target, NEAR_TARGET_TOLERANCE));
     // if (isFollowing) setEffectorPosition(getArmPosition());
-    NetworkTableTimer.wrap("Arm.cycle.log", () -> {if (RobotContainer.DEBUG) log();});
+    NetworkTableTimer.wrap("Arm.cycle.log", () -> {if (RobotContainer.DEBUG) log();}).run();
   }
 
   public void setClawVoltage(Voltage voltage) {
