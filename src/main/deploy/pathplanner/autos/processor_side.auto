@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "DisableVisionUpdates"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "processor_a"

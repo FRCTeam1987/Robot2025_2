@@ -151,6 +151,11 @@ public class AutoHelpers {
                 ),
             new InstCmd(),
             RobotContainer.ARM::hasGamePiece));
+    NamedCommands.registerCommand(
+        "EnableVisionUpdates", new InstCmd(() -> RobotContainer.VISION.setShouldUpdatePose(true)));
+    NamedCommands.registerCommand(
+        "DisableVisionUpdates",
+        new InstCmd(() -> RobotContainer.VISION.setShouldUpdatePose(false)));
   }
 
   public static List<FieldPosition> processorQueue =

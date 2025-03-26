@@ -47,6 +47,17 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
+      "name": "EnableVisionUpdates",
+      "waypointRelativePos": 0.2,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "EnableVisionUpdates"
+        }
+      }
+    },
+    {
       "name": "PreElevate",
       "waypointRelativePos": 0.28235294117647025,
       "endWaypointRelativePos": null,
