@@ -62,6 +62,7 @@ public class Robot extends TimedRobot {
     if (TEST_MODE) {
       LimelightHelpers.SetThrottle("limelight-scoring", 0);
     }
+    RobotContainer.ELEVATOR.setConfigAuto();
     AUTONOMOUS_COMMAND = ROBOT_CONTAINER.getAutonomousCommand();
     AutoHelpers.matchTimeIncrement = Timer.getFPGATimestamp();
 
@@ -82,6 +83,7 @@ public class Robot extends TimedRobot {
       LimelightHelpers.SetThrottle("limelight-scoring", 0);
     }
     RobotContainer.CLIMBER.brake();
+    RobotContainer.ELEVATOR.setConfigTeleop();
     if (AUTONOMOUS_COMMAND != null) {
       AUTONOMOUS_COMMAND.cancel();
     }

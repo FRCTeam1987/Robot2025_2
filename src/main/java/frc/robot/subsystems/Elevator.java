@@ -28,6 +28,7 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import frc.robot.RobotContainer;
 import frc.robot.autos.AutoHelpers;
+import frc.robot.subsystems.constants.SubsystemConstants;
 import frc.robot.utils.Conversions;
 
 public class Elevator {
@@ -63,6 +64,19 @@ public class Elevator {
     // FOLLOWER.optimizeBusUtilization();
     LEADER.setPosition(0.0);
     FOLLOWER.setPosition(0.0);
+  }
+
+  private void setConfig(final TalonFXConfiguration newConfig) {
+    LEADER.getConfigurator().apply(newConfig);
+    FOLLOWER.getConfigurator().apply(newConfig);
+  }
+
+  public void setConfigTeleop() {
+    setConfig(SubsystemConstants.ElevatorConstants.elevatorConfig());
+  }
+
+  public void setConfigAuto() {
+    setConfig(SubsystemConstants.ElevatorConstants.elevatorConfigFast());
   }
 
   public void log() {

@@ -64,6 +64,12 @@ public class SubsystemConstants {
 
       return CFG;
     }
+
+    public static TalonFXConfiguration elevatorConfigFast() {
+      TalonFXConfiguration fastConfig = elevatorConfig();
+      fastConfig.CurrentLimits.withSupplyCurrentLimit(Amps.of(40.0));
+      return fastConfig;
+    }
   }
 
   public static class ArmConstants {
