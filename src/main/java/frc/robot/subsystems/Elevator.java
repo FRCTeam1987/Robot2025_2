@@ -24,6 +24,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import dev.doglog.DogLog;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import frc.robot.RobotContainer;
@@ -40,6 +41,7 @@ public class Elevator {
   private final StatusSignal<Angle> FOLLOWER_POSITION = FOLLOWER.getPosition();
   private final StatusSignal<Current> LEADER_SUPPLY_CURRENT = LEADER.getSupplyCurrent();
   private final StatusSignal<Current> FOLLOWER_SUPPLY_CURRENT = FOLLOWER.getSupplyCurrent();
+  private final StatusSignal<AngularVelocity> LEADER_VELOCITY = LEADER.getVelocity();
 
   private final Debouncer isAtTargetDebouncer = new Debouncer(0.06);
   private final Debouncer isNearTargetDebouncer = new Debouncer(0.06);
@@ -48,6 +50,7 @@ public class Elevator {
   private Distance distance = Inches.of(0.0);
   private boolean isAtTarget = false;
   private boolean isNearTarget = false;
+  private boolean hasReset = false;
 
   public Elevator() {
 
@@ -57,7 +60,12 @@ public class Elevator {
     FOLLOWER.setControl(new Follower(LEADER.getDeviceID(), FOLLOWER_OPPOSE_LEADER));
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        100.0, LEADER_POSITION, FOLLOWER_POSITION, LEADER_SUPPLY_CURRENT, FOLLOWER_SUPPLY_CURRENT);
+        100.0,
+        LEADER_POSITION,
+        FOLLOWER_POSITION,
+        LEADER_SUPPLY_CURRENT,
+        FOLLOWER_SUPPLY_CURRENT,
+        LEADER_VELOCITY);
 
     // LEADER.optimizeBusUtilization();
     // FOLLOWER.optimizeBusUtilization();
@@ -81,7 +89,11 @@ public class Elevator {
   public void log() {
     StatusCode allStatusCode =
         BaseStatusSignal.refreshAll(
-            LEADER_POSITION, FOLLOWER_POSITION, LEADER_SUPPLY_CURRENT, FOLLOWER_SUPPLY_CURRENT);
+            LEADER_POSITION,
+            FOLLOWER_POSITION,
+            LEADER_SUPPLY_CURRENT,
+            FOLLOWER_SUPPLY_CURRENT,
+            LEADER_VELOCITY);
     // StatusCode leaderStatus = BaseStatusSignal.refreshAll(LEADER_POSITION,
     // LEADER_SUPPLY_CURRENT);
 
@@ -91,6 +103,7 @@ public class Elevator {
     if (RobotContainer.DEBUG) {
       DogLog.log("Elevator/leaderSupplyCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
       DogLog.log("Elevator/leaderPosition", LEADER_POSITION.getValueAsDouble());
+      DogLog.log("Elevator/leaderVelocity", LEADER_VELOCITY.getValueAsDouble());
       DogLog.log("Elevator/followerSupplyCurrent", FOLLOWER_SUPPLY_CURRENT.getValueAsDouble());
       DogLog.log("Elevator/followerPosition", FOLLOWER_POSITION.getValueAsDouble());
       DogLog.log("Elevator/isAtTarget", isAtTarget);
@@ -108,6 +121,14 @@ public class Elevator {
     distance = Conversions.rotationsToMeters(LEADER_POSITION.getValue(), 1.0, PULLEY_RADIUS);
     isAtTarget = isAtTargetDebouncer.calculate(distance.isNear(target, Inches.of(0.5)));
     isNearTarget = isNearTargetDebouncer.calculate(distance.isNear(target, Inches.of(4.0)));
+
+    if (target.isEquivalent(Inches.of(0.0)) && distance.lt(Inches.of(1.5))) {
+      if (LEADER_VELOCITY.getValue().lt(RotationsPerSecond.of(0.005))) {
+        if (!hasReset) LEADER.setPosition(0.0);
+      }
+    } else {
+      hasReset = false;
+    }
   }
 
   public void setDistance(Distance distance) {
