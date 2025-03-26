@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.AutoHelpers;
+import frc.robot.state.commands.ElevatorRezero;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.constants.TunerConstants;
 import frc.robot.util.Tracker;
@@ -68,6 +69,7 @@ public class RobotContainer {
                     DRIVETRAIN.resetPose(
                         new Pose2d(new Translation2d(7.14, 3.0), Rotation2d.fromDegrees(0))))
             .ignoringDisable(true));
+    SmartDashboard.putData("Home Elevator", new ElevatorRezero());
   }
 
   private static LocalizationState localizationState =

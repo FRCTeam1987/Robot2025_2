@@ -20,13 +20,11 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DynamicMotionMagicVoltage;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import dev.doglog.DogLog;
 import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.*;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.constants.SubsystemConstants;
 import frc.robot.utils.Conversions;
@@ -50,7 +48,7 @@ public class Elevator {
   private Distance distance = Inches.of(0.0);
   private boolean isAtTarget = false;
   private boolean isNearTarget = false;
-  private boolean hasReset = false;
+  private boolean recovering = false;
 
   public Elevator() {
 
@@ -121,17 +119,10 @@ public class Elevator {
     distance = Conversions.rotationsToMeters(LEADER_POSITION.getValue(), 1.0, PULLEY_RADIUS);
     isAtTarget = isAtTargetDebouncer.calculate(distance.isNear(target, Inches.of(0.5)));
     isNearTarget = isNearTargetDebouncer.calculate(distance.isNear(target, Inches.of(4.0)));
-
-    if (target.isEquivalent(Inches.of(0.0)) && distance.lt(Inches.of(1.5))) {
-      if (LEADER_VELOCITY.getValue().lt(RotationsPerSecond.of(0.005))) {
-        if (!hasReset) LEADER.setPosition(0.0);
-      }
-    } else {
-      hasReset = false;
-    }
   }
 
   public void setDistance(Distance distance) {
+    if (recovering) return;
     if (distance.gt(MAXIMUM_HEIGHT) || distance.lt(MINIMUM_HEIGHT)) return;
     if ((RobotContainer.DRIVETRAIN.getChassisSpeeds().vyMetersPerSecond > 2.0)
         || (RobotContainer.DRIVETRAIN.getChassisSpeeds().vxMetersPerSecond > 2.0)) return;
@@ -140,7 +131,8 @@ public class Elevator {
 
       LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 235, 340, 0));
     } else {
-      LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 125, 80, 0));
+      LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 200, 45, 0));
+
     }
     target = distance;
   }
@@ -159,5 +151,21 @@ public class Elevator {
 
   private Distance getTarget() {
     return target;
+  }
+
+  public void setRecovery(boolean recovery) {
+    recovering = recovery;
+  }
+
+  public void zero() {
+    LEADER.setPosition(0.0);
+  }
+
+  public void setVoltage(Voltage voltage) {
+    LEADER.setControl(new VoltageOut(voltage));
+  }
+
+  public AngularVelocity getVelocity() {
+    return LEADER_VELOCITY.getValue();
   }
 }
