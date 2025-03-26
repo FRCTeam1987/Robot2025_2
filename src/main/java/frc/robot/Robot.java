@@ -77,6 +77,7 @@ public class Robot extends TimedRobot {
       LimelightHelpers.SetThrottle("limelight-scoring", 0);
     }
 
+    RobotContainer.VISION.setShouldUpdatePose(false);
     AUTONOMOUS_COMMAND = RobotContainer.getAutonomousCommand();
 
     AutoHelpers.matchTimeIncrement = Timer.getFPGATimestamp();
