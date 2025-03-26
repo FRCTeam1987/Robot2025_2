@@ -16,7 +16,6 @@ public class Structure extends SubsystemBase {
     NetworkTableTimer.wrap("ELEVATOR.cycle", () -> RobotContainer.ELEVATOR.cycle()).run();
     NetworkTableTimer.wrap("INTAKE.cycle", () -> RobotContainer.INTAKE.cycle()).run();
     NetworkTableTimer.wrap("CLIMBER.cycle", () -> RobotContainer.CLIMBER.cycle()).run();
-    NetworkTableTimer.wrap("VISION.cycle", () -> RobotContainer.VISION.cycle()).run();
     FunctionalState STATE = Abomination.getState();
 
     NetworkTableTimer.wrap("STATE.ACTION.getArm", STATE.ACTION.getArm()).run();

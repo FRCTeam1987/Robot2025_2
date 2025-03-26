@@ -1,13 +1,15 @@
 package frc.robot.subsystems;
 
+import static frc.robot.RobotContainer.DRIVETRAIN;
 import static frc.robot.subsystems.constants.SubsystemConstants.VisionConstants.LIMELIGHTS;
 
 import dev.doglog.DogLog;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.utils.LimelightHelpers;
 
-public class Vision {
+public class Vision extends SubsystemBase {
 
   public Vision() {}
 
@@ -17,7 +19,8 @@ public class Vision {
     return BASE_CONFIDENCE * Math.pow(estimate.avgTagDist, 2.0) / (double) estimate.tagCount;
   }
 
-  public void cycle() {
+  @Override
+  public void periodic() {
     for (String limelight : LIMELIGHTS) {
       double yaw = RobotContainer.DRIVETRAIN.getPose().getRotation().getDegrees();
       LimelightHelpers.SetRobotOrientation(limelight, yaw, 0.0, 0.0, 0.0, 0.0, 0.0);
@@ -28,6 +31,11 @@ public class Vision {
           && estimate.rawFiducials != null
           && estimate.rawFiducials.length > 0
           && estimate.avgTagDist < 3.75) {
+        if (DRIVETRAIN.getPose().getTranslation().getDistance(estimate.pose.getTranslation())
+            > 1.0) {
+          DogLog.log("Pose Rejection", true);
+          return;
+        }
         double confidence = maPoseConfidence(estimate);
         RobotContainer.DRIVETRAIN.addVisionMeasurement(
             estimate.pose,

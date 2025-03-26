@@ -9,6 +9,8 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
@@ -21,6 +23,7 @@ import frc.robot.autos.AutoHelpers;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.constants.TunerConstants;
 import frc.robot.util.Tracker;
+import frc.robot.utils.InstCmd;
 import frc.robot.utils.Utils;
 import frc.robot.utils.localization.FieldZones;
 import frc.robot.utils.localization.LocalizationState;
@@ -44,11 +47,11 @@ public class RobotContainer {
   public static final CommandXboxController CODRIVER_JOYSTICK = new CommandXboxController(1);
 
   public static final Drivetrain DRIVETRAIN = TunerConstants.createDrivetrain();
+  public static final Vision VISION = new Vision();
   public static final Elevator ELEVATOR = new Elevator();
   public static final Arm ARM = new Arm();
   public static final Intake INTAKE = new Intake();
   public static final Climber CLIMBER = new Climber();
-  public static final Vision VISION = new Vision();
 
   public static final Structure STRUCTURE = new Structure();
 
@@ -58,6 +61,13 @@ public class RobotContainer {
     DRIVETRAIN.registerTelemetry(DRIVETRAIN.LOGGER::telemeterize);
     configureAutos();
     Bindings.configureBindings();
+    SmartDashboard.putData(
+        "Init Processor Side",
+        new InstCmd(
+                () ->
+                    DRIVETRAIN.resetPose(
+                        new Pose2d(new Translation2d(7.14, 3.0), Rotation2d.fromDegrees(0))))
+            .ignoringDisable(true));
   }
 
   private static LocalizationState localizationState =
