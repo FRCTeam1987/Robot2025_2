@@ -19,39 +19,65 @@ import frc.robot.RobotContainer;
 /** Add your docs here. */
 public class Intake {
 
+  public enum MotorStatus {
+    isRunning,
+    isStopped,
+    isReversing
+  }
+
+  private static final VoltageOut VOLTAGE_OUT_START = new VoltageOut(MOTOR_RUN_VOLTS);
+  private static final VoltageOut VOLTAGE_OUT_STOP = new VoltageOut(0.0);
+  private static final VoltageOut VOLTAGE_OUT_REVERSE = new VoltageOut(-MOTOR_RUN_VOLTS);
+
   public final TalonFX INTAKE_MOTOR = new TalonFX(MOTOR_ID, CAN_BUS);
 
   private final StatusSignal<Current> INTAKE_SUPPLY_CURRENT = INTAKE_MOTOR.getSupplyCurrent();
   private final StatusSignal<AngularVelocity> INTAKE_VELOCITY = INTAKE_MOTOR.getVelocity();
 
+  private MotorStatus motorStatus = MotorStatus.isStopped;
+
   public Intake() {
     INTAKE_MOTOR.getConfigurator().apply(intakeConfig());
 
-    BaseStatusSignal.setUpdateFrequencyForAll(50.0, INTAKE_SUPPLY_CURRENT, INTAKE_VELOCITY);
+    BaseStatusSignal.setUpdateFrequencyForAll(100.0, INTAKE_SUPPLY_CURRENT, INTAKE_VELOCITY);
 
     // INTAKE_MOTOR.optimizeBusUtilization();
   }
 
   public void cycle() {
-    if (RobotContainer.DEBUG) log();
+    log();
   }
 
   public void log() {
     StatusCode motorStatus = BaseStatusSignal.refreshAll(INTAKE_SUPPLY_CURRENT, INTAKE_VELOCITY);
-    DogLog.log("Intake/supplyCurrent", INTAKE_SUPPLY_CURRENT.getValueAsDouble());
-    DogLog.log("Intake/velocity", INTAKE_VELOCITY.getValueAsDouble());
-    DogLog.log("Intake/isConnected", motorStatus.isOK());
+    if (RobotContainer.DEBUG) {
+      DogLog.log("Intake/supplyCurrent", INTAKE_SUPPLY_CURRENT.getValueAsDouble());
+      DogLog.log("Intake/velocity", INTAKE_VELOCITY.getValueAsDouble());
+      DogLog.log("Intake/isConnected", motorStatus.isOK());
+    }
   }
 
   public void start() {
-    INTAKE_MOTOR.setControl(new VoltageOut(MOTOR_RUN_VOLTS));
+    if (motorStatus.equals(MotorStatus.isRunning)) {
+      return;
+    }
+    INTAKE_MOTOR.setControl(VOLTAGE_OUT_START);
+    motorStatus = MotorStatus.isRunning;
   }
 
   public void reverse() {
-    INTAKE_MOTOR.setControl(new VoltageOut(-MOTOR_RUN_VOLTS));
+    if (motorStatus.equals(MotorStatus.isReversing)) {
+      return;
+    }
+    INTAKE_MOTOR.setControl(VOLTAGE_OUT_REVERSE);
+    motorStatus = MotorStatus.isReversing;
   }
 
   public void stop() {
-    INTAKE_MOTOR.setControl(new VoltageOut(0.0));
+    if (motorStatus.equals(MotorStatus.isStopped)) {
+      return;
+    }
+    INTAKE_MOTOR.setControl(VOLTAGE_OUT_STOP);
+    motorStatus = MotorStatus.isStopped;
   }
 }

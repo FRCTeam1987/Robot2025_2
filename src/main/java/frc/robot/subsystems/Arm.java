@@ -57,7 +57,6 @@ public class Arm {
   private final StatusSignal<S1StateValue> CORAL_S1_SIGNAL = CORAL_CANDI.getS1State();
   private final StatusSignal<S2StateValue> CORAL_S2_SIGNAL = CORAL_CANDI.getS2State();
   private final StatusSignal<S1StateValue> ALGAE_S1_SIGNAL = ALGAE_CANDI.getS1State();
-  private final StatusSignal<S2StateValue> ALGAE_S2_SIGNAL = ALGAE_CANDI.getS2State();
 
   private final Debouncer isAtTargetDebouncer = new Debouncer(0.06);
   private final Debouncer isNearTargetDebouncer = new Debouncer(0.06);
@@ -101,7 +100,7 @@ public class Arm {
                 .withS2FloatState(S2FloatStateValue.PullHigh));
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0,
+        100.0,
         ARM_POSITION,
         ARM_VELOCITY,
         ARM_SUPPLY_CURRENT,
@@ -110,8 +109,7 @@ public class Arm {
         ENCODER_POSITION,
         CORAL_S1_SIGNAL,
         CORAL_S2_SIGNAL,
-        ALGAE_S1_SIGNAL,
-        ALGAE_S2_SIGNAL);
+        ALGAE_S1_SIGNAL);
 
     // ARM_MOTOR.optimizeBusUtilization(4, 0.1);
     // EFFECTOR_MOTOR.optimizeBusUtilization(4, 0.1);
@@ -140,17 +138,28 @@ public class Arm {
   }
 
   public void cycle() {
-    StatusCode leaderStatus =
-        BaseStatusSignal.refreshAll(ARM_POSITION, ARM_VELOCITY, ARM_SUPPLY_CURRENT);
+    StatusCode allStatus =
+        BaseStatusSignal.refreshAll(
+            ARM_POSITION,
+            ARM_VELOCITY,
+            ARM_SUPPLY_CURRENT,
+            EFFECTOR_POSITION,
+            EFFECTOR_SUPPLY_CURRENT,
+            ENCODER_POSITION,
+            CORAL_S1_SIGNAL,
+            CORAL_S2_SIGNAL,
+            ALGAE_S1_SIGNAL);
+    // StatusCode leaderStatus =
+    //     BaseStatusSignal.refreshAll(ARM_POSITION, ARM_VELOCITY, ARM_SUPPLY_CURRENT);
 
-    StatusCode followerStatus =
-        BaseStatusSignal.refreshAll(EFFECTOR_POSITION, EFFECTOR_SUPPLY_CURRENT);
+    // StatusCode followerStatus =
+    //     BaseStatusSignal.refreshAll(EFFECTOR_POSITION, EFFECTOR_SUPPLY_CURRENT);
 
-    StatusCode encoderStatus = BaseStatusSignal.refreshAll(ENCODER_POSITION);
+    // StatusCode encoderStatus = BaseStatusSignal.refreshAll(ENCODER_POSITION);
 
-    StatusCode coralStatus = BaseStatusSignal.refreshAll(CORAL_S1_SIGNAL, CORAL_S2_SIGNAL);
+    // StatusCode coralStatus = BaseStatusSignal.refreshAll(CORAL_S1_SIGNAL, CORAL_S2_SIGNAL);
 
-    StatusCode algaeStatus = BaseStatusSignal.refreshAll(ALGAE_S1_SIGNAL, ALGAE_S2_SIGNAL);
+    // StatusCode algaeStatus = BaseStatusSignal.refreshAll(ALGAE_S1_SIGNAL);
 
     isAtTarget =
         isAtTargetDebouncer.calculate(getArmPosition().isNear(target, AT_TARGET_TOLERANCE));

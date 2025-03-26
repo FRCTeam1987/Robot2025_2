@@ -27,7 +27,6 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import frc.robot.RobotContainer;
-import frc.robot.autos.AutoHelpers;
 import frc.robot.subsystems.constants.SubsystemConstants;
 import frc.robot.utils.Conversions;
 
@@ -58,7 +57,7 @@ public class Elevator {
     FOLLOWER.setControl(new Follower(LEADER.getDeviceID(), FOLLOWER_OPPOSE_LEADER));
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0, LEADER_POSITION, FOLLOWER_POSITION, LEADER_SUPPLY_CURRENT, FOLLOWER_SUPPLY_CURRENT);
+        100.0, LEADER_POSITION, FOLLOWER_POSITION, LEADER_SUPPLY_CURRENT, FOLLOWER_SUPPLY_CURRENT);
 
     // LEADER.optimizeBusUtilization();
     // FOLLOWER.optimizeBusUtilization();
@@ -80,30 +79,35 @@ public class Elevator {
   }
 
   public void log() {
-    StatusCode leaderStatus = BaseStatusSignal.refreshAll(LEADER_POSITION, LEADER_SUPPLY_CURRENT);
+    StatusCode allStatusCode =
+        BaseStatusSignal.refreshAll(
+            LEADER_POSITION, FOLLOWER_POSITION, LEADER_SUPPLY_CURRENT, FOLLOWER_SUPPLY_CURRENT);
+    // StatusCode leaderStatus = BaseStatusSignal.refreshAll(LEADER_POSITION,
+    // LEADER_SUPPLY_CURRENT);
 
-    StatusCode followerStatus =
-        BaseStatusSignal.refreshAll(FOLLOWER_POSITION, FOLLOWER_SUPPLY_CURRENT);
+    // StatusCode followerStatus =
+    //     BaseStatusSignal.refreshAll(FOLLOWER_POSITION, FOLLOWER_SUPPLY_CURRENT);
 
-    DogLog.log("Elevator/leaderSupplyCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
-    DogLog.log("Elevator/leaderPosition", LEADER_POSITION.getValueAsDouble());
-    DogLog.log("Elevator/followerSupplyCurrent", FOLLOWER_SUPPLY_CURRENT.getValueAsDouble());
-    DogLog.log("Elevator/followerPosition", FOLLOWER_POSITION.getValueAsDouble());
-    DogLog.log("Elevator/isAtTarget", isAtTarget);
-    DogLog.log("Elevator/target", target.in(Meters));
-    DogLog.log("Elevator/distance", distance.in(Meters));
-    //    DogLog.log("Elevator/current", LEADER.getSupplyCurrent().getValueAsDouble());
-    //    DogLog.log("Elevator/voltage", LEADER.getMotorVoltage().getValueAsDouble());
-    DogLog.log("Elevator/leaderIsConnected", leaderStatus.isOK());
-    DogLog.log("Elevator/followerIsConnected", followerStatus.isOK());
+    if (RobotContainer.DEBUG) {
+      DogLog.log("Elevator/leaderSupplyCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
+      DogLog.log("Elevator/leaderPosition", LEADER_POSITION.getValueAsDouble());
+      DogLog.log("Elevator/followerSupplyCurrent", FOLLOWER_SUPPLY_CURRENT.getValueAsDouble());
+      DogLog.log("Elevator/followerPosition", FOLLOWER_POSITION.getValueAsDouble());
+      DogLog.log("Elevator/isAtTarget", isAtTarget);
+      DogLog.log("Elevator/target", target.in(Meters));
+      DogLog.log("Elevator/distance", distance.in(Meters));
+      //    DogLog.log("Elevator/current", LEADER.getSupplyCurrent().getValueAsDouble());
+      //    DogLog.log("Elevator/voltage", LEADER.getMotorVoltage().getValueAsDouble());
+      // DogLog.log("Elevator/leaderIsConnected", leaderStatus.isOK());
+      // DogLog.log("Elevator/followerIsConnected", followerStatus.isOK());
+    }
   }
 
   public void cycle() {
+    log();
     distance = Conversions.rotationsToMeters(LEADER_POSITION.getValue(), 1.0, PULLEY_RADIUS);
     isAtTarget = isAtTargetDebouncer.calculate(distance.isNear(target, Inches.of(0.5)));
     isNearTarget = isNearTargetDebouncer.calculate(distance.isNear(target, Inches.of(4.0)));
-    if (RobotContainer.DEBUG) log();
-    DogLog.log("Elevator/autoHasScored", AutoHelpers.hasScoredCoral()); // TODO remove this
   }
 
   public void setDistance(Distance distance) {

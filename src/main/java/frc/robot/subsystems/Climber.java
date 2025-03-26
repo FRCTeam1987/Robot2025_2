@@ -59,6 +59,9 @@ public class Climber {
   private Angle target = FULLY_STOWED;
   private Angle current;
 
+  private boolean isCoast;
+  private boolean isStopped;
+
   public Climber() {
     TalonFXConfiguration config = climberConfig();
     LEADER.getConfigurator().apply(config);
@@ -67,6 +70,8 @@ public class Climber {
         50.0, ENCODER_POSITION, LEADER_POSITION, LEADER_SUPPLY_CURRENT);
     // LEADER.optimizeBusUtilization();
     LEADER.setPosition(0.0);
+    isCoast = config.MotorOutput.NeutralMode.equals(NeutralModeValue.Coast);
+    isStopped = true;
   }
 
   public LaserCanInterface.Measurement getMeasurement(LaserCan device) {
@@ -78,7 +83,7 @@ public class Climber {
   }
 
   public void cycle() {
-    if (RobotContainer.DEBUG) log();
+    log();
     if (ENCODER_POSITION.getValue().lt(Degrees.of(89))) {
       LEADER.stopMotor();
     }
@@ -112,32 +117,53 @@ public class Climber {
     //        }
   }
 
+  public static final MotionMagicVoltage mmDeploy = new MotionMagicVoltage(FULLY_EXTENDED);
+
   public void deploy() {
-    setPosition(FULLY_EXTENDED);
+    setPosition(mmDeploy);
+    // setPosition(FULLY_EXTENDED);
   }
+
+  public static final MotionMagicVoltage mmClimb = new MotionMagicVoltage(FULLY_CLIMBED);
 
   public void climb() {
-    setPosition(FULLY_CLIMBED);
+    setPosition(mmClimb);
+    // setPosition(FULLY_CLIMBED);
   }
 
+  public static final MotionMagicVoltage mmStow = new MotionMagicVoltage(FULLY_STOWED);
+
   public void stow() {
-    setPosition(FULLY_STOWED);
+    setPosition(mmStow);
+    // setPosition(FULLY_STOWED);
   }
 
   public void stop() {
+    if (isStopped) {
+      return;
+    }
     LEADER.stopMotor();
+    isStopped = true;
   }
 
   public void coast() {
+    if (isCoast) {
+      return;
+    }
     LEADER
         .getConfigurator()
         .apply(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast));
+    isCoast = true;
   }
 
   public void brake() {
+    if (!isCoast) {
+      return;
+    }
     LEADER
         .getConfigurator()
         .apply(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake));
+    isCoast = false;
   }
 
   public boolean isAtTarget() {
@@ -145,24 +171,41 @@ public class Climber {
   }
 
   public void log() {
-    StatusCode leaderStatus = BaseStatusSignal.refreshAll(LEADER_POSITION, LEADER_SUPPLY_CURRENT);
+    StatusCode allStatus =
+        BaseStatusSignal.refreshAll(LEADER_POSITION, LEADER_SUPPLY_CURRENT, ENCODER_POSITION);
+    // StatusCode leaderStatus = BaseStatusSignal.refreshAll(LEADER_POSITION,
+    // LEADER_SUPPLY_CURRENT);
 
-    StatusCode encoderStatus = BaseStatusSignal.refreshAll(ENCODER_POSITION);
+    // StatusCode encoderStatus = BaseStatusSignal.refreshAll(ENCODER_POSITION);
 
-    DogLog.log("Climber/leaderPosition", LEADER_POSITION.getValueAsDouble());
-    DogLog.log("Climber/encoderPosition", ENCODER_POSITION.getValueAsDouble());
-    DogLog.log("Climber/leaderCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
-    if (Abomination.getScoreMode() == ScoreMode.CLIMB) {
-      DogLog.log("Climber/laserLDist", LASER_L_DATA.get().distance_mm);
-      DogLog.log("Climber/laserRDist", LASER_R_DATA.get().distance_mm);
-      DogLog.log("Climber/laserRTrip", LASER_R_DATA.get().distance_mm <= 70);
-      DogLog.log("Climber/laserLTrip", LASER_L_DATA.get().distance_mm <= 70);
+    if (RobotContainer.DEBUG) {
+      DogLog.log("Climber/leaderPosition", LEADER_POSITION.getValueAsDouble());
+      DogLog.log("Climber/encoderPosition", ENCODER_POSITION.getValueAsDouble());
+      DogLog.log("Climber/leaderCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
+      if (Abomination.getScoreMode() == ScoreMode.CLIMB) {
+        DogLog.log("Climber/laserLDist", LASER_L_DATA.get().distance_mm);
+        DogLog.log("Climber/laserRDist", LASER_R_DATA.get().distance_mm);
+        DogLog.log("Climber/laserRTrip", LASER_R_DATA.get().distance_mm <= 70);
+        DogLog.log("Climber/laserLTrip", LASER_L_DATA.get().distance_mm <= 70);
+      }
+      DogLog.log("Climber/isAtTarget", isAtTarget());
+      DogLog.log("Climber/target", target.in(Rotations));
     }
-    DogLog.log("Climber/isAtTarget", isAtTarget());
-    DogLog.log("Climber/target", target.in(Rotations));
+  }
+
+  public void setPosition(MotionMagicVoltage positionControl) {
+    if (isStopped) {
+      isStopped = false;
+    }
+    LEADER.setControl(positionControl);
+    target = positionControl.getPositionMeasure();
   }
 
   public void setPosition(Angle pos) {
+    if (isStopped) {
+      isStopped = false;
+      return;
+    }
     LEADER.setControl(new MotionMagicVoltage(pos));
     target = pos;
   }
