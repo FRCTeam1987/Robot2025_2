@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.397853053435115,
-        "y": 2.9364980916030534
+        "x": 5.369942748091603,
+        "y": 2.9253339694656484
       },
       "prevControl": {
-        "x": 6.025299657534247,
-        "y": 2.9130993150684934
+        "x": 5.997389352190735,
+        "y": 2.9019351929310884
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,7 +32,7 @@
   "constraintZones": [
     {
       "name": "Slow Approach",
-      "minWaypointRelativePos": 0.9105960264900663,
+      "minWaypointRelativePos": 0.9004524886877829,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 1.0,
@@ -59,7 +59,7 @@
     },
     {
       "name": "PreElevate",
-      "waypointRelativePos": 0.28235294117647025,
+      "waypointRelativePos": 0.6524886877828058,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -71,7 +71,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.5,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -87,5 +87,5 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

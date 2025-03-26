@@ -45,6 +45,40 @@ public class StateConstants {
           PositionConstant.SIDE_5_I.getRedPose(),
           PositionConstant.SIDE_6_K.getRedPose());
 
+  public static final List<Pose2d> BLUE_CORAL_RIGHT_L1 =
+      List.of(
+          PositionConstant.SIDE_1_B1.getBluePose(),
+          PositionConstant.SIDE_2_D1.getBluePose(),
+          PositionConstant.SIDE_3_F1.getBluePose(),
+          PositionConstant.SIDE_4_H1.getBluePose(),
+          PositionConstant.SIDE_5_J1.getBluePose(),
+          PositionConstant.SIDE_6_L1.getBluePose());
+  public static final List<Pose2d> RED_CORAL_RIGHT_L1 =
+      List.of(
+          PositionConstant.SIDE_1_B1.getRedPose(),
+          PositionConstant.SIDE_2_D1.getRedPose(),
+          PositionConstant.SIDE_3_F1.getRedPose(),
+          PositionConstant.SIDE_4_H1.getRedPose(),
+          PositionConstant.SIDE_5_J1.getRedPose(),
+          PositionConstant.SIDE_6_L1.getRedPose());
+
+  public static final List<Pose2d> BLUE_CORAL_LEFT_L1 =
+      List.of(
+          PositionConstant.SIDE_1_A1.getBluePose(),
+          PositionConstant.SIDE_2_C1.getBluePose(),
+          PositionConstant.SIDE_3_E1.getBluePose(),
+          PositionConstant.SIDE_4_G1.getBluePose(),
+          PositionConstant.SIDE_5_I1.getBluePose(),
+          PositionConstant.SIDE_6_K1.getBluePose());
+  public static final List<Pose2d> RED_CORAL_LEFT_L1 =
+      List.of(
+          PositionConstant.SIDE_1_A1.getRedPose(),
+          PositionConstant.SIDE_2_C1.getRedPose(),
+          PositionConstant.SIDE_3_E1.getRedPose(),
+          PositionConstant.SIDE_4_G1.getRedPose(),
+          PositionConstant.SIDE_5_I1.getRedPose(),
+          PositionConstant.SIDE_6_K1.getRedPose());
+
   public static final List<Pose2d> BLUE_TARGET_POSES_CORAL =
       List.of(
           PositionConstant.SIDE_1_A.getBluePose(),

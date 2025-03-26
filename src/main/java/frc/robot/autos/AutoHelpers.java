@@ -130,7 +130,7 @@ public class AutoHelpers {
                           Abomination.setScoreMode(ScoreMode.L2, false);
                           Abomination.setAction(DesiredAction.INIT);
                         }))
-                .withTimeout(2.5),
+                .withTimeout(1),
             new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE))));
     NamedCommands.registerCommand(
         "AutoScore",
@@ -143,7 +143,7 @@ public class AutoHelpers {
                               Abomination.setScoreMode(ScoreMode.L4, false);
                               Abomination.setAction(DesiredAction.INIT);
                             }))
-                    .withTimeout(2.5),
+                    .withTimeout(2.0),
                 new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget).withTimeout(1.0),
                 new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
                 new WaitUntilCommand(AutoHelpers::hasScoredCoral)

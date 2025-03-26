@@ -132,7 +132,6 @@ public class Elevator {
       LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 235, 340, 0));
     } else {
       LEADER.setControl(new DynamicMotionMagicVoltage(distanceAngle.in(Rotations), 200, 45, 0));
-
     }
     target = distance;
   }

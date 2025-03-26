@@ -22,31 +22,43 @@ public enum PositionConstant {
   SIDE_1_A(new Translation2d(3.120 - 0.00, 4.192 + 0.005), SIDE_1_ENTRY.getAngle()),
   SIDE_1_ALGAE(new Translation2d(3.180 + 0.06, 4.023), SIDE_1_ENTRY.getAngle()),
   SIDE_1_B(new Translation2d(3.120 - 0.00, 3.862 + 0.005), SIDE_1_ENTRY.getAngle()),
+  SIDE_1_A1(new Translation2d(3.2 - 0.00, 4.5), flip(SIDE_1_ENTRY.getAngle())),
+  SIDE_1_B1(new Translation2d(3.2 - 0.00, 3.5), flip(SIDE_1_ENTRY.getAngle())),
 
   SIDE_2_ENTRY(rotateAroundBlueReef(SIDE_1_ENTRY, Degrees.of(60.0)), Degrees.of(60.0)),
   SIDE_2_C(rotateAroundBlueReef(SIDE_1_A, Degrees.of(60.0)), SIDE_2_ENTRY.getAngle()),
   SIDE_2_ALGAE(rotateAroundBlueReef(SIDE_1_ALGAE, Degrees.of(60.0)), SIDE_2_ENTRY.getAngle()),
   SIDE_2_D(rotateAroundBlueReef(SIDE_1_B, Degrees.of(60.0)), SIDE_2_ENTRY.getAngle()),
+  SIDE_2_C1(rotateAroundBlueReef(SIDE_1_A1, Degrees.of(60.0)), flip(SIDE_2_ENTRY.getAngle())),
+  SIDE_2_D1(rotateAroundBlueReef(SIDE_1_B1, Degrees.of(60.0)), flip(SIDE_2_ENTRY.getAngle())),
 
   SIDE_3_ENTRY(rotateAroundBlueReef(SIDE_2_ENTRY, Degrees.of(60.0)), Degrees.of(120.0)),
   SIDE_3_E(rotateAroundBlueReef(SIDE_2_C, Degrees.of(60.0)), SIDE_3_ENTRY.getAngle()),
   SIDE_3_ALGAE(rotateAroundBlueReef(SIDE_2_ALGAE, Degrees.of(60.0)), SIDE_3_ENTRY.getAngle()),
   SIDE_3_F(rotateAroundBlueReef(SIDE_2_D, Degrees.of(60.0)), SIDE_3_ENTRY.getAngle()),
+  SIDE_3_E1(rotateAroundBlueReef(SIDE_2_C1, Degrees.of(60.0)), flip(SIDE_3_ENTRY.getAngle())),
+  SIDE_3_F1(rotateAroundBlueReef(SIDE_2_D1, Degrees.of(60.0)), flip(SIDE_3_ENTRY.getAngle())),
 
   SIDE_4_ENTRY(rotateAroundBlueReef(SIDE_3_ENTRY, Degrees.of(60.0)), Degrees.of(180)),
   SIDE_4_G(rotateAroundBlueReef(SIDE_3_E, Degrees.of(60.0)), SIDE_4_ENTRY.getAngle()),
   SIDE_4_ALGAE(rotateAroundBlueReef(SIDE_3_ALGAE, Degrees.of(60.0)), SIDE_4_ENTRY.getAngle()),
   SIDE_4_H(rotateAroundBlueReef(SIDE_3_F, Degrees.of(60.0)), SIDE_4_ENTRY.getAngle()),
+  SIDE_4_G1(rotateAroundBlueReef(SIDE_3_E1, Degrees.of(60.0)), flip(SIDE_4_ENTRY.getAngle())),
+  SIDE_4_H1(rotateAroundBlueReef(SIDE_3_F1, Degrees.of(60.0)), flip(SIDE_4_ENTRY.getAngle())),
 
   SIDE_5_ENTRY(rotateAroundBlueReef(SIDE_4_ENTRY, Degrees.of(60.0)), Degrees.of(-120)),
   SIDE_5_I(rotateAroundBlueReef(SIDE_4_G, Degrees.of(60.0)), SIDE_5_ENTRY.getAngle()),
   SIDE_5_ALGAE(rotateAroundBlueReef(SIDE_4_ALGAE, Degrees.of(60.0)), SIDE_5_ENTRY.getAngle()),
   SIDE_5_J(rotateAroundBlueReef(SIDE_4_H, Degrees.of(60.0)), SIDE_5_ENTRY.getAngle()),
+  SIDE_5_I1(rotateAroundBlueReef(SIDE_4_G1, Degrees.of(60.0)), flip(SIDE_5_ENTRY.getAngle())),
+  SIDE_5_J1(rotateAroundBlueReef(SIDE_4_H1, Degrees.of(60.0)), flip(SIDE_5_ENTRY.getAngle())),
 
   SIDE_6_ENTRY(rotateAroundBlueReef(SIDE_5_ENTRY, Degrees.of(60.0)), Degrees.of(-60)),
   SIDE_6_K(rotateAroundBlueReef(SIDE_5_I, Degrees.of(60.0)), SIDE_6_ENTRY.getAngle()),
   SIDE_6_ALGAE(rotateAroundBlueReef(SIDE_5_ALGAE, Degrees.of(60.0)), SIDE_6_ENTRY.getAngle()),
   SIDE_6_L(rotateAroundBlueReef(SIDE_5_J, Degrees.of(60.0)), SIDE_6_ENTRY.getAngle()),
+  SIDE_6_K1(rotateAroundBlueReef(SIDE_5_I1, Degrees.of(60.0)), flip(SIDE_6_ENTRY.getAngle())),
+  SIDE_6_L1(rotateAroundBlueReef(SIDE_5_J1, Degrees.of(60.0)), flip(SIDE_6_ENTRY.getAngle())),
 
   LC1(new Translation2d(0.661, 6.66), Degrees.of(-55)),
   LC2(new Translation2d(1.277, 6.955), Degrees.of(-55)),
@@ -151,5 +163,9 @@ public enum PositionConstant {
 
   private static Translation2d rotateAroundBlueReef(PositionConstant POS, Angle ROTATION) {
     return POS.getTranslation().rotateAround(BLUE_REEF.BLUE_TRANSLATION, new Rotation2d(ROTATION));
+  }
+
+  private static Angle flip(Angle angle) {
+    return angle.minus(Degrees.of(180.0));
   }
 }

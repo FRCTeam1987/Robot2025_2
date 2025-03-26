@@ -43,7 +43,7 @@ public enum FunctionalState {
             ELEVATOR.setDistance(MechanismConstant.IDLE_CORAL.getElevatorDistance());
           },
           () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
-          () -> ARM.setClawVoltage(Volts.of(0.7)),
+          () -> ARM.setClawVoltage(Volts.of(0.9)),
           INTAKE::stop)),
   COLLECTED_ALGAE(
       new FunctionalAction(

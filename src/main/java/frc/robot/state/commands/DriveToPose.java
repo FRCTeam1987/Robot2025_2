@@ -143,7 +143,7 @@ public class DriveToPose extends Command {
     final Pose2d pose = DRIVE.getPose();
     return hasTargetDebounce.calculate(
         running
-            && pose.getTranslation().getDistance(TARGET.get().getTranslation()) < 0.03
+            && pose.getTranslation().getDistance(TARGET.get().getTranslation()) < 0.04
             && pose.getRotation()
                 .getMeasure()
                 .isNear(TARGET.get().getRotation().getMeasure(), Degrees.of(1.5))
