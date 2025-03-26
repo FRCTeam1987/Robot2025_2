@@ -8,7 +8,7 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
@@ -16,12 +16,12 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.autos.AutoHelpers;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.constants.TunerConstants;
 import frc.robot.util.Tracker;
+import frc.robot.utils.Utils;
 import frc.robot.utils.localization.FieldZones;
 import frc.robot.utils.localization.LocalizationState;
 
@@ -31,7 +31,7 @@ public class RobotContainer {
   public static final boolean TEST_MODE = true;
   public static final LinearVelocity MAX_SPEED = TunerConstants.kSpeedAt12Volts;
   public static final AngularVelocity MAX_ANGULAR_RATE = RotationsPerSecond.of(1.15);
-  private static SendableChooser<Command> autoChooser;
+  private static SendableChooser<PathPlannerAuto> autoChooser;
   public static final SwerveRequest.FieldCentric DRIVE =
       new SwerveRequest.FieldCentric()
           .withDeadband(MAX_SPEED.in(MetersPerSecond) * 0.1)
@@ -70,7 +70,7 @@ public class RobotContainer {
   public void configureAutos() {
     AutoHelpers.registerNamedCommands();
     // Set up auto routines
-    autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = Utils.buildAutoChooser("None");
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
@@ -94,7 +94,7 @@ public class RobotContainer {
     //                Meters));
   }
 
-  public Command getAutonomousCommand() {
+  public static PathPlannerAuto getAutonomousCommand() {
     return autoChooser.getSelected();
   }
 }

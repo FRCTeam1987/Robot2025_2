@@ -60,6 +60,26 @@ public class AutoHelpers {
   }
 
   public static void registerNamedCommands() {
+    //    NamedCommands.registerCommand(
+    //        "PoseInit",
+    //        new InstCmd(
+    //            () -> {
+    //              Pose2d pose1 =
+    //                  LimelightHelpers.getBotPoseEstimate_wpiBlue(
+    //                          SubsystemConstants.VisionConstants.LIMELIGHT_SCORING_NAME)
+    //                      .pose;
+    //              Pose2d pose2 =
+    //                  LocalizationUtil.blueFlipToRed(
+    //                      RobotContainer.getAutonomousCommand().getStartingPose());
+    //              if (DRIVETRAIN.getAlliance().equals(DriverStation.Alliance.Blue)) {
+    //
+    //                Pose2d newPose = new Pose2d(pose1.getX(), pose1.getY(), pose2.getRotation());
+    //                DRIVETRAIN.resetPose(newPose);
+    //              } else {
+    //                Pose2d newPose = new Pose2d(pose1.getX(), pose1.getY(), pose2.getRotation());
+    //                DRIVETRAIN.resetPose(newPose);
+    //              }
+    //            }));
     NamedCommands.registerCommand(
         "WaitUntilScoredCoral", new WaitUntilCommand(AutoHelpers::hasScoredCoral));
     NamedCommands.registerCommand("WaitUntilAlgae", new WaitUntilCommand(AutoHelpers::hasAlgae));

@@ -4,21 +4,22 @@
 
 package frc.robot;
 
+import static frc.robot.RobotContainer.DRIVETRAIN;
 import static frc.robot.RobotContainer.TEST_MODE;
 
 import au.grapplerobotics.CanBridge;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.commands.PathfindingCommand;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autos.AutoHelpers;
 import frc.robot.utils.LimelightHelpers;
 
 public class Robot extends TimedRobot {
-  private Command AUTONOMOUS_COMMAND;
+  private PathPlannerAuto AUTONOMOUS_COMMAND;
 
   private final RobotContainer ROBOT_CONTAINER;
 
@@ -49,26 +50,42 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    //    AUTONOMOUS_COMMAND = ROBOT_CONTAINER.getAutonomousCommand();
+    //    if (AUTONOMOUS_COMMAND != null) {
+    //      if (DRIVETRAIN.getAlliance().equals(DriverStation.Alliance.Blue)) {
+    //        DRIVETRAIN.resetPose(AUTONOMOUS_COMMAND.getStartingPose());
+    //      } else {
+    //
+    // DRIVETRAIN.resetPose(LocalizationUtil.blueFlipToRed(AUTONOMOUS_COMMAND.getStartingPose()));
+    //      }
+    //    }
     if (timeToCoast + 15 < Timer.getFPGATimestamp()) {
       RobotContainer.CLIMBER.coast();
     }
   }
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+    if (TEST_MODE) {
+      LimelightHelpers.SetThrottle("limelight-scoring", 0);
+    }
+  }
 
   @Override
   public void autonomousInit() {
     if (TEST_MODE) {
       LimelightHelpers.SetThrottle("limelight-scoring", 0);
     }
-    RobotContainer.ELEVATOR.setConfigAuto();
-    AUTONOMOUS_COMMAND = ROBOT_CONTAINER.getAutonomousCommand();
+
+    AUTONOMOUS_COMMAND = RobotContainer.getAutonomousCommand();
+
     AutoHelpers.matchTimeIncrement = Timer.getFPGATimestamp();
 
+    DRIVETRAIN.tareEverything();
     if (AUTONOMOUS_COMMAND != null) {
       AUTONOMOUS_COMMAND.schedule();
     }
+    RobotContainer.ELEVATOR.setConfigAuto();
   }
 
   @Override

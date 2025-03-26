@@ -122,18 +122,6 @@ public class Arm {
 
   public void log() {
     // Update and log inputs from hardware
-    StatusCode leaderStatus =
-        BaseStatusSignal.refreshAll(ARM_POSITION, ARM_VELOCITY, ARM_SUPPLY_CURRENT);
-
-    StatusCode followerStatus =
-        BaseStatusSignal.refreshAll(EFFECTOR_POSITION, EFFECTOR_SUPPLY_CURRENT);
-
-    StatusCode encoderStatus = BaseStatusSignal.refreshAll(ENCODER_POSITION);
-
-    StatusCode coralStatus = BaseStatusSignal.refreshAll(CORAL_S1_SIGNAL, CORAL_S2_SIGNAL);
-
-    StatusCode algaeStatus = BaseStatusSignal.refreshAll(ALGAE_S1_SIGNAL, ALGAE_S2_SIGNAL);
-
     DogLog.log("Arm/armSupplyCurrent", ARM_SUPPLY_CURRENT.getValueAsDouble());
     DogLog.log("Arm/armPosition", ARM_POSITION.getValueAsDouble());
     DogLog.log("Arm/armVelocity", ARM_VELOCITY.getValueAsDouble());
@@ -152,11 +140,29 @@ public class Arm {
   }
 
   public void cycle() {
-    isAtTarget = isAtTargetDebouncer.calculate(getArmPosition().isNear(target, AT_TARGET_TOLERANCE));
+    StatusCode leaderStatus =
+        BaseStatusSignal.refreshAll(ARM_POSITION, ARM_VELOCITY, ARM_SUPPLY_CURRENT);
+
+    StatusCode followerStatus =
+        BaseStatusSignal.refreshAll(EFFECTOR_POSITION, EFFECTOR_SUPPLY_CURRENT);
+
+    StatusCode encoderStatus = BaseStatusSignal.refreshAll(ENCODER_POSITION);
+
+    StatusCode coralStatus = BaseStatusSignal.refreshAll(CORAL_S1_SIGNAL, CORAL_S2_SIGNAL);
+
+    StatusCode algaeStatus = BaseStatusSignal.refreshAll(ALGAE_S1_SIGNAL, ALGAE_S2_SIGNAL);
+
+    isAtTarget =
+        isAtTargetDebouncer.calculate(getArmPosition().isNear(target, AT_TARGET_TOLERANCE));
     isNearTarget =
         isNearTargetDebouncer.calculate(getArmPosition().isNear(target, NEAR_TARGET_TOLERANCE));
-    // if (isFollowing) setEffectorPosition(getArmPosition());
-    NetworkTableTimer.wrap("Arm.cycle.log", () -> {if (RobotContainer.DEBUG) log();}).run();
+
+    NetworkTableTimer.wrap(
+            "Arm.cycle.log",
+            () -> {
+              if (RobotContainer.DEBUG) log();
+            })
+        .run();
   }
 
   public void setClawVoltage(Voltage voltage) {

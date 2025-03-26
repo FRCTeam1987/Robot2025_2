@@ -23,7 +23,7 @@ public enum FunctionalState {
                           : Volts.of(14.0)
                       : Volts.of(0.0)),
           () -> {
-            if (CODRIVER_JOYSTICK.leftTrigger().getAsBoolean()) {
+            if (JOYSTICK.back().getAsBoolean()) {
               INTAKE.reverse();
             } else {
               INTAKE.start();

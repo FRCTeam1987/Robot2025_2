@@ -55,7 +55,6 @@ public class Bindings extends RobotContainer {
             new InstCmd(
                 () -> {
                   Abomination.setAction(DesiredAction.RECOVERY);
-                  Abomination.setScoreMode(ScoreMode.L4);
                   Abomination.setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
                 }));
 
