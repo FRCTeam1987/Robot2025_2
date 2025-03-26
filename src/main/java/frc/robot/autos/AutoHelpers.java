@@ -29,7 +29,7 @@ public class AutoHelpers {
   private static boolean WANTS_CORAL = true;
 
   public static void setScoreMode(ScoreMode mode) {
-    Abomination.setScoreMode(ScoreMode.L4);
+    Abomination.setScoreMode(ScoreMode.L4, false);
   }
 
   public static double matchTimeIncrement = 0.0;
@@ -90,7 +90,7 @@ public class AutoHelpers {
         new ConditionalCommand(
             new InstCmd(
                 () -> {
-                  Abomination.setScoreMode(ScoreMode.L4);
+                  Abomination.setScoreMode(ScoreMode.L4, false);
                   Abomination.setAction(DesiredAction.INIT);
                 }),
             new InstCmd(),
@@ -99,7 +99,7 @@ public class AutoHelpers {
         "InitL2",
         new InstCmd(
             () -> {
-              Abomination.setScoreMode(ScoreMode.L2);
+              Abomination.setScoreMode(ScoreMode.L2, false);
               Abomination.setAction(DesiredAction.INIT);
             }));
     //        new ConditionalCommand(
@@ -115,7 +115,7 @@ public class AutoHelpers {
         new ConditionalCommand(
             new InstCmd(
                 () -> {
-                  Abomination.setScoreMode(ScoreMode.L4);
+                  Abomination.setScoreMode(ScoreMode.L4, false);
                   Abomination.setAction(DesiredAction.INIT);
                 }),
             new InstCmd(),
@@ -127,7 +127,7 @@ public class AutoHelpers {
                     new AutoAlignCoral(),
                     new InstCmd(
                         () -> {
-                          Abomination.setScoreMode(ScoreMode.L2);
+                          Abomination.setScoreMode(ScoreMode.L2, false);
                           Abomination.setAction(DesiredAction.INIT);
                         }))
                 .withTimeout(2.5),
@@ -140,7 +140,7 @@ public class AutoHelpers {
                         new AutoAlignCoral(),
                         new InstCmd(
                             () -> {
-                              Abomination.setScoreMode(ScoreMode.L4);
+                              Abomination.setScoreMode(ScoreMode.L4, false);
                               Abomination.setAction(DesiredAction.INIT);
                             }))
                     .withTimeout(2.5),

@@ -38,7 +38,7 @@ public class Abomination {
                   && SCORE_MODE != ScoreMode.L2
                   && SCORE_MODE != ScoreMode.L3
                   && SCORE_MODE != ScoreMode.L4) {
-                setScoreMode(ScoreMode.L4);
+                setScoreMode(ScoreMode.L4, true);
                 setAction(DesiredAction.IDLE_CORAL);
               }
               return COLLECTED_CORAL;
@@ -48,7 +48,7 @@ public class Abomination {
           case ALGAE_2, ALGAE_3 -> {
             if (ARM.hasAlgae()) {
               if (SCORE_MODE != ScoreMode.NET && SCORE_MODE != ScoreMode.PROCESSOR) {
-                setScoreMode(ScoreMode.PROCESSOR);
+                setScoreMode(ScoreMode.PROCESSOR, true);
                 setAction(DesiredAction.IDLE_ALGAE);
               }
               return COLLECTED_ALGAE;
@@ -196,7 +196,33 @@ public class Abomination {
     return COLLECT;
   }
 
-  public static void setScoreMode(ScoreMode MODE) {
+  public static void setScoreMode(ScoreMode MODE, boolean force) {
+    if (force) {
+      SCORE_MODE = MODE;
+      return;
+    }
+    switch (MODE) {
+      case L1, L2, L3, L4 -> {
+        if (stateContains(
+            NET_ELEVATE,
+            NET_ROTATE,
+            NET_SCORE,
+            PROCESSOR_ELEVATE,
+            PROCESSOR_ROTATE,
+            PROCESSOR_SCORE,
+            COLLECTED_ALGAE)) {
+          return;
+        }
+      }
+      case PROCESSOR, NET -> {
+        if (stateContains(LEVEL_X_ELEVATE, LEVEL_X_ROTATE, LEVEL_X_SCORE, COLLECTED_CORAL)) {
+          return;
+        }
+      }
+      case CLIMB -> {
+        if (!(stateContains(COLLECT, COLLECTED_ALGAE, COLLECTED_CORAL))) return;
+      }
+    }
     SCORE_MODE = MODE;
   }
 
@@ -224,9 +250,16 @@ public class Abomination {
     return DESIRED_ACTION == DesiredAction.SCORE;
   }
 
+  public static boolean stateContains(FunctionalState... ACTION) {
+    for (FunctionalState functionalState : ACTION) {
+      if (PREVIOUS_STATE == functionalState) return true;
+    }
+    return false;
+  }
+
   public static boolean isDesired(DesiredAction... ACTION) {
     for (DesiredAction desiredAction : ACTION) {
-      return DESIRED_ACTION == desiredAction;
+      if (DESIRED_ACTION == desiredAction) return true;
     }
     return false;
   }
