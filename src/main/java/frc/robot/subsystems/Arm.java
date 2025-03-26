@@ -34,6 +34,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import frc.robot.RobotContainer;
+import frc.robot.util.NetworkTableTimer;
 
 public class Arm {
 
@@ -66,6 +67,9 @@ public class Arm {
       new Debouncer(CORAL_PIECE_DEBOUNCE_SECONDS, CORAL_DEBOUNCE_TYPE);
   public final Debouncer ALGAE_DEBOUNCE =
       new Debouncer(ALGAE_PIECE_DEBOUNCE_SECONDS, ALGAE_DEBOUNCE_TYPE);
+
+  private final Angle AT_TARGET_TOLERANCE = Degrees.of(1);
+  private final Angle NEAR_TARGET_TOLERANCE = Degrees.of(8.0);
 
   public Angle target = Degrees.of(0.0);
   private boolean isFollowing = true;
@@ -148,11 +152,11 @@ public class Arm {
   }
 
   public void cycle() {
-    isAtTarget = isAtTargetDebouncer.calculate(getArmPosition().isNear(getTarget(), Degrees.of(1)));
+    isAtTarget = isAtTargetDebouncer.calculate(getArmPosition().isNear(target, AT_TARGET_TOLERANCE));
     isNearTarget =
-        isNearTargetDebouncer.calculate(getArmPosition().isNear(getTarget(), Degrees.of(8.0)));
+        isNearTargetDebouncer.calculate(getArmPosition().isNear(target, NEAR_TARGET_TOLERANCE));
     // if (isFollowing) setEffectorPosition(getArmPosition());
-    if (RobotContainer.DEBUG) log();
+    NetworkTableTimer.wrap("Arm.cycle.log", () -> {if (RobotContainer.DEBUG) log();});
   }
 
   public void setClawVoltage(Voltage voltage) {
