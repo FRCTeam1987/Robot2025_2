@@ -16,6 +16,7 @@ import frc.robot.state.Abomination;
 import frc.robot.state.logic.actions.DesiredAction;
 import frc.robot.state.logic.constants.FieldPosition;
 import frc.robot.state.logic.constants.MechanismConstant;
+import frc.robot.state.logic.functional.FunctionalState;
 import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.utils.InstCmd;
 import java.util.List;
@@ -45,7 +46,8 @@ public class AutoHelpers {
       MechanismConstant.L4.getArmAngle().minus(Degrees.of(2.5));
 
   public static boolean hasScoredCoral() {
-    return RobotContainer.ARM.getArmPosition().lte(ARM_UNROTATE_ANGLE);
+    return Abomination.getPreviousState().equals(FunctionalState.LEVEL_X_UNROTATE);
+    // return RobotContainer.ARM.getArmPosition().lte(ARM_UNROTATE_ANGLE);
     // return RobotContainer.ELEVATOR.getPosition().lte(DRIVING_MAX_HEIGHT);
   }
 
