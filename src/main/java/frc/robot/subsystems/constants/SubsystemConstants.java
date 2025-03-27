@@ -208,8 +208,8 @@ public class SubsystemConstants {
     public static final Angle FULLY_EXTENDED = Degrees.of(180.0);
     public static final Angle FULLY_CLIMBED = Degrees.of(93.0);
 
-    // public static final double CLIMBER_REDUCTION = (54.0 / 8.0);
-
+    public static final double CLIMBER_REDUCTION = (144);
+    //
     public static CANcoderConfiguration encoderConfig() {
       final CANcoderConfiguration CFG = new CANcoderConfiguration();
       // MagnetSensor
@@ -227,7 +227,7 @@ public class SubsystemConstants {
       //      CFG.MotorOutput.ControlTimesyncFreqHz = 100.0;
 
       // Slot0
-      CFG.Slot0.withKP(100);
+      CFG.Slot0.withKP(400);
       CFG.Slot0.withKI(0.0);
       CFG.Slot0.withKD(0.01);
 
@@ -237,7 +237,8 @@ public class SubsystemConstants {
       // Feedback
       CFG.Feedback.withFeedbackRemoteSensorID(ENCODER_ID);
       CFG.Feedback.withFeedbackSensorSource(FeedbackSensorSourceValue.FusedCANcoder);
-      // CFG.Feedback.withSensorToMechanismRatio(CLIMBER_REDUCTION);
+      CFG.Feedback.withSensorToMechanismRatio(1.0);
+      CFG.Feedback.withRotorToSensorRatio(CLIMBER_REDUCTION);
 
       // CurrentLimits
       CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(30.0));
