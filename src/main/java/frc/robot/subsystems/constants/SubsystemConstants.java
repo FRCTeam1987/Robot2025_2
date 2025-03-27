@@ -216,7 +216,6 @@ public class SubsystemConstants {
       CFG.MagnetSensor.withSensorDirection(SensorDirectionValue.CounterClockwise_Positive);
       CFG.MagnetSensor.withMagnetOffset(Rotations.of(-0.347168).plus(Degrees.of(90.0)));
       CFG.MagnetSensor.withAbsoluteSensorDiscontinuityPoint(Rotations.of(1.0));
-
       return CFG;
     }
 
@@ -225,14 +224,15 @@ public class SubsystemConstants {
 
       // MotorOutput
       CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
+      //      CFG.MotorOutput.ControlTimesyncFreqHz = 100.0;
 
       // Slot0
-      CFG.Slot0.withKP(400);
+      CFG.Slot0.withKP(100);
       CFG.Slot0.withKI(0.0);
-      CFG.Slot0.withKD(0.1);
+      CFG.Slot0.withKD(0.01);
 
-      CFG.MotionMagic.withMotionMagicAcceleration(300);
-      CFG.MotionMagic.withMotionMagicCruiseVelocity(60);
+      CFG.MotionMagic.withMotionMagicAcceleration(600);
+      CFG.MotionMagic.withMotionMagicCruiseVelocity(100);
 
       // Feedback
       CFG.Feedback.withFeedbackRemoteSensorID(ENCODER_ID);
@@ -240,7 +240,7 @@ public class SubsystemConstants {
       // CFG.Feedback.withSensorToMechanismRatio(CLIMBER_REDUCTION);
 
       // CurrentLimits
-      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(15.0));
+      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(30.0));
       CFG.CurrentLimits.withSupplyCurrentLimitEnable(true);
 
       CFG.HardwareLimitSwitch.ReverseLimitSource = ReverseLimitSourceValue.LimitSwitchPin;
@@ -253,8 +253,9 @@ public class SubsystemConstants {
 
   public static class VisionConstants {
     public static final String LIMELIGHT_SCORING_NAME = "limelight-scoring";
-    // public static final String LIMELIGHT_INTAKE_NAME = "limelight-fr";
+    public static final String LIMELIGHT_INTAKE_NAME = "limelight-intake";
 
-    public static final List<String> LIMELIGHTS = List.of(LIMELIGHT_SCORING_NAME);
+    public static final List<String> LIMELIGHTS =
+        List.of(LIMELIGHT_SCORING_NAME, LIMELIGHT_INTAKE_NAME);
   }
 }

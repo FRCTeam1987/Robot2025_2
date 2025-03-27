@@ -1,0 +1,101 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.9744274809160305,
+        "y": 5.294
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.155665245583606,
+        "y": 6.1341895126623225
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.8420801526717556,
+        "y": 7.178864503816794
+      },
+      "prevControl": {
+        "x": 2.1000268520824834,
+        "y": 7.5963528030940575
+      },
+      "nextControl": {
+        "x": 1.6144104700692767,
+        "y": 6.810379740089091
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.1203721374045803,
+        "y": 4.211
+      },
+      "prevControl": {
+        "x": 2.5256170192255083,
+        "y": 4.697368214161884
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 130.0
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Slow Coral Station",
+      "minWaypointRelativePos": 0.9,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.25,
+        "maxAcceleration": 2.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "InitL2",
+      "waypointRelativePos": 1.75,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "InitL2"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0.5,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "climb_side_4piece",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 119.99999999999999
+  },
+  "useDefaultConstraints": false
+}

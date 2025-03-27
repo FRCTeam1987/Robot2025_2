@@ -23,6 +23,7 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -64,10 +65,10 @@ public class Climber {
 
   public Climber() {
     TalonFXConfiguration config = climberConfig();
-    LEADER.getConfigurator().apply(config);
     ENCODER.getConfigurator().apply(encoderConfig());
+    LEADER.getConfigurator().apply(config);
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50.0, ENCODER_POSITION, LEADER_POSITION, LEADER_SUPPLY_CURRENT);
+        50.0, LEADER_POSITION, LEADER_SUPPLY_CURRENT, ENCODER_POSITION);
     // LEADER.optimizeBusUtilization();
     LEADER.setPosition(0.0);
     isCoast = config.MotorOutput.NeutralMode.equals(NeutralModeValue.Coast);
@@ -117,21 +118,21 @@ public class Climber {
     //        }
   }
 
-  public static final MotionMagicVoltage mmDeploy = new MotionMagicVoltage(FULLY_EXTENDED);
+  public static final PositionVoltage mmDeploy = new PositionVoltage(FULLY_EXTENDED);
 
   public void deploy() {
     setPosition(mmDeploy);
     // setPosition(FULLY_EXTENDED);
   }
 
-  public static final MotionMagicVoltage mmClimb = new MotionMagicVoltage(FULLY_CLIMBED);
+  public static final PositionVoltage mmClimb = new PositionVoltage(FULLY_CLIMBED);
 
   public void climb() {
     setPosition(mmClimb);
     // setPosition(FULLY_CLIMBED);
   }
 
-  public static final MotionMagicVoltage mmStow = new MotionMagicVoltage(FULLY_STOWED);
+  public static final PositionVoltage mmStow = new PositionVoltage(FULLY_STOWED);
 
   public void stow() {
     setPosition(mmStow);
@@ -193,7 +194,7 @@ public class Climber {
     }
   }
 
-  public void setPosition(MotionMagicVoltage positionControl) {
+  public void setPosition(PositionVoltage positionControl) {
     if (isStopped) {
       isStopped = false;
     }

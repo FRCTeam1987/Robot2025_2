@@ -57,6 +57,7 @@ public class Vision extends SubsystemBase {
           DogLog.log("Vision/" + limelight + "Pose", estimate.pose);
           DogLog.log("Vision/" + limelight + "Confidence", confidence);
         }
+        return;
       }
     }
   }
