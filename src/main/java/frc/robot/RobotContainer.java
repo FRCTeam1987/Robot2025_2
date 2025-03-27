@@ -70,6 +70,17 @@ public class RobotContainer {
                         new Pose2d(new Translation2d(7.14, 3.0), Rotation2d.fromDegrees(0))))
             .ignoringDisable(true));
     SmartDashboard.putData("Home Elevator", new ElevatorRezero());
+
+    //    ArrayList<Pose2d> posesRed = new ArrayList<Pose2d>();
+    //    ArrayList<Pose2d> posesBlu = new ArrayList<Pose2d>();
+    //    for (PositionConstant value : PositionConstant.values()) {
+    //      posesRed.add(value.getRedPose());
+    //      posesBlu.add(value.getBluePose());
+    //    }
+    //    Pose2d[] listRed = posesRed.toArray(new Pose2d[0]);
+    //    Pose2d[] listBlu = posesBlu.toArray(new Pose2d[0]);
+    //    DogLog.log("Poses/Red", listRed);
+    //    DogLog.log("Poses/Blue", listBlu);
   }
 
   private static LocalizationState localizationState =

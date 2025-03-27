@@ -54,20 +54,20 @@ public enum FieldPosition {
   L3(PositionConstant.SIDE_6_L, ScoreMode.L3, PositionConstant.SIDE_6_ENTRY),
   L4(PositionConstant.SIDE_6_L, ScoreMode.L4, PositionConstant.SIDE_6_ENTRY),
 
-  N1(PositionConstant.N1, ScoreMode.NET, PositionConstant.N1),
+  //  N1(PositionConstant.N1, ScoreMode.NET, PositionConstant.N1),
   N2(PositionConstant.N2, ScoreMode.NET, PositionConstant.N2),
-  N3(PositionConstant.N3, ScoreMode.NET, PositionConstant.N3),
+  //  N3(PositionConstant.N3, ScoreMode.NET, PositionConstant.N3),
 
   P1(PositionConstant.P1, ScoreMode.PROCESSOR, PositionConstant.P1),
 
-  LC1(PositionConstant.LC1, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.LC1),
+  //  LC1(PositionConstant.LC1, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.LC1),
   LC2(PositionConstant.LC2, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.LC2),
-  LC3(PositionConstant.LC3, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.LC3),
+  //  LC3(PositionConstant.LC3, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.LC3),
 
-  RC1(PositionConstant.RC1, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.RC1),
+  //  RC1(PositionConstant.RC1, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.RC1),
   RC2(PositionConstant.RC2, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.RC2),
-  RC3(PositionConstant.RC3, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.RC3),
-  ;
+//  RC3(PositionConstant.RC3, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.RC3),
+;
 
   public PositionConstant getLocation() {
     return LOCATION;

@@ -60,17 +60,18 @@ public enum PositionConstant {
   SIDE_6_K1(rotateAroundBlueReef(SIDE_5_I1, Degrees.of(60.0)), flip(SIDE_6_ENTRY.getAngle())),
   SIDE_6_L1(rotateAroundBlueReef(SIDE_5_J1, Degrees.of(60.0)), flip(SIDE_6_ENTRY.getAngle())),
 
-  LC1(new Translation2d(0.661, 6.66), Degrees.of(-55)),
-  LC2(new Translation2d(1.277, 6.955), Degrees.of(-55)),
-  LC3(new Translation2d(1.672, 6.398), Degrees.of(-55)),
   // RIGHT STATION
-  RC1(new Translation2d(0.661, 1.367), Degrees.of(55)),
-  RC2(new Translation2d(1.262, 1.170), Degrees.of(55)),
-  RC3(new Translation2d(1.72, 1.12), Degrees.of(55)),
+  //  RC1(new Translation2d(0.661, 1.367), Degrees.of(55)),
+  RC2(new Translation2d(1.658, 1.001), Degrees.of(55)),
+  //  RC3(new Translation2d(1.72, 1.12), Degrees.of(55)),
+
+  //  LC1(new Translation2d(0.661, 6.66), Degrees.of(-55)),
+  LC2(LocalizationUtil.flipOverField(RC2.getTranslation()), Degrees.of(-55)),
+  //  LC3(new Translation2d(1.672, 6.398), Degrees.of(-55)),
   // NET SCORING POS, CHANGE X FOR DISTANCE TO NET
-  N1(new Translation2d(7.8, 7.266), Degrees.of(180)),
-  N2(new Translation2d(7.3, 6.157), Degrees.of(180)),
-  N3(new Translation2d(7.8, 5.079), Degrees.of(180)),
+  //  N1(new Translation2d(7.8, 7.266), Degrees.of(180)),
+  N2(new Translation2d(7.55, 6.157), Degrees.of(180)),
+  //  N3(new Translation2d(7.8, 5.079), Degrees.of(180)),
 
   C1(new Translation2d(7.5, 5.047), Degrees.of(270)),
   C2(new Translation2d(7.5, 6.159), Degrees.of(270)),

@@ -40,7 +40,11 @@ public class DriveToNearest extends SequentialCommandGroup {
     if (Abomination.getPreviousState() == FunctionalState.COLLECT) {
       switch (Abomination.getCollectMode()) {
         case HUMAN_PLAYER_STATION -> {
-          return Utils.getNearest(RED_COLLECT, BLUE_COLLECT);
+          if (isLeft) {
+            return Utils.getNearest(RED_COLLECT_LEFT, BLUE_COLLECT_LEFT);
+          } else {
+            return Utils.getNearest(RED_COLLECT_RIGHT, BLUE_COLLECT_RIGHT);
+          }
         }
         case ALGAE_2 -> {
           if (isLeft) {

@@ -53,10 +53,10 @@
   "constraintZones": [
     {
       "name": "Slow Coral Station",
-      "minWaypointRelativePos": 0.8850678733031674,
-      "maxWaypointRelativePos": 1.04,
+      "minWaypointRelativePos": 0.8977375565610859,
+      "maxWaypointRelativePos": 1.0497737556561086,
       "constraints": {
-        "maxVelocity": 1.25,
+        "maxVelocity": 1.125,
         "maxAcceleration": 2.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,

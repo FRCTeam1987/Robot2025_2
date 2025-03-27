@@ -13,6 +13,7 @@ public class Abomination {
 
   private static CollectMode COLLECT_MODE = CollectMode.HUMAN_PLAYER_STATION;
   private static ScoreMode SCORE_MODE = ScoreMode.L4;
+  private static ScoreMode CACHED_SCORE_MODE = ScoreMode.L4;
   private static DesiredAction DESIRED_ACTION = DesiredAction.IDLE_CORAL;
   private static FunctionalState PREVIOUS_STATE = FunctionalState.COLLECT;
 
@@ -38,7 +39,7 @@ public class Abomination {
                   && SCORE_MODE != ScoreMode.L2
                   && SCORE_MODE != ScoreMode.L3
                   && SCORE_MODE != ScoreMode.L4) {
-                setScoreMode(ScoreMode.L4, true);
+                setScoreMode(CACHED_SCORE_MODE, true);
                 setAction(DesiredAction.IDLE_CORAL);
               }
               return COLLECTED_CORAL;
@@ -196,12 +197,12 @@ public class Abomination {
     return COLLECT;
   }
 
-  public static void setScoreMode(ScoreMode MODE, boolean force) {
+  public static void setScoreMode(ScoreMode DESIRED_MODE, boolean force) {
     if (force) {
-      SCORE_MODE = MODE;
+      SCORE_MODE = DESIRED_MODE;
       return;
     }
-    switch (MODE) {
+    switch (DESIRED_MODE) {
       case L1, L2, L3, L4 -> {
         if (stateContains(
             NET_ELEVATE,
@@ -212,6 +213,8 @@ public class Abomination {
             PROCESSOR_SCORE,
             COLLECTED_ALGAE)) {
           return;
+        } else {
+          Abomination.setCachedScoreMode(DESIRED_MODE);
         }
       }
       case PROCESSOR, NET -> {
@@ -223,7 +226,11 @@ public class Abomination {
         if (!(stateContains(COLLECT, COLLECTED_ALGAE, COLLECTED_CORAL))) return;
       }
     }
-    SCORE_MODE = MODE;
+    SCORE_MODE = DESIRED_MODE;
+  }
+
+  public static void setCachedScoreMode(ScoreMode MODE) {
+    CACHED_SCORE_MODE = MODE;
   }
 
   public static ScoreMode getScoreMode() {
@@ -264,11 +271,19 @@ public class Abomination {
     return false;
   }
 
+  public static boolean scoreContains(ScoreMode... goals) {
+    for (ScoreMode item : goals) {
+      if (SCORE_MODE == item) return true;
+    }
+    return false;
+  }
+
   public static FunctionalState getState() {
 
     FunctionalState STATE = calculateRobotState();
     DogLog.log("STATE/Robot State", STATE.toString());
     DogLog.log("STATE/Score Mode", SCORE_MODE.toString());
+    DogLog.log("STATE/Cached Mode", CACHED_SCORE_MODE.toString());
     DogLog.log("STATE/Desired Action", DESIRED_ACTION.toString());
     PREVIOUS_STATE = STATE;
     return STATE;

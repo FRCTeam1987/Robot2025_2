@@ -32,10 +32,10 @@
   "constraintZones": [
     {
       "name": "Slow Approach",
-      "minWaypointRelativePos": 0.9004524886877829,
+      "minWaypointRelativePos": 0.8886877828054298,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 1.125,
         "maxAcceleration": 0.75,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,

@@ -45,6 +45,14 @@ public class LocalizationUtil {
     return new Translation2d(blueFlipXCoordinate(blue.getX()), blue.getY());
   }
 
+  public static Pose2d flipOverField(final Pose2d field) {
+    return new Pose2d(flipOverField(field.getTranslation()), field.getRotation());
+  }
+
+  public static Translation2d flipOverField(final Translation2d field) {
+    return new Translation2d(field.getX(), blueFlipYCoordinate(field.getY()));
+  }
+
   public static double blueFlipXCoordinate(final double blueX) {
     return FIELD_LENGTH - blueX;
   }
