@@ -16,6 +16,8 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -32,7 +34,7 @@ import frc.robot.utils.localization.LocalizationState;
 public class RobotContainer {
 
   public static final boolean DEBUG = true;
-  public static final boolean TEST_MODE = true;
+  public static final boolean TEST_MODE = false;
   public static final LinearVelocity MAX_SPEED = TunerConstants.kSpeedAt12Volts;
   public static final AngularVelocity MAX_ANGULAR_RATE = RotationsPerSecond.of(1.15);
   private static SendableChooser<PathPlannerAuto> autoChooser;
@@ -70,6 +72,23 @@ public class RobotContainer {
                         new Pose2d(new Translation2d(7.14, 3.0), Rotation2d.fromDegrees(0))))
             .ignoringDisable(true));
     SmartDashboard.putData("Home Elevator", new ElevatorRezero());
+
+    ShuffleboardTab TEST_TAB = Shuffleboard.getTab("TEST");
+
+    TEST_TAB.add(
+        "INCREMENT ARM 0.05", new InstCmd(() -> Utils.incrementArm(0.05)).ignoringDisable(true));
+    TEST_TAB.add(
+        "DECREMENT ARM 0.05", new InstCmd(() -> Utils.incrementArm(-0.05)).ignoringDisable(true));
+    TEST_TAB.add(
+        "INCREMENT ARM 0.1", new InstCmd(() -> Utils.incrementArm(0.1)).ignoringDisable(true));
+    TEST_TAB.add(
+        "DECREMENT ARM 0.1", new InstCmd(() -> Utils.incrementArm(-0.1)).ignoringDisable(true));
+    TEST_TAB.add(
+        "INCREMENT ARM 0.5", new InstCmd(() -> Utils.incrementArm(0.5)).ignoringDisable(true));
+    TEST_TAB.add(
+        "DECREMENT ARM 0.5", new InstCmd(() -> Utils.incrementArm(-0.5)).ignoringDisable(true));
+    TEST_TAB.addDouble("ARM OFFSET", Utils::getArmOverride);
+    TEST_TAB.addDouble("MATCH TIME", DriverStation::getMatchTime);
 
     //    ArrayList<Pose2d> posesRed = new ArrayList<Pose2d>();
     //    ArrayList<Pose2d> posesBlu = new ArrayList<Pose2d>();

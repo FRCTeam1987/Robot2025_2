@@ -34,7 +34,11 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import frc.robot.RobotContainer;
+import frc.robot.state.Abomination;
+import frc.robot.state.logic.functional.FunctionalState;
+import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.util.NetworkTableTimer;
+import frc.robot.utils.Utils;
 
 public class Arm {
 
@@ -187,11 +191,20 @@ public class Arm {
   }
 
   public void setArmPosition(Angle angle) {
-    target = angle;
-    if (RobotContainer.ELEVATOR.getPosition().gt(SLOW_HEIGHT)) {
-      ARM_MOTOR.setControl(SLOW_MOTION.withPosition(angle));
+    if (Abomination.getScoreMode() == ScoreMode.L4
+        && Abomination.stateContains(
+            FunctionalState.LEVEL_X_ELEVATE,
+            FunctionalState.LEVEL_X_ROTATE,
+            FunctionalState.LEVEL_X_SCORE)) {
+      target = angle.plus(Degrees.of(Utils.getArmOverride()));
     } else {
-      ARM_MOTOR.setControl(FAST_MOTION.withPosition(angle));
+      target = angle;
+    }
+
+    if (RobotContainer.ELEVATOR.getPosition().gt(SLOW_HEIGHT)) {
+      ARM_MOTOR.setControl(SLOW_MOTION.withPosition(target));
+    } else {
+      ARM_MOTOR.setControl(FAST_MOTION.withPosition(target));
     }
   }
 

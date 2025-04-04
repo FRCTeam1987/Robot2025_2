@@ -2,6 +2,7 @@ package frc.robot.utils;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -13,6 +14,18 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class Utils {
+
+  private static double armIncrement = 1.0;
+
+  public static void incrementArm(double amount) {
+    armIncrement += amount;
+    DogLog.log("Arm/OverrideValue", armIncrement);
+  }
+
+  public static double getArmOverride() {
+    return armIncrement;
+  }
+
   public static Pose2d getNearest(List<Pose2d> posesRed, List<Pose2d> posesBlue) {
     return RobotContainer.DRIVETRAIN
         .getPose()

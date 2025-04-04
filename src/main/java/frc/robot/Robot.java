@@ -5,7 +5,6 @@
 package frc.robot;
 
 import static frc.robot.RobotContainer.DRIVETRAIN;
-import static frc.robot.RobotContainer.TEST_MODE;
 
 import au.grapplerobotics.CanBridge;
 import com.pathplanner.lib.commands.FollowPathCommand;
@@ -42,9 +41,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    if (TEST_MODE) {
-      LimelightHelpers.SetThrottle("limelight-scoring", 200);
-    }
+    //    if (TEST_MODE) {
+    //      LimelightHelpers.SetThrottle("limelight-scoring", 200);
+    //    }
     timeToCoast = Timer.getFPGATimestamp();
   }
 
@@ -66,16 +65,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledExit() {
-    if (TEST_MODE) {
-      LimelightHelpers.SetThrottle("limelight-scoring", 0);
-    }
+    LimelightHelpers.SetThrottle("limelight-scoring", 0);
   }
 
   @Override
   public void autonomousInit() {
-    if (TEST_MODE) {
-      LimelightHelpers.SetThrottle("limelight-scoring", 0);
-    }
+    LimelightHelpers.SetThrottle("limelight-scoring", 0);
 
     RobotContainer.VISION.setShouldUpdatePose(false);
     AUTONOMOUS_COMMAND = RobotContainer.getAutonomousCommand();
@@ -97,9 +92,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    if (TEST_MODE) {
-      LimelightHelpers.SetThrottle("limelight-scoring", 0);
-    }
+    LimelightHelpers.SetThrottle("limelight-scoring", 0);
     RobotContainer.CLIMBER.brake();
     RobotContainer.ELEVATOR.setConfigTeleop();
     if (AUTONOMOUS_COMMAND != null) {
