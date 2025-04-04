@@ -1,5 +1,6 @@
 package frc.robot.state.commands;
 
+import static frc.robot.state.logic.constants.FieldConstants.*;
 import static frc.robot.state.logic.constants.StateConstants.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -65,16 +66,32 @@ public class DriveToNearest extends SequentialCommandGroup {
       switch (Abomination.getScoreMode()) {
         case L1 -> {
           if (isLeft) {
-            return Utils.getNearest(RED_CORAL_LEFT_L1, BLUE_CORAL_LEFT_L1);
+            return Utils.processAndReturn(CORAL_LEFT_L1);
           } else {
-            return Utils.getNearest(RED_CORAL_RIGHT_L1, BLUE_CORAL_RIGHT_L1);
+            return Utils.processAndReturn(CORAL_RIGHT_L1);
           }
         }
-        case L2, L3, L4 -> {
+        case L2 -> {
           if (isLeft) {
-            return Utils.getNearest(RED_CORAL_LEFT, BLUE_CORAL_LEFT);
+            return Utils.processAndReturn(CORAL_LEFT_L2);
           } else {
-            return Utils.getNearest(RED_CORAL_RIGHT, BLUE_CORAL_RIGHT);
+            return Utils.processAndReturn(CORAL_RIGHT_L2);
+          }
+        }
+
+        case L3 -> {
+          if (isLeft) {
+            return Utils.processAndReturn(CORAL_LEFT_L3);
+          } else {
+            return Utils.processAndReturn(CORAL_RIGHT_L3);
+          }
+        }
+
+        case L4 -> {
+          if (isLeft) {
+            return Utils.processAndReturn(CORAL_LEFT_L4);
+          } else {
+            return Utils.processAndReturn(CORAL_RIGHT_L4);
           }
         }
         case PROCESSOR -> {

@@ -8,7 +8,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.RobotContainer;
+import frc.robot.state.Abomination;
+import frc.robot.state.logic.constants.FieldPosition;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -33,6 +37,51 @@ public class Utils {
             RobotContainer.DRIVETRAIN.getAlliance() == DriverStation.Alliance.Red
                 ? posesRed
                 : posesBlue);
+  }
+
+  public static Pose2d getNearestFieldPos(List<FieldPosition> fieldPos) {
+    return RobotContainer.DRIVETRAIN
+        .getPose()
+        .nearest(
+            (fieldPos)
+                .stream()
+                    .map(
+                        (pos) ->
+                            RobotContainer.DRIVETRAIN.getAlliance() == DriverStation.Alliance.Red
+                                ? pos.getLocation().getRedPose()
+                                : pos.getLocation().getBluePose())
+                    .toList());
+  }
+
+  public static FieldPosition getNearest(List<FieldPosition> fieldPos) {
+    Pose2d bot = RobotContainer.DRIVETRAIN.getPose();
+    return Collections.min(
+        fieldPos,
+        Comparator.comparing(
+                (FieldPosition other) ->
+                    bot.getTranslation()
+                        .getDistance(other.getLocation().getAlliancePose().getTranslation()))
+            .thenComparing(
+                (FieldPosition other) ->
+                    Math.abs(
+                        bot.getRotation()
+                            .minus(other.getLocation().getAlliancePose().getRotation())
+                            .getRadians())));
+  }
+
+  public static Pose2d processAndReturn(List<FieldPosition> list) {
+    FieldPosition current = Utils.getNearest(list);
+    if (RobotContainer.TRACKER.isScored(current)) {
+      ArrayList<FieldPosition> newList = new ArrayList<>(list);
+      newList.remove(current);
+      return processAndReturn(newList);
+    } else {
+      if (!list.contains(current)) {
+        list.add(current);
+      }
+      Abomination.setLastScoredPosition(current);
+      return current.getLocation().getAlliancePose();
+    }
   }
 
   public static SendableChooser<PathPlannerAuto> buildAutoChooser(String defaultAutoName) {

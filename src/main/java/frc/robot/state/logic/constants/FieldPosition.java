@@ -54,6 +54,13 @@ public enum FieldPosition {
   L3(PositionConstant.SIDE_6_L, ScoreMode.L3, PositionConstant.SIDE_6_ENTRY),
   L4(PositionConstant.SIDE_6_L, ScoreMode.L4, PositionConstant.SIDE_6_ENTRY),
 
+  AL1(PositionConstant.SIDE_1_ALGAE, CollectMode.ALGAE_3, PositionConstant.SIDE_1_ENTRY),
+  AL2(PositionConstant.SIDE_2_ALGAE, CollectMode.ALGAE_2, PositionConstant.SIDE_2_ENTRY),
+  AL3(PositionConstant.SIDE_3_ALGAE, CollectMode.ALGAE_3, PositionConstant.SIDE_3_ENTRY),
+  AL4(PositionConstant.SIDE_4_ALGAE, CollectMode.ALGAE_2, PositionConstant.SIDE_4_ENTRY),
+  AL5(PositionConstant.SIDE_5_ALGAE, CollectMode.ALGAE_3, PositionConstant.SIDE_5_ENTRY),
+  AL6(PositionConstant.SIDE_6_ALGAE, CollectMode.ALGAE_2, PositionConstant.SIDE_6_ENTRY),
+
   //  N1(PositionConstant.N1, ScoreMode.NET, PositionConstant.N1),
   N2(PositionConstant.N2, ScoreMode.NET, PositionConstant.N2),
   //  N3(PositionConstant.N3, ScoreMode.NET, PositionConstant.N3),

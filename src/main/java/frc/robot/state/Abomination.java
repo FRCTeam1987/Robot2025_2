@@ -5,6 +5,7 @@ import static frc.robot.state.logic.functional.FunctionalState.*;
 
 import dev.doglog.DogLog;
 import frc.robot.state.logic.actions.DesiredAction;
+import frc.robot.state.logic.constants.FieldPosition;
 import frc.robot.state.logic.functional.FunctionalState;
 import frc.robot.state.logic.mode.CollectMode;
 import frc.robot.state.logic.mode.ScoreMode;
@@ -16,6 +17,7 @@ public class Abomination {
   private static ScoreMode CACHED_SCORE_MODE = ScoreMode.L4;
   private static DesiredAction DESIRED_ACTION = DesiredAction.IDLE_CORAL;
   private static FunctionalState PREVIOUS_STATE = FunctionalState.COLLECT;
+  private static FieldPosition LAST_SCORED_POSITION = FieldPosition.A4;
 
   public static FunctionalState calculateRobotState() {
     // master overrides
@@ -158,6 +160,7 @@ public class Abomination {
           }
           case LEVEL_X_SCORE -> {
             if (!ARM.hasGamePieceEntrance()) return LEVEL_X_UNROTATE;
+            TRACKER.setScored(getLastScoredPosition(), true);
             return LEVEL_X_SCORE;
           }
           case LEVEL_X_UNROTATE -> {
@@ -243,6 +246,14 @@ public class Abomination {
 
   public static DesiredAction getAction() {
     return DESIRED_ACTION;
+  }
+
+  public static void setLastScoredPosition(FieldPosition POSITION) {
+    LAST_SCORED_POSITION = POSITION;
+  }
+
+  public static FieldPosition getLastScoredPosition() {
+    return LAST_SCORED_POSITION;
   }
 
   public static void setCollectMode(CollectMode MODE) {

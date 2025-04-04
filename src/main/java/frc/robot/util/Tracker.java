@@ -16,7 +16,8 @@ public class Tracker {
 
   private static BooleanSubscriber getSubscriber(final String branch, final String level) {
     return NetworkTableInstance.getDefault()
-        .getTable("reef")
+        .getTable("tracker")
+        .getSubTable("reef")
         .getSubTable("branches")
         .getSubTable(branch.toLowerCase())
         .getBooleanTopic(level)
@@ -26,7 +27,8 @@ public class Tracker {
   private static BooleanPublisher getPublisher(final String branch, final String level) {
     BooleanPublisher pub =
         NetworkTableInstance.getDefault()
-            .getTable("reef")
+            .getTable("tracker")
+            .getSubTable("reef")
             .getSubTable("branches")
             .getSubTable(branch.toLowerCase())
             .getBooleanTopic(level)
