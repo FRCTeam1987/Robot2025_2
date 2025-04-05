@@ -5,10 +5,12 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.RobotContainer;
 import frc.robot.state.Abomination;
+import frc.robot.state.commands.AsyncRumble;
 import frc.robot.state.logic.constants.FieldPosition;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,16 +71,54 @@ public class Utils {
                             .getRadians())));
   }
 
-  public static Pose2d processAndReturn(List<FieldPosition> list) {
+  // this is the worst function i have ever written in my entire life
+  public static Pose2d processAndReturn(
+      List<FieldPosition> list, List<FieldPosition> fallbackList) {
+    // if desired list is empty, from recursive op, kill
+    if (list.isEmpty()) {
+      new AsyncRumble(
+              RobotContainer.JOYSTICK.getHID(), GenericHID.RumbleType.kBothRumble, 1.0, 400L)
+          .schedule();
+      return RobotContainer.DRIVETRAIN.getPose();
+    }
+
+    // get nearest from desired list
     FieldPosition current = Utils.getNearest(list);
+
+    // if that nearest is scored, try to get nearest from fallback list
     if (RobotContainer.TRACKER.isScored(current)) {
-      ArrayList<FieldPosition> newList = new ArrayList<>(list);
-      newList.remove(current);
-      return processAndReturn(newList);
+      FieldPosition fallbackCurrent = Utils.getNearest(fallbackList);
+
+      // if that fallback is scored, clone the list and remove that entry, and retry it
+      if (RobotContainer.TRACKER.isScored(fallbackCurrent)) {
+        ArrayList<FieldPosition> newList = new ArrayList<>(list);
+        newList.remove(current);
+        // we're using the fallback list as the primary list, and the original fallback list as the
+        // fallback list (which should never trigger)
+        return processAndReturn(newList, fallbackList);
+      } else {
+
+        // if fallback isn't scored, and it's less than 1m away from current pose, drive there
+        if (fallbackCurrent
+                .getLocation()
+                .getAlliancePose()
+                .getTranslation()
+                .getDistance(RobotContainer.DRIVETRAIN.getPose().getTranslation())
+            > 1.0) {
+          new AsyncRumble(
+                  RobotContainer.JOYSTICK.getHID(), GenericHID.RumbleType.kBothRumble, 1.0, 400L)
+              .schedule();
+          return RobotContainer.DRIVETRAIN.getPose();
+        } else {
+          return fallbackCurrent.getLocation().getAlliancePose();
+        }
+      }
     } else {
+      // if current list doesnt contain current op, add it back
       if (!list.contains(current)) {
         list.add(current);
       }
+      // GO!
       Abomination.setLastScoredPosition(current);
       return current.getLocation().getAlliancePose();
     }
