@@ -35,6 +35,7 @@ public class RobotContainer {
 
   public static final boolean DEBUG = true;
   public static final boolean TEST_MODE = false;
+  public static boolean BYPASS_TRACKER = false;
   public static final LinearVelocity MAX_SPEED = TunerConstants.kSpeedAt12Volts;
   public static final AngularVelocity MAX_ANGULAR_RATE = RotationsPerSecond.of(1.15);
   private static SendableChooser<PathPlannerAuto> autoChooser;
@@ -89,6 +90,11 @@ public class RobotContainer {
         "DECREMENT ARM 0.5", new InstCmd(() -> Utils.incrementArm(-0.5)).ignoringDisable(true));
     TEST_TAB.addDouble("ARM OFFSET", Utils::getArmOverride);
     TEST_TAB.addDouble("MATCH TIME", DriverStation::getMatchTime);
+    TEST_TAB.addBoolean("BYPASS TRACKER", () -> RobotContainer.BYPASS_TRACKER);
+    TEST_TAB.add(
+        "BYPASS TRACKER TOGGLE",
+        new InstCmd(() -> RobotContainer.BYPASS_TRACKER = !RobotContainer.BYPASS_TRACKER)
+            .ignoringDisable(true));
 
     //    ArrayList<Pose2d> posesRed = new ArrayList<Pose2d>();
     //    ArrayList<Pose2d> posesBlu = new ArrayList<Pose2d>();

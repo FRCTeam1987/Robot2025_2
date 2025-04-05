@@ -7,6 +7,7 @@ package frc.robot.util;
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.RobotContainer;
 import frc.robot.state.logic.constants.FieldPosition;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +66,11 @@ public class Tracker {
   }
 
   public boolean isScored(final String branchLevel) {
-    return subscribers.get(branchLevel.toUpperCase()).get();
+    if (RobotContainer.BYPASS_TRACKER) {
+      return false;
+    } else {
+      return subscribers.get(branchLevel.toUpperCase()).get();
+    }
   }
 
   public boolean isScored(final String branch, final String level) {
