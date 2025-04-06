@@ -4,11 +4,11 @@
 
 package frc.robot.autos;
 
-import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Inches;
 
 import com.pathplanner.lib.auto.NamedCommands;
-import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.networktables.DoubleEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
@@ -17,12 +17,16 @@ import frc.robot.state.logic.actions.DesiredAction;
 import frc.robot.state.logic.constants.FieldPosition;
 import frc.robot.state.logic.constants.MechanismConstant;
 import frc.robot.state.logic.functional.FunctionalState;
+import frc.robot.state.logic.mode.CollectMode;
 import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.utils.InstCmd;
 import java.util.List;
 
 /** Add your docs here. */
 public class AutoHelpers {
+
+  public static DoubleEntry CONFIGURABLE_DELAY =
+      NetworkTableInstance.getDefault().getDoubleTopic("autoDelaySeconds").getEntry(0.0);
 
   public static Distance DRIVING_MAX_HEIGHT =
       MechanismConstant.L4.getElevatorDistance().minus(Inches.of(1.0));
@@ -42,13 +46,12 @@ public class AutoHelpers {
     return WANTS_CORAL;
   }
 
-  private static final Angle ARM_UNROTATE_ANGLE =
-      MechanismConstant.L4.getArmAngle().minus(Degrees.of(2.5));
+  public static boolean hasScoredAlgae() {
+    return Abomination.getPreviousState().equals(FunctionalState.NET_UNELEVATE);
+  }
 
   public static boolean hasScoredCoral() {
     return Abomination.getPreviousState().equals(FunctionalState.LEVEL_X_UNROTATE);
-    // return RobotContainer.ARM.getArmPosition().lte(ARM_UNROTATE_ANGLE);
-    // return RobotContainer.ELEVATOR.getPosition().lte(DRIVING_MAX_HEIGHT);
   }
 
   public static boolean hasAlgae() {
@@ -60,31 +63,12 @@ public class AutoHelpers {
   }
 
   public static void registerNamedCommands() {
-    //    NamedCommands.registerCommand(
-    //        "PoseInit",
-    //        new InstCmd(
-    //            () -> {
-    //              Pose2d pose1 =
-    //                  LimelightHelpers.getBotPoseEstimate_wpiBlue(
-    //                          SubsystemConstants.VisionConstants.LIMELIGHT_SCORING_NAME)
-    //                      .pose;
-    //              Pose2d pose2 =
-    //                  LocalizationUtil.blueFlipToRed(
-    //                      RobotContainer.getAutonomousCommand().getStartingPose());
-    //              if (DRIVETRAIN.getAlliance().equals(DriverStation.Alliance.Blue)) {
-    //
-    //                Pose2d newPose = new Pose2d(pose1.getX(), pose1.getY(), pose2.getRotation());
-    //                DRIVETRAIN.resetPose(newPose);
-    //              } else {
-    //                Pose2d newPose = new Pose2d(pose1.getX(), pose1.getY(), pose2.getRotation());
-    //                DRIVETRAIN.resetPose(newPose);
-    //              }
-    //            }));
+    NamedCommands.registerCommand("DelayStart", new WaitCommand(matchTimeIncrement));
+    NamedCommands.registerCommand(
+        "WaitUntilHasAlgae", new WaitUntilCommand(AutoHelpers::hasAlgae).withTimeout(2));
     NamedCommands.registerCommand(
         "WaitUntilScoredCoral", new WaitUntilCommand(AutoHelpers::hasScoredCoral));
     NamedCommands.registerCommand("WaitUntilAlgae", new WaitUntilCommand(AutoHelpers::hasAlgae));
-    NamedCommands.registerCommand("AutoAlignAlgae", new InstCmd());
-    NamedCommands.registerCommand("AutoAlignCoral", new InstCmd());
     NamedCommands.registerCommand(
         "PreElevate",
         new ConditionalCommand(
@@ -102,14 +86,6 @@ public class AutoHelpers {
               Abomination.setScoreMode(ScoreMode.L2, false);
               Abomination.setAction(DesiredAction.INIT);
             }));
-    //        new ConditionalCommand(
-    //            new InstCmd(
-    //                () -> {
-    //                  Abomination.setScoreMode(ScoreMode.L2);
-    //                  Abomination.setAction(DesiredAction.INIT);
-    //                }),
-    //            new InstCmd(),
-    //            () -> RobotContainer.ARM.hasGamePieceEntrance()));
     NamedCommands.registerCommand(
         "InitL4",
         new ConditionalCommand(
@@ -143,7 +119,7 @@ public class AutoHelpers {
                               Abomination.setScoreMode(ScoreMode.L4, false);
                               Abomination.setAction(DesiredAction.INIT);
                             }))
-                    .withTimeout(2.0),
+                    .withTimeout(1.5),
                 new WaitUntilCommand(RobotContainer.ELEVATOR::isAtTarget).withTimeout(1.0),
                 new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)),
                 new WaitUntilCommand(AutoHelpers::hasScoredCoral)
@@ -156,6 +132,27 @@ public class AutoHelpers {
     NamedCommands.registerCommand(
         "DisableVisionUpdates",
         new InstCmd(() -> RobotContainer.VISION.setShouldUpdatePose(false)));
+    NamedCommands.registerCommand(
+        "SetCollectModeAlgae2", new InstCmd(() -> Abomination.setCollectMode(CollectMode.ALGAE_2)));
+    NamedCommands.registerCommand(
+        "SetCollectModeAlgae3", new InstCmd(() -> Abomination.setCollectMode(CollectMode.ALGAE_3)));
+    NamedCommands.registerCommand("AutoAlignAlgae", new AutoAlignAlgae());
+    NamedCommands.registerCommand(
+        "InitNet",
+        new ConditionalCommand(
+            new InstCmd(
+                () -> {
+                  Abomination.setScoreMode(ScoreMode.NET, false);
+                  Abomination.setAction(DesiredAction.INIT);
+                }),
+            new InstCmd(),
+            RobotContainer.ARM::hasAlgae));
+    NamedCommands.registerCommand(
+        "ScoreAlgae",
+        new WaitUntilCommand(() -> RobotContainer.ELEVATOR.isAtTarget())
+            .andThen(
+                new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE))
+                    .andThen(new WaitUntilCommand(AutoHelpers::hasScoredAlgae))));
   }
 
   public static List<FieldPosition> processorQueue =

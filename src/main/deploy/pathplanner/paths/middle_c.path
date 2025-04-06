@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.87,
-        "y": 4.19
+        "x": 5.812914625264831,
+        "y": 3.997
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.62,
-        "y": 4.19
+        "x": 6.812914625264831,
+        "y": 3.997
       },
       "isLocked": false,
-      "linkedName": "middle_a_end"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.05,
-        "y": 4.025
+        "x": 7.3,
+        "y": 4.75
       },
       "prevControl": {
         "x": 6.8,
-        "y": 4.025
+        "y": 4.75
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "middle_c_end"
     }
   ],
   "rotationTargets": [],
@@ -33,27 +33,27 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "SetCollectModeAlgae2",
-      "waypointRelativePos": 0.6,
+      "name": "InitNet",
+      "waypointRelativePos": 0.4,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "SetCollectModeAlgae2"
+          "name": "InitNet"
         }
       }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.5,
+    "velocity": 0,
     "rotation": 0.0
   },
   "reversed": false,
@@ -62,5 +62,5 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

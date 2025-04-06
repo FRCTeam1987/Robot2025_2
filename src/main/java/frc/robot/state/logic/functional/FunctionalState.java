@@ -89,9 +89,10 @@ public enum FunctionalState {
   NET_SCORE(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(getScoreMode().getMechanismConstant().getElevatorDistance()),
-          () ->
-              ARM.setArmPosition(
-                  getScoreMode().getMechanismConstant().getArmAngle().plus(Degrees.of(15))),
+          //   () ->
+          //       ARM.setArmPosition(
+          //           getScoreMode().getMechanismConstant().getArmAngle().plus(Degrees.of(15))),
+          () -> ARM.setArmPosition(MechanismConstant.HP_INTAKE.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(-16.0)),
           INTAKE::stop)),
   NET_UNROTATE(
