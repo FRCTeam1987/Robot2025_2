@@ -4,13 +4,11 @@
 
 package frc.robot.autos;
 
-import static frc.robot.state.logic.constants.StateConstants.BLUE_ALGAE;
-import static frc.robot.state.logic.constants.StateConstants.RED_ALGAE;
+import static frc.robot.state.logic.constants.StateConstants.*;
 
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
-import frc.robot.state.commands.DriveToNearest;
+import frc.robot.state.commands.DriveToPose;
+import frc.robot.utils.Utils;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -21,9 +19,6 @@ public class AutoAlignAlgae extends SequentialCommandGroup {
   public AutoAlignAlgae() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-        new DriveToNearest(
-            () ->
-                RobotContainer.DRIVETRAIN.getAlliance() == Alliance.Red ? RED_ALGAE : BLUE_ALGAE));
+    addCommands(new DriveToPose(() -> Utils.getNearest(RED_ALGAE, BLUE_ALGAE, true)));
   }
 }

@@ -32,13 +32,20 @@ public class Utils {
     return armIncrement;
   }
 
-  public static Pose2d getNearest(List<Pose2d> posesRed, List<Pose2d> posesBlue) {
-    return RobotContainer.DRIVETRAIN
-        .getPose()
-        .nearest(
-            RobotContainer.DRIVETRAIN.getAlliance() == DriverStation.Alliance.Red
-                ? posesRed
-                : posesBlue);
+  public static Pose2d getNearest(
+      List<Pose2d> posesRed, List<Pose2d> posesBlue, boolean includeOpposing) {
+    if (includeOpposing) {
+      return RobotContainer.DRIVETRAIN
+          .getPose()
+          .nearest(Stream.concat(posesRed.stream(), posesBlue.stream()).toList());
+    } else {
+      return RobotContainer.DRIVETRAIN
+          .getPose()
+          .nearest(
+              RobotContainer.DRIVETRAIN.getAlliance() == DriverStation.Alliance.Red
+                  ? posesRed
+                  : posesBlue);
+    }
   }
 
   public static Pose2d getNearestFieldPos(List<FieldPosition> fieldPos) {
@@ -68,6 +75,22 @@ public class Utils {
                     Math.abs(
                         bot.getRotation()
                             .minus(other.getLocation().getAlliancePose().getRotation())
+                            .getRadians())));
+  }
+
+  public static FieldPosition getNearestOpposing(List<FieldPosition> fieldPos) {
+    Pose2d bot = RobotContainer.DRIVETRAIN.getPose();
+    return Collections.min(
+        fieldPos,
+        Comparator.comparing(
+                (FieldPosition other) ->
+                    bot.getTranslation()
+                        .getDistance(other.getLocation().getOpposingPose().getTranslation()))
+            .thenComparing(
+                (FieldPosition other) ->
+                    Math.abs(
+                        bot.getRotation()
+                            .minus(other.getLocation().getOpposingPose().getRotation())
                             .getRadians())));
   }
 

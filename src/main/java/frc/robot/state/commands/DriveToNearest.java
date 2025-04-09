@@ -12,53 +12,42 @@ import frc.robot.state.logic.constants.PositionConstant;
 import frc.robot.state.logic.functional.FunctionalState;
 import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.utils.Utils;
-import java.util.List;
-import java.util.function.Supplier;
 
 public class DriveToNearest extends SequentialCommandGroup {
 
-  public DriveToNearest(Supplier<List<Pose2d>> poses) {
+  public DriveToNearest(boolean isLeft, boolean includeOpposing) {
     super();
     addCommands(
         new DriveToPose(
-            RobotContainer.DRIVETRAIN,
-            () -> RobotContainer.DRIVETRAIN.getPose().nearest(poses.get())));
-  }
-
-  public DriveToNearest(boolean isLeft) {
-    super();
-    addCommands(
-        new DriveToPose(
-            RobotContainer.DRIVETRAIN,
-            () -> calculateNearest(isLeft),
+            () -> calculateNearest(isLeft, includeOpposing),
             () ->
                 Abomination.getScoreMode().equals(ScoreMode.CLIMB)
                     || (Abomination.getScoreMode() == ScoreMode.NET
                         && Abomination.getPreviousState() != FunctionalState.COLLECT)));
   }
 
-  public Pose2d calculateNearest(boolean isLeft) {
+  public Pose2d calculateNearest(boolean isLeft, boolean includeOpposing) {
     if (Abomination.getPreviousState() == FunctionalState.COLLECT) {
       switch (Abomination.getCollectMode()) {
         case HUMAN_PLAYER_STATION -> {
           if (isLeft) {
-            return Utils.getNearest(RED_COLLECT_LEFT, BLUE_COLLECT_LEFT);
+            return Utils.getNearest(RED_COLLECT_LEFT, BLUE_COLLECT_LEFT, includeOpposing);
           } else {
-            return Utils.getNearest(RED_COLLECT_RIGHT, BLUE_COLLECT_RIGHT);
+            return Utils.getNearest(RED_COLLECT_RIGHT, BLUE_COLLECT_RIGHT, includeOpposing);
           }
         }
         case ALGAE_2 -> {
           if (isLeft) {
-            return Utils.getNearest(RED_PRE_2, BLUE_PRE_2);
+            return Utils.getNearest(RED_PRE_2, BLUE_PRE_2, true);
           } else {
-            return Utils.getNearest(RED_ALGAE_2, BLUE_ALGAE_2);
+            return Utils.getNearest(RED_ALGAE_2, BLUE_ALGAE_2, true);
           }
         }
         case ALGAE_3 -> {
           if (isLeft) {
-            return Utils.getNearest(RED_PRE_3, BLUE_PRE_3);
+            return Utils.getNearest(RED_PRE_3, BLUE_PRE_3, true);
           } else {
-            return Utils.getNearest(RED_ALGAE_3, BLUE_ALGAE_3);
+            return Utils.getNearest(RED_ALGAE_3, BLUE_ALGAE_3, true);
           }
         }
       }
@@ -78,7 +67,6 @@ public class DriveToNearest extends SequentialCommandGroup {
             return Utils.processAndReturn(CORAL_RIGHT_L2, CORAL_LEFT_L2);
           }
         }
-
         case L3 -> {
           if (isLeft) {
             return Utils.processAndReturn(CORAL_LEFT_L3, CORAL_RIGHT_L3);
@@ -100,19 +88,17 @@ public class DriveToNearest extends SequentialCommandGroup {
               : PositionConstant.P1.getBluePose();
         }
         case NET -> {
-          return RobotContainer.DRIVETRAIN.getAlliance() == DriverStation.Alliance.Red
-              ? PositionConstant.N2.getRedPose()
-              : PositionConstant.N2.getBluePose();
+          return Utils.getNearest(RED_NET, BLUE_NET, false);
         }
         case CLIMB -> {
-          return Utils.getNearest(RED_CLIMB, BLUE_CLIMB);
+          return Utils.getNearest(RED_CLIMB, BLUE_CLIMB, false);
         }
       }
     }
     if (isLeft) {
-      return Utils.getNearest(RED_CORAL_LEFT, BLUE_CORAL_LEFT);
+      return Utils.getNearest(RED_CORAL_LEFT, BLUE_CORAL_LEFT, false);
     } else {
-      return Utils.getNearest(RED_CORAL_RIGHT, BLUE_CORAL_RIGHT);
+      return Utils.getNearest(RED_CORAL_RIGHT, BLUE_CORAL_RIGHT, false);
     }
   }
 }

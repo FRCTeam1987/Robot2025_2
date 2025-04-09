@@ -32,8 +32,8 @@ public class Bindings extends RobotContainer {
     JOYSTICK.rightBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
     JOYSTICK.leftBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.INIT)));
 
-    JOYSTICK.rightTrigger().whileTrue(new DriveToNearest(false));
-    JOYSTICK.leftTrigger().whileTrue(new DriveToNearest(true));
+    JOYSTICK.rightTrigger().whileTrue(new DriveToNearest(false, false));
+    JOYSTICK.leftTrigger().whileTrue(new DriveToNearest(true, false));
     //    new Trigger(() -> NEAREST.isFinished())
     //        .whileTrue(
     //            new AsyncRumble(JOYSTICK.getHID(), GenericHID.RumbleType.kBothRumble, 1.0, 3000));

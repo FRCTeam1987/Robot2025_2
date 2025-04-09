@@ -62,7 +62,8 @@ public enum FieldPosition {
   AL6(PositionConstant.SIDE_6_ALGAE, CollectMode.ALGAE_2, PositionConstant.SIDE_6_ENTRY),
 
   //  N1(PositionConstant.N1, ScoreMode.NET, PositionConstant.N1),
-  N2(PositionConstant.N2, ScoreMode.NET, PositionConstant.N2),
+  ALL_NET(PositionConstant.ALL_NET, ScoreMode.NET, PositionConstant.ALL_NET),
+  OPP_NET(PositionConstant.OPP_NET, ScoreMode.NET, PositionConstant.OPP_NET),
   //  N3(PositionConstant.N3, ScoreMode.NET, PositionConstant.N3),
 
   P1(PositionConstant.P1, ScoreMode.PROCESSOR, PositionConstant.P1),

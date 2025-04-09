@@ -9,7 +9,8 @@ public class StateConstants {
       List.of(
           FieldZones.Zone.ALLIANCE_CORAL_LEFT,
           FieldZones.Zone.ALLIANCE_CORAL_RIGHT,
-          FieldZones.Zone.ALLIANCE_REEF);
+          FieldZones.Zone.ALLIANCE_REEF,
+          FieldZones.Zone.OPPONENT_REEF);
 
   public static final List<Pose2d> BLUE_CORAL_RIGHT =
       List.of(
@@ -200,4 +201,9 @@ public class StateConstants {
           PositionConstant.C1.getBluePose(),
           PositionConstant.C2.getBluePose(),
           PositionConstant.C2.getBluePose());
+
+  public static final List<Pose2d> RED_NET =
+      List.of(PositionConstant.ALL_NET.getRedPose(), PositionConstant.OPP_NET.getRedPose());
+  public static final List<Pose2d> BLUE_NET =
+      List.of(PositionConstant.ALL_NET.getBluePose(), PositionConstant.OPP_NET.getBluePose());
 }

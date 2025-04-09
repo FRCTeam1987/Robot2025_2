@@ -8,6 +8,24 @@ public class FunctionalAction {
   public final Runnable ROLLERCLAW_RUNNABLE;
   public final Runnable INTAKE_RUNNABLE;
   public final Runnable CLIMBER_RUNNABLE;
+  public final Runnable LIGHTS_RUNNABLE;
+
+  public FunctionalAction(
+      Runnable ELEV, Runnable ARM, Runnable ROLL, Runnable INTAKE, Runnable LIGHTS) {
+    this(
+        ELEV,
+        ARM,
+        ROLL,
+        INTAKE,
+        () -> {
+          if (JOYSTICK.back().getAsBoolean()) {
+            CLIMBER.stow();
+          } else {
+            CLIMBER.stop();
+          }
+        },
+        LIGHTS);
+  }
 
   public FunctionalAction(Runnable ELEV, Runnable ARM, Runnable ROLL, Runnable INTAKE) {
     this(
@@ -21,16 +39,23 @@ public class FunctionalAction {
           } else {
             CLIMBER.stop();
           }
-        });
+        },
+        () -> {});
   }
 
   public FunctionalAction(
-      Runnable ELEV, Runnable ARM, Runnable ROLL, Runnable INTAKE, Runnable CLIMB) {
+      Runnable ELEV,
+      Runnable ARM,
+      Runnable ROLL,
+      Runnable INTAKE,
+      Runnable CLIMB,
+      Runnable LIGHTS) {
     this.ELEVATOR_RUNNABLE = ELEV;
     this.ARM_RUNNABLE = ARM;
     this.ROLLERCLAW_RUNNABLE = ROLL;
     this.INTAKE_RUNNABLE = INTAKE;
     this.CLIMBER_RUNNABLE = CLIMB;
+    this.LIGHTS_RUNNABLE = LIGHTS;
   }
 
   public Runnable getElev() {
@@ -51,5 +76,9 @@ public class FunctionalAction {
 
   public Runnable getClimb() {
     return CLIMBER_RUNNABLE;
+  }
+
+  public Runnable getLights() {
+    return LIGHTS_RUNNABLE;
   }
 }

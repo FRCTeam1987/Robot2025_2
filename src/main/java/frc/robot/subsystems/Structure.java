@@ -12,10 +12,11 @@ public class Structure extends SubsystemBase {
 
   @Override
   public void periodic() {
-    NetworkTableTimer.wrap("ARM.cycle", () -> RobotContainer.ARM.cycle()).run();
-    NetworkTableTimer.wrap("ELEVATOR.cycle", () -> RobotContainer.ELEVATOR.cycle()).run();
-    NetworkTableTimer.wrap("INTAKE.cycle", () -> RobotContainer.INTAKE.cycle()).run();
-    NetworkTableTimer.wrap("CLIMBER.cycle", () -> RobotContainer.CLIMBER.cycle()).run();
+    NetworkTableTimer.wrap("ARM.cycle", RobotContainer.ARM::cycle).run();
+    NetworkTableTimer.wrap("ELEVATOR.cycle", RobotContainer.ELEVATOR::cycle).run();
+    NetworkTableTimer.wrap("INTAKE.cycle", RobotContainer.INTAKE::cycle).run();
+    NetworkTableTimer.wrap("CLIMBER.cycle", RobotContainer.CLIMBER::cycle).run();
+    NetworkTableTimer.wrap("LIGHTS.cycle", RobotContainer.LIGHTS::cycle).run();
     FunctionalState STATE = Abomination.getState();
 
     NetworkTableTimer.wrap("STATE.ACTION.getArm", STATE.ACTION.getArm()).run();
@@ -23,5 +24,6 @@ public class Structure extends SubsystemBase {
     NetworkTableTimer.wrap("STATE.ACTION.getElev", STATE.ACTION.getElev()).run();
     NetworkTableTimer.wrap("STATE.ACTION.getIntake", STATE.ACTION.getIntake()).run();
     NetworkTableTimer.wrap("STATE.ACTION.getClimb", STATE.ACTION.getClimb()).run();
+    NetworkTableTimer.wrap("STATE.ACTION.getLights", STATE.ACTION.getLights()).run();
   }
 }

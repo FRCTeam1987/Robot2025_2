@@ -12,7 +12,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.state.commands.DriveToPose;
 import frc.robot.utils.localization.LocalizationUtil;
 
 public enum PositionConstant {
@@ -70,7 +69,8 @@ public enum PositionConstant {
   //  LC3(new Translation2d(1.672, 6.398), Degrees.of(-55)),
   // NET SCORING POS, CHANGE X FOR DISTANCE TO NET
   //  N1(new Translation2d(7.8, 7.266), Degrees.of(180)),
-  N2(new Translation2d(7.55, 6.157), Degrees.of(180)),
+  ALL_NET(new Translation2d(7.55, 6.157), Degrees.of(180)),
+  OPP_NET(new Translation2d(LocalizationUtil.blueFlipXCoordinate(7.55), 6.157), Degrees.of(0)),
   //  N3(new Translation2d(7.8, 5.079), Degrees.of(180)),
 
   C1(new Translation2d(7.5, 5.047), Degrees.of(270)),
@@ -86,8 +86,8 @@ public enum PositionConstant {
 
   private final Command BLUE_PATH;
   private final Command RED_PATH;
-  private final DriveToPose BLUE_HOLO;
-  private final DriveToPose RED_HOLO;
+  //  private final DriveToPose BLUE_HOLO;
+  //  private final DriveToPose RED_HOLO;
   private final Pose2d BLUE_POSE;
   private final Pose2d RED_POSE;
 
@@ -115,6 +115,10 @@ public enum PositionConstant {
     return DRIVETRAIN.getAlliance() == DriverStation.Alliance.Blue ? BLUE_POSE : RED_POSE;
   }
 
+  public Pose2d getOpposingPose() {
+    return DRIVETRAIN.getAlliance() == DriverStation.Alliance.Blue ? RED_POSE : BLUE_POSE;
+  }
+
   public Command getRedPath() {
     return RED_PATH;
   }
@@ -127,17 +131,17 @@ public enum PositionConstant {
     return DRIVETRAIN.getAlliance() == DriverStation.Alliance.Blue ? BLUE_PATH : RED_PATH;
   }
 
-  public DriveToPose getRedHolo() {
-    return RED_HOLO;
-  }
-
-  public DriveToPose getBlueHolo() {
-    return BLUE_HOLO;
-  }
-
-  public DriveToPose getAllianceHolo() {
-    return DRIVETRAIN.getAlliance() == DriverStation.Alliance.Blue ? BLUE_HOLO : RED_HOLO;
-  }
+  //  public DriveToPose getRedHolo() {
+  //    return RED_HOLO;
+  //  }
+  //
+  //  public DriveToPose getBlueHolo() {
+  //    return BLUE_HOLO;
+  //  }
+  //
+  //  public DriveToPose getAllianceHolo() {
+  //    return DRIVETRAIN.getAlliance() == DriverStation.Alliance.Blue ? BLUE_HOLO : RED_HOLO;
+  //  }
 
   PositionConstant(Translation2d TRANSLATION, Angle HEADING) {
     this.BLUE_TRANSLATION = TRANSLATION;
@@ -158,8 +162,8 @@ public enum PositionConstant {
             RED_POSE,
             new PathConstraints(
                 4.0, 3.0, Units.degreesToRadians(540), Units.degreesToRadians(720)));
-    this.BLUE_HOLO = new DriveToPose(DRIVETRAIN, BLUE_POSE);
-    this.RED_HOLO = new DriveToPose(DRIVETRAIN, RED_POSE);
+    //    this.BLUE_HOLO = new DriveToPose(BLUE_POSE);
+    //    this.RED_HOLO = new DriveToPose(RED_POSE);
   }
 
   private static Translation2d rotateAroundBlueReef(PositionConstant POS, Angle ROTATION) {

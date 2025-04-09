@@ -6,20 +6,16 @@ package frc.robot.autos;
 
 import static frc.robot.state.logic.constants.StateConstants.*;
 
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
-import frc.robot.state.commands.DriveToNearest;
+import frc.robot.state.commands.DriveToPose;
+import frc.robot.utils.Utils;
 
 /** Add your docs here. */
 public class AutoAlignCoral extends SequentialCommandGroup {
 
   public AutoAlignCoral() {
     addCommands(
-        new DriveToNearest(
-            () ->
-                RobotContainer.DRIVETRAIN.getAlliance() == Alliance.Red
-                    ? RED_TARGET_POSES_CORAL
-                    : BLUE_TARGET_POSES_CORAL));
+        new DriveToPose(
+            () -> Utils.getNearest(RED_TARGET_POSES_CORAL, BLUE_TARGET_POSES_CORAL, true)));
   }
 }

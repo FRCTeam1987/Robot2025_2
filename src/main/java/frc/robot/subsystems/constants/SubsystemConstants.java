@@ -2,6 +2,8 @@ package frc.robot.subsystems.constants;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.LarsonAnimation;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -258,5 +260,16 @@ public class SubsystemConstants {
 
     public static final List<String> LIMELIGHTS =
         List.of(LIMELIGHT_SCORING_NAME, LIMELIGHT_INTAKE_NAME);
+  }
+
+  public static class LightsConstants {
+    public static final int CANDLE_ID = 1;
+    public static final String CANBUS_NAME = "canfd";
+    public static final int NUM_LEDS = 50;
+
+    // public LarsonAnimation(int r, int g, int b, int w, double speed, int numLed, BounceMode mode,
+    // int size, int ledOffset) {
+    public static final Animation INTAKE_ANIMATION =
+        new LarsonAnimation(255, 0, 255, 0, 0.5, NUM_LEDS, LarsonAnimation.BounceMode.Back, 3, 0);
   }
 }

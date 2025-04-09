@@ -26,7 +26,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 public class DriveToPose extends Command {
-  private final Drivetrain DRIVE;
+  private final Drivetrain DRIVE = RobotContainer.DRIVETRAIN;
   private final Supplier<Pose2d> TARGET;
   private final Supplier<Pose2d> ROBOT;
   private final HolonomicDriveController HOLONOMIC =
@@ -48,23 +48,20 @@ public class DriveToPose extends Command {
   private Debouncer hasTargetDebounce;
   private BooleanSupplier freeY = () -> false;
 
-  public DriveToPose(Drivetrain drive, Pose2d target) {
-    addRequirements(drive);
-    this.DRIVE = drive;
+  public DriveToPose(Pose2d target) {
+    addRequirements(DRIVE);
     this.TARGET = () -> target;
     this.ROBOT = RobotContainer.DRIVETRAIN::getPose;
   }
 
-  public DriveToPose(Drivetrain drive, Supplier<Pose2d> target) {
-    addRequirements(drive);
-    this.DRIVE = drive;
+  public DriveToPose(Supplier<Pose2d> target) {
+    addRequirements(DRIVE);
     this.TARGET = target;
     this.ROBOT = RobotContainer.DRIVETRAIN::getPose;
   }
 
-  public DriveToPose(Drivetrain drive, Supplier<Pose2d> target, BooleanSupplier freeY) {
-    addRequirements(drive);
-    this.DRIVE = drive;
+  public DriveToPose(Supplier<Pose2d> target, BooleanSupplier freeY) {
+    addRequirements(DRIVE);
     this.TARGET = target;
     this.ROBOT = RobotContainer.DRIVETRAIN::getPose;
     this.freeY = freeY;

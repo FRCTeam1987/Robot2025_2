@@ -6,6 +6,7 @@ import static frc.robot.state.Abomination.getCollectMode;
 import static frc.robot.state.Abomination.getScoreMode;
 import static frc.robot.state.logic.constants.StateConstants.COLLECT_ZONES;
 
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.state.Abomination;
 import frc.robot.state.logic.constants.MechanismConstant;
 import frc.robot.state.logic.mode.CollectMode;
@@ -28,7 +29,8 @@ public enum FunctionalState {
             } else {
               INTAKE.start();
             }
-          })),
+          },
+          () -> LIGHTS.setColor(new Color8Bit(255, 0, 255)))),
 
   COLLECTED_CORAL(
       new FunctionalAction(
@@ -163,21 +165,25 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(MechanismConstant.CLIMB.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop,
-          CLIMBER::deploy)),
+          CLIMBER::deploy,
+          () -> {})),
   CLIMB_CLIMB(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(MechanismConstant.CLIMB.getElevatorDistance()),
           () -> ARM.setArmPosition(MechanismConstant.CLIMB.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop,
-          CLIMBER::climb)),
+          CLIMBER::climb,
+          () -> {})),
+
   CLIMB_STOW(
       new FunctionalAction(
           () -> ELEVATOR.setDistance(MechanismConstant.CLIMB.getElevatorDistance()),
           () -> ARM.setArmPosition(MechanismConstant.CLIMB.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop,
-          CLIMBER::stow)),
+          CLIMBER::stow,
+          () -> {})),
   ;
 
   public final FunctionalAction ACTION;
