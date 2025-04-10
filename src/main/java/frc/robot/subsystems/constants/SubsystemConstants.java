@@ -265,11 +265,24 @@ public class SubsystemConstants {
   public static class LightsConstants {
     public static final int CANDLE_ID = 1;
     public static final String CANBUS_NAME = "canfd";
-    public static final int NUM_LEDS = 50;
+    public static final int LEDS_SIDE = 38;
+    public static final int LEDS_UPRIGHTS = 21;
 
     // public LarsonAnimation(int r, int g, int b, int w, double speed, int numLed, BounceMode mode,
     // int size, int ledOffset) {
-    public static final Animation INTAKE_ANIMATION =
-        new LarsonAnimation(255, 0, 255, 0, 0.5, NUM_LEDS, LarsonAnimation.BounceMode.Back, 3, 0);
+    public static final Animation INTAKE_ANIMATION_SIDE =
+        new LarsonAnimation(
+            255, 255, 255, 0, 0.35, LEDS_SIDE, LarsonAnimation.BounceMode.Front, 4, 8);
+    public static final Animation INTAKE_ANIMATION_UPRIGHTS =
+        new LarsonAnimation(
+            255,
+            0,
+            255,
+            0,
+            0.35,
+            LEDS_UPRIGHTS,
+            LarsonAnimation.BounceMode.Front,
+            4,
+            8 + LEDS_SIDE);
   }
 }

@@ -5,8 +5,9 @@ import static frc.robot.RobotContainer.*;
 import static frc.robot.state.Abomination.getCollectMode;
 import static frc.robot.state.Abomination.getScoreMode;
 import static frc.robot.state.logic.constants.StateConstants.COLLECT_ZONES;
+import static frc.robot.subsystems.constants.SubsystemConstants.LightsConstants.INTAKE_ANIMATION_SIDE;
+import static frc.robot.subsystems.constants.SubsystemConstants.LightsConstants.INTAKE_ANIMATION_UPRIGHTS;
 
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.state.Abomination;
 import frc.robot.state.logic.constants.MechanismConstant;
 import frc.robot.state.logic.mode.CollectMode;
@@ -30,7 +31,7 @@ public enum FunctionalState {
               INTAKE.start();
             }
           },
-          () -> LIGHTS.setColor(new Color8Bit(255, 0, 255)))),
+          () -> LIGHTS.applyAnimations(INTAKE_ANIMATION_SIDE, INTAKE_ANIMATION_UPRIGHTS))),
 
   COLLECTED_CORAL(
       new FunctionalAction(
