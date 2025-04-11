@@ -17,12 +17,14 @@ public class Structure extends SubsystemBase {
     NetworkTableTimer.wrap("INTAKE.cycle", RobotContainer.INTAKE::cycle).run();
     NetworkTableTimer.wrap("CLIMBER.cycle", RobotContainer.CLIMBER::cycle).run();
     NetworkTableTimer.wrap("LIGHTS.cycle", RobotContainer.LIGHTS::cycle).run();
+    NetworkTableTimer.wrap("ALGAE.cycle", RobotContainer.ALGAE::cycle).run();
     FunctionalState STATE = Abomination.getState();
 
     NetworkTableTimer.wrap("STATE.ACTION.getArm", STATE.ACTION.getArm()).run();
     NetworkTableTimer.wrap("STATE.ACTION.getRoller", STATE.ACTION.getRoller()).run();
     NetworkTableTimer.wrap("STATE.ACTION.getElev", STATE.ACTION.getElev()).run();
     NetworkTableTimer.wrap("STATE.ACTION.getIntake", STATE.ACTION.getIntake()).run();
+    NetworkTableTimer.wrap("STATE.ACTION.getAlgae", STATE.ACTION.getAlgae()).run();
     NetworkTableTimer.wrap("STATE.ACTION.getClimb", STATE.ACTION.getClimb()).run();
     NetworkTableTimer.wrap("STATE.ACTION.getLights", STATE.ACTION.getLights()).run();
   }

@@ -7,16 +7,23 @@ public class FunctionalAction {
   public final Runnable ARM_RUNNABLE;
   public final Runnable ROLLERCLAW_RUNNABLE;
   public final Runnable INTAKE_RUNNABLE;
+  public final Runnable ALGAE_RUNNABLE;
   public final Runnable CLIMBER_RUNNABLE;
   public final Runnable LIGHTS_RUNNABLE;
 
   public FunctionalAction(
-      Runnable ELEV, Runnable ARM, Runnable ROLL, Runnable INTAKE, Runnable LIGHTS) {
+      Runnable ELEV,
+      Runnable ARM,
+      Runnable ROLL,
+      Runnable INTAKE,
+      Runnable ALGAE,
+      Runnable LIGHTS) {
     this(
         ELEV,
         ARM,
         ROLL,
         INTAKE,
+        ALGAE,
         () -> {
           if (JOYSTICK.back().getAsBoolean()) {
             CLIMBER.stow();
@@ -27,33 +34,19 @@ public class FunctionalAction {
         LIGHTS);
   }
 
-  public FunctionalAction(Runnable ELEV, Runnable ARM, Runnable ROLL, Runnable INTAKE) {
-    this(
-        ELEV,
-        ARM,
-        ROLL,
-        INTAKE,
-        () -> {
-          if (JOYSTICK.back().getAsBoolean()) {
-            CLIMBER.stow();
-          } else {
-            CLIMBER.stop();
-          }
-        },
-        () -> {});
-  }
-
   public FunctionalAction(
       Runnable ELEV,
       Runnable ARM,
       Runnable ROLL,
       Runnable INTAKE,
+      Runnable ALGAE,
       Runnable CLIMB,
       Runnable LIGHTS) {
     this.ELEVATOR_RUNNABLE = ELEV;
     this.ARM_RUNNABLE = ARM;
     this.ROLLERCLAW_RUNNABLE = ROLL;
     this.INTAKE_RUNNABLE = INTAKE;
+    this.ALGAE_RUNNABLE = ALGAE;
     this.CLIMBER_RUNNABLE = CLIMB;
     this.LIGHTS_RUNNABLE = LIGHTS;
   }
@@ -72,6 +65,10 @@ public class FunctionalAction {
 
   public Runnable getIntake() {
     return INTAKE_RUNNABLE;
+  }
+
+  public Runnable getAlgae() {
+    return ALGAE_RUNNABLE;
   }
 
   public Runnable getClimb() {

@@ -48,7 +48,7 @@ public class Abomination {
             }
             return COLLECT;
           }
-          case ALGAE_2, ALGAE_3 -> {
+          case ALGAE_2, ALGAE_3, ALGAE_GROUND -> {
             if (ARM.hasAlgae()) {
               if (SCORE_MODE != ScoreMode.NET && SCORE_MODE != ScoreMode.PROCESSOR) {
                 setScoreMode(ScoreMode.PROCESSOR, true);
