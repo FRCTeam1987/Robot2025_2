@@ -230,11 +230,11 @@ public class Arm {
   }
 
   public boolean hasGamePieceBack() {
-    return BACK_DEBOUNCER.calculate(CORAL_S2_SIGNAL.getValue().equals(S2StateValue.High));
+    return BACK_DEBOUNCER.calculate(CORAL_S1_SIGNAL.getValue().equals(S1StateValue.High));
   }
 
   public boolean hasGamePieceEntrance() {
-    return ENTRANCE_DEBOUNCER.calculate(CORAL_S1_SIGNAL.getValue().equals(S1StateValue.High));
+    return ENTRANCE_DEBOUNCER.calculate(CORAL_S2_SIGNAL.getValue().equals(S2StateValue.High));
   }
 
   public boolean hasGamePiece() {

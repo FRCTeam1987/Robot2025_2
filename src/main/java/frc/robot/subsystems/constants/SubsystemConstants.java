@@ -2,6 +2,8 @@ package frc.robot.subsystems.constants;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -85,7 +87,7 @@ public class SubsystemConstants {
 
     // Ratios and calculations
     public static final double GEAR_RATIO = 30;
-    public static final double ARM_RATIO = (60.0 / 12.0) * (60.0 / 18.0) * (60.0 / 18.0);
+    public static final double ARM_RATIO = (60.0 / 12.0) * (60.0 / 18.0) * (96.0 / 20.0);
     public static final double EFFECTOR_RATIO = (48.0 / 15.0);
     public static final Distance SLOW_HEIGHT =
         MechanismConstant.L4
@@ -99,7 +101,7 @@ public class SubsystemConstants {
     public static final DebounceType ALGAE_DEBOUNCE_TYPE = DebounceType.kBoth;
 
     // Mechanism properties
-    public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.463379);
+    public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.528809);
 
     // Dynamic configs
     public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(32.0);
@@ -309,7 +311,7 @@ public class SubsystemConstants {
   public static class LightsConstants {
     public static final int CANDLE_ID = 1;
     public static final String CANBUS_NAME = "canfd";
-    public static final int OG = 38;
+    public static final int OG = 8;
     public static final int SIDE = 38;
     public static final int SIDE_OFFSET = OG;
     public static final int UPRIGHTS = 21;
@@ -362,6 +364,15 @@ public class SubsystemConstants {
         }
       }
     }
+
+    public static Animation IDLE_RED_SIDE =
+        new SingleFadeAnimation(255, 0, 0, 0, IDLE_SPEED, SIDE, SIDE_OFFSET);
+    public static Animation IDLE_BLUE_SIDE =
+        new SingleFadeAnimation(0, 0, 255, 0, IDLE_SPEED, SIDE, SIDE_OFFSET);
+    public static Animation IDLE_RED_UPRIGHTS =
+        new SingleFadeAnimation(255, 0, 0, 0, IDLE_SPEED, UPRIGHTS, UPRIGHTS_OFFSET);
+    public static Animation IDLE_BLUE_UPRIGHTS =
+        new SingleFadeAnimation(0, 0, 255, 0, IDLE_SPEED, UPRIGHTS, UPRIGHTS_OFFSET);
     ;
 
     // public LarsonAnimation(int r, int g, int b, int w, double speed, int numLed, BounceMode mode,

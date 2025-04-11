@@ -4,18 +4,25 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.RobotContainer.DRIVETRAIN;
 import static frc.robot.subsystems.constants.SubsystemConstants.LightsConstants.UPRIGHTS;
 
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
-import com.ctre.phoenix.led.FireAnimation;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import frc.robot.state.Abomination;
+import frc.robot.state.logic.mode.CollectMode;
+import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.subsystems.constants.SubsystemConstants;
 
 /** Add your docs here. */
 public class Lights {
-  private static Animation CURRENT_ANIMATION_SIDE = new FireAnimation();
-  private static Animation CURRENT_ANIMATION_UPRIGHTS = new FireAnimation();
+  public static ScoreMode PREVIOUS_SCORE_MODE = Abomination.getScoreMode();
+  public static CollectMode PREVIOUS_COLLECT_MODE = Abomination.getCollectMode();
+  public static boolean PREVIOUSLY_ENABLED = false;
+  public static DriverStation.Alliance PREVIOUS_ALLIANCE = DriverStation.Alliance.Red;
+
   private static final CANdle CANDLE =
       new CANdle(
           SubsystemConstants.LightsConstants.CANDLE_ID,
@@ -24,6 +31,10 @@ public class Lights {
   public Lights() {}
 
   public void cycle() {
+    PREVIOUS_SCORE_MODE = Abomination.getScoreMode();
+    PREVIOUS_COLLECT_MODE = Abomination.getCollectMode();
+    PREVIOUSLY_ENABLED = DriverStation.isEnabled();
+    PREVIOUS_ALLIANCE = DRIVETRAIN.getAlliance();
     log();
   }
 
@@ -38,19 +49,24 @@ public class Lights {
   }
 
   public void applyAnimationUpright(Animation animation) {
-    if (CURRENT_ANIMATION_UPRIGHTS != animation) {
+    if (shouldUpdate()) {
       CANDLE.clearAnimation(1);
       CANDLE.animate(animation, 1);
-      CURRENT_ANIMATION_UPRIGHTS = animation;
     }
   }
 
   public void applyAnimationSide(Animation animation) {
-    if (CURRENT_ANIMATION_SIDE != animation) {
+    if (shouldUpdate()) {
       CANDLE.clearAnimation(0);
       CANDLE.animate(animation, 0);
-      CURRENT_ANIMATION_SIDE = animation;
     }
+  }
+
+  public boolean shouldUpdate() {
+    return Abomination.getScoreMode() != PREVIOUS_SCORE_MODE
+        || Abomination.getCollectMode() != PREVIOUS_COLLECT_MODE
+        || DriverStation.isEnabled() != PREVIOUSLY_ENABLED
+        || DRIVETRAIN.getAlliance() != PREVIOUS_ALLIANCE;
   }
 
   public void applyAnimations(Animation animationSide, Animation animationUpright) {
