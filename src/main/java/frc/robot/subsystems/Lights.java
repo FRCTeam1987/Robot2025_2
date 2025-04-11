@@ -4,8 +4,7 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.subsystems.constants.SubsystemConstants.IntakeConstants.*;
-import static frc.robot.subsystems.constants.SubsystemConstants.LightsConstants.LEDS_UPRIGHTS;
+import static frc.robot.subsystems.constants.SubsystemConstants.LightsConstants.UPRIGHTS;
 
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
@@ -68,7 +67,7 @@ public class Lights {
         color.blue,
         0,
         0,
-        SubsystemConstants.LightsConstants.LEDS_SIDE + LEDS_UPRIGHTS);
+        SubsystemConstants.LightsConstants.SIDE + UPRIGHTS);
   }
 
   public void off() {

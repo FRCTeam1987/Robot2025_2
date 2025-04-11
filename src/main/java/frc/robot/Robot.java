@@ -24,6 +24,8 @@ public class Robot extends TimedRobot {
 
   private double timeToCoast;
 
+  public static boolean hasCoasted = false;
+
   public Robot() {
     CanBridge.runTCP();
     RobotController.setBrownoutVoltage(6.0);
@@ -60,6 +62,7 @@ public class Robot extends TimedRobot {
     //    }
     if (timeToCoast + 15 < Timer.getFPGATimestamp()) {
       RobotContainer.CLIMBER.coast();
+      hasCoasted = true;
     }
   }
 
@@ -94,6 +97,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     LimelightHelpers.SetThrottle("limelight-scoring", 0);
     RobotContainer.CLIMBER.brake();
+    hasCoasted = false;
     RobotContainer.ELEVATOR.setConfigTeleop();
     if (AUTONOMOUS_COMMAND != null) {
       AUTONOMOUS_COMMAND.cancel();
