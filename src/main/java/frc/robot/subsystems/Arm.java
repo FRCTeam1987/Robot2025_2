@@ -40,7 +40,7 @@ import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.util.NetworkTableTimer;
 import frc.robot.utils.Utils;
 
-public class Arm {
+public class Arm extends BroncSystem {
 
   public final TalonFX ARM_MOTOR = new TalonFX(LEADER_MOTOR_ID, CANBUS_NAME);
 
@@ -122,6 +122,7 @@ public class Arm {
     // ALGAE_CANDI.optimizeBusUtilization(4, 0.1);
   }
 
+  @Override
   public void log() {
     // Update and log inputs from hardware
     DogLog.log("Arm/armSupplyCurrent", ARM_SUPPLY_CURRENT.getValueAsDouble());
@@ -141,7 +142,8 @@ public class Arm {
     //    DogLog.log("Arm/algaeIsConnected", algaeStatus.isOK());
   }
 
-  public void cycle() {
+  @Override
+  public void preCycle() {
     StatusCode allStatus =
         BaseStatusSignal.refreshAll(
             ARM_POSITION,

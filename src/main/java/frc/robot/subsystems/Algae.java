@@ -19,7 +19,7 @@ import edu.wpi.first.units.measure.Current;
 import frc.robot.RobotContainer;
 
 /** Add your docs here. */
-public class Algae {
+public class Algae extends BroncSystem {
 
   private static final VoltageOut VOLTAGE_OUT_START = new VoltageOut(MOTOR_RUN_VOLTS);
   private static final VoltageOut VOLTAGE_OUT_STOP = new VoltageOut(0.0);
@@ -48,10 +48,12 @@ public class Algae {
         DEPLOYER_POSITION);
   }
 
-  public void cycle() {
+  @Override
+  public void preCycle() {
     log();
   }
 
+  @Override
   public void log() {
     StatusCode motorStatus =
         BaseStatusSignal.refreshAll(

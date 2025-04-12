@@ -60,9 +60,9 @@ public enum FunctionalState {
                       255,
                       0,
                       UP_SPEED,
-                      5,
-                      LarsonAnimation.BounceMode.Front,
                       SIDE,
+                      LarsonAnimation.BounceMode.Front,
+                      LARSON_SIZE,
                       SIDE_OFFSET));
               LIGHTS.applyAnimationUpright(
                   new LarsonAnimation(
@@ -71,9 +71,9 @@ public enum FunctionalState {
                       255,
                       0,
                       UP_SPEED,
-                      5,
-                      LarsonAnimation.BounceMode.Front,
                       UPRIGHTS,
+                      LarsonAnimation.BounceMode.Front,
+                      LARSON_SIZE,
                       UPRIGHTS_OFFSET));
             }
           })),
@@ -141,9 +141,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     SIDE,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new LarsonAnimation(
@@ -152,9 +152,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     UPRIGHTS,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   PROCESSOR_ROTATE(
@@ -173,9 +173,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     SIDE,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new LarsonAnimation(
@@ -184,9 +184,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     UPRIGHTS,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   PROCESSOR_SCORE(
@@ -229,9 +229,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     SIDE,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new LarsonAnimation(
@@ -240,9 +240,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     UPRIGHTS,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   NET_ROTATE(
@@ -263,9 +263,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     SIDE,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new LarsonAnimation(
@@ -274,9 +274,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     UPRIGHTS,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   NET_SCORE(
@@ -320,9 +320,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     DOWN_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     SIDE,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new LarsonAnimation(
@@ -331,9 +331,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     DOWN_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     UPRIGHTS,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   NET_UNELEVATE(
@@ -352,9 +352,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     DOWN_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     SIDE,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new LarsonAnimation(
@@ -363,9 +363,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     DOWN_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     UPRIGHTS,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   LEVEL_X_ELEVATE(
@@ -386,9 +386,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     SIDE,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new LarsonAnimation(
@@ -397,9 +397,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     UPRIGHTS,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   LEVEL_X_ROTATE(
@@ -420,9 +420,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     DOWN_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     SIDE,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new LarsonAnimation(
@@ -431,9 +431,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     DOWN_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     UPRIGHTS,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   LEVEL_X_SCORE(
@@ -484,9 +484,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     DOWN_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     SIDE,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new LarsonAnimation(
@@ -495,9 +495,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     DOWN_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     UPRIGHTS,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   LEVEL_X_UNELEVATE(
@@ -516,9 +516,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     DOWN_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     SIDE,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new LarsonAnimation(
@@ -527,9 +527,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     DOWN_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     UPRIGHTS,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   CLIMB_DEPLOY(
@@ -549,9 +549,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     SIDE,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new LarsonAnimation(
@@ -560,9 +560,9 @@ public enum FunctionalState {
                     COLOR.blue,
                     0,
                     UP_SPEED,
-                    5,
-                    LarsonAnimation.BounceMode.Front,
                     UPRIGHTS,
+                    LarsonAnimation.BounceMode.Front,
+                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   CLIMB_CLIMB(

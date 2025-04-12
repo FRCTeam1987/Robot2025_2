@@ -312,10 +312,11 @@ public class SubsystemConstants {
     public static final int CANDLE_ID = 1;
     public static final String CANBUS_NAME = "canfd";
     public static final int OG = 8;
-    public static final int SIDE = 38;
+    public static final int SIDE = 33;
     public static final int SIDE_OFFSET = OG;
     public static final int UPRIGHTS = 21;
     public static final int UPRIGHTS_OFFSET = SIDE + OG;
+    public static final int LARSON_SIZE = 5;
 
     public static final Color8Bit DISABLED = new Color8Bit(255, 0, 0);
 
@@ -333,7 +334,7 @@ public class SubsystemConstants {
     public static final double DOWN_SPEED = 0.15;
     public static final double COLLECTED_SPEED = 0.35;
     public static final double CLIMB_CLIMB_SPEED = 0.75;
-    public static final double IDLE_SPEED = 0.15;
+    public static final double IDLE_SPEED = 0.25;
     public static final double SCORE_STROBE_SPEED = 0.5;
 
     public static Color8Bit getScoreColor() {

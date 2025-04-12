@@ -39,7 +39,7 @@ import frc.robot.state.commands.AsyncRumble;
 import frc.robot.state.logic.mode.ScoreMode;
 import java.util.function.Supplier;
 
-public class Climber {
+public class Climber extends BroncSystem {
 
   public final TalonFX LEADER = new TalonFX(LEADER_MOTOR_ID, CANBUS_NAME);
 
@@ -83,7 +83,8 @@ public class Climber {
         4, 200, 0, false, 0, new LaserCanInterface.RegionOfInterest(0, 0, 0, 0));
   }
 
-  public void cycle() {
+  @Override
+  public void preCycle() {
     log();
     if (ENCODER_POSITION.getValue().lt(Degrees.of(89))) {
       LEADER.stopMotor();
@@ -171,6 +172,7 @@ public class Climber {
     return getPosition().isNear(target, Degrees.of(0.5));
   }
 
+  @Override
   public void log() {
     StatusCode allStatus =
         BaseStatusSignal.refreshAll(LEADER_POSITION, LEADER_SUPPLY_CURRENT, ENCODER_POSITION);

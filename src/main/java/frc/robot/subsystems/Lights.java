@@ -17,7 +17,7 @@ import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.subsystems.constants.SubsystemConstants;
 
 /** Add your docs here. */
-public class Lights {
+public class Lights extends BroncSystem {
   public static ScoreMode PREVIOUS_SCORE_MODE = Abomination.getScoreMode();
   public static CollectMode PREVIOUS_COLLECT_MODE = Abomination.getCollectMode();
   public static boolean PREVIOUSLY_ENABLED = false;
@@ -30,14 +30,20 @@ public class Lights {
 
   public Lights() {}
 
-  public void cycle() {
+  @Override
+  public void preCycle() {
+    log();
+  }
+
+  @Override
+  public void postCycle() {
     PREVIOUS_SCORE_MODE = Abomination.getScoreMode();
     PREVIOUS_COLLECT_MODE = Abomination.getCollectMode();
     PREVIOUSLY_ENABLED = DriverStation.isEnabled();
     PREVIOUS_ALLIANCE = DRIVETRAIN.getAlliance();
-    log();
   }
 
+  @Override
   public void log() {
     //        StatusCode motorStatus = BaseStatusSignal.refreshAll(INTAKE_SUPPLY_CURRENT,
     // INTAKE_VELOCITY);
@@ -63,6 +69,7 @@ public class Lights {
   }
 
   public boolean shouldUpdate() {
+
     return Abomination.getScoreMode() != PREVIOUS_SCORE_MODE
         || Abomination.getCollectMode() != PREVIOUS_COLLECT_MODE
         || DriverStation.isEnabled() != PREVIOUSLY_ENABLED

@@ -29,7 +29,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.constants.SubsystemConstants;
 import frc.robot.utils.Conversions;
 
-public class Elevator {
+public class Elevator extends BroncSystem {
 
   public final TalonFX LEADER = new TalonFX(LEADER_CAN_ID, CAN_BUS);
 
@@ -84,6 +84,7 @@ public class Elevator {
     setConfig(SubsystemConstants.ElevatorConstants.elevatorConfigFast());
   }
 
+  @Override
   public void log() {
     StatusCode allStatusCode =
         BaseStatusSignal.refreshAll(
@@ -114,7 +115,8 @@ public class Elevator {
     }
   }
 
-  public void cycle() {
+  @Override
+  public void preCycle() {
     log();
     distance = Conversions.rotationsToMeters(LEADER_POSITION.getValue(), 1.0, PULLEY_RADIUS);
     isAtTarget = isAtTargetDebouncer.calculate(distance.isNear(target, Inches.of(0.5)));
