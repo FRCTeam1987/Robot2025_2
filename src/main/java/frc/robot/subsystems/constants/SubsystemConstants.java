@@ -323,12 +323,12 @@ public class SubsystemConstants {
     public static final Color8Bit AUTO_DRIVING = new Color8Bit(0, 255, 255);
 
     public static final Color8Bit L1_COLOR = new Color8Bit(255, 255, 0);
-    public static final Color8Bit L2_COLOR = new Color8Bit(255, 0, 0);
-    public static final Color8Bit L3_COLOR = new Color8Bit(0, 255, 0);
-    public static final Color8Bit L4_COLOR = new Color8Bit(0, 0, 0);
-    public static final Color8Bit PROC_COLOR = new Color8Bit(0, 0, 0);
-    public static final Color8Bit NET_COLOR = new Color8Bit(0, 0, 0);
-    public static final Color8Bit CLIMB_COLOR = new Color8Bit(0, 0, 0);
+    public static final Color8Bit L2_COLOR = new Color8Bit(0, 255, 255);
+    public static final Color8Bit L3_COLOR = new Color8Bit(255, 0, 255);
+    public static final Color8Bit L4_COLOR = new Color8Bit(255, 255, 255);
+    public static final Color8Bit PROC_COLOR = new Color8Bit(0, 255, 0);
+    public static final Color8Bit NET_COLOR = new Color8Bit(0, 0, 255);
+    public static final Color8Bit CLIMB_COLOR = new Color8Bit(255, 0, 0);
 
     public static final double UP_SPEED = 0.65;
     public static final double DOWN_SPEED = 0.15;
