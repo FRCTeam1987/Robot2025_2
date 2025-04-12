@@ -50,13 +50,13 @@ public class SubsystemConstants {
       CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
 
       // Slot0
-      CFG.Slot0.withKP(20.0);
+      CFG.Slot0.withKP(15.0);
       CFG.Slot0.withKI(0.0);
       CFG.Slot0.withKD(0.1);
       CFG.Slot0.withKS(0.0);
       CFG.Slot0.withKV(0.15);
       CFG.Slot0.withKA(0.0);
-      CFG.Slot0.withKG(0.2);
+      CFG.Slot0.withKG(0.15);
       CFG.Slot0.withGravityType(GravityTypeValue.Elevator_Static);
 
       // Feedback
@@ -104,7 +104,7 @@ public class SubsystemConstants {
     public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.528809);
 
     // Dynamic configs
-    public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(32.0);
+    public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(28);
     public static final AngularVelocity FAST_CRUISE = RotationsPerSecond.of(9.0);
     public static final AngularAcceleration SLOW_ACCEL = RotationsPerSecondPerSecond.of(8.0);
     public static final AngularVelocity SLOW_CRUISE = RotationsPerSecond.of(4.5);
@@ -126,10 +126,10 @@ public class SubsystemConstants {
       final TalonFXConfiguration CFG = new TalonFXConfiguration();
 
       // MotorOutput
-      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Coast); // TODO: brake for competition
+      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake); // TODO: brake for competition
 
       // Slot0
-      CFG.Slot0.withKP(120);
+      CFG.Slot0.withKP(90);
       CFG.Slot0.withKI(0.0);
       CFG.Slot0.withKD(0.1);
 
@@ -280,8 +280,8 @@ public class SubsystemConstants {
 
     public static final Color8Bit L1_COLOR = new Color8Bit(255, 255, 0);
     public static final Color8Bit L2_COLOR = new Color8Bit(0, 255, 255);
-    public static final Color8Bit L3_COLOR = new Color8Bit(255, 0, 255);
-    public static final Color8Bit L4_COLOR = new Color8Bit(255, 255, 255);
+    public static final Color8Bit L3_COLOR = new Color8Bit(255, 255, 255);
+    public static final Color8Bit L4_COLOR = new Color8Bit(160, 0, 255);
     public static final Color8Bit PROC_COLOR = new Color8Bit(0, 255, 0);
     public static final Color8Bit NET_COLOR = new Color8Bit(0, 0, 255);
     public static final Color8Bit CLIMB_COLOR = new Color8Bit(255, 0, 0);
@@ -291,7 +291,7 @@ public class SubsystemConstants {
     public static final double COLLECTED_SPEED = 0.35;
     public static final double CLIMB_CLIMB_SPEED = 0.75;
     public static final double IDLE_SPEED = 0.25;
-    public static final double SCORE_STROBE_SPEED = 0.5;
+    public static final double SCORE_STROBE_SPEED = 0.35;
 
     public static Color8Bit getScoreColor() {
       switch (Abomination.getScoreMode()) {

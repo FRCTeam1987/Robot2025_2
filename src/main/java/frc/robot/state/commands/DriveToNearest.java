@@ -55,31 +55,16 @@ public class DriveToNearest extends SequentialCommandGroup {
       switch (Abomination.getScoreMode()) {
         case L1 -> {
           if (isLeft) {
-            return Utils.processAndReturn(CORAL_LEFT_L1, CORAL_RIGHT_L1);
+            return Utils.getNearest(RED_CORAL_LEFT_L1, BLUE_CORAL_LEFT_L1, false);
           } else {
-            return Utils.processAndReturn(CORAL_RIGHT_L1, CORAL_LEFT_L1);
+            return Utils.getNearest(RED_CORAL_RIGHT_L1, BLUE_CORAL_RIGHT_L1, false);
           }
         }
-        case L2 -> {
+        case L2, L3, L4 -> {
           if (isLeft) {
-            return Utils.processAndReturn(CORAL_LEFT_L2, CORAL_RIGHT_L2);
+            return Utils.getNearest(RED_CORAL_LEFT, BLUE_CORAL_LEFT, false);
           } else {
-            return Utils.processAndReturn(CORAL_RIGHT_L2, CORAL_LEFT_L2);
-          }
-        }
-        case L3 -> {
-          if (isLeft) {
-            return Utils.processAndReturn(CORAL_LEFT_L3, CORAL_RIGHT_L3);
-          } else {
-            return Utils.processAndReturn(CORAL_RIGHT_L3, CORAL_LEFT_L3);
-          }
-        }
-
-        case L4 -> {
-          if (isLeft) {
-            return Utils.processAndReturn(CORAL_LEFT_L4, CORAL_RIGHT_L4);
-          } else {
-            return Utils.processAndReturn(CORAL_RIGHT_L4, CORAL_LEFT_L4);
+            return Utils.getNearest(RED_CORAL_RIGHT, BLUE_CORAL_RIGHT, false);
           }
         }
         case PROCESSOR -> {

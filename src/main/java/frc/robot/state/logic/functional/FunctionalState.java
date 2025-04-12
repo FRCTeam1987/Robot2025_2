@@ -114,10 +114,17 @@ public enum FunctionalState {
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
-                new SingleFadeAnimation(COLOR.red, COLOR.green, COLOR.blue, 0, SIDE, SIDE_OFFSET));
+                new SingleFadeAnimation(
+                    COLOR.red, COLOR.green, COLOR.blue, 0, COLLECTED_SPEED, SIDE, SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
                 new SingleFadeAnimation(
-                    COLOR.red, COLOR.green, COLOR.blue, 0, UPRIGHTS, UPRIGHTS_OFFSET));
+                    COLOR.red,
+                    COLOR.green,
+                    COLOR.blue,
+                    0,
+                    COLLECTED_SPEED,
+                    UPRIGHTS,
+                    UPRIGHTS_OFFSET));
           })),
   PROCESSOR_ELEVATE(
       new FunctionalAction(
@@ -398,26 +405,16 @@ public enum FunctionalState {
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    DOWN_SPEED,
-                    SIDE,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    SIDE_OFFSET));
+                new StrobeAnimation(
+                    COLOR.red, COLOR.green, COLOR.blue, 0, SCORE_STROBE_SPEED, SIDE, SIDE_OFFSET));
             LIGHTS.applyAnimationUpright(
-                new LarsonAnimation(
+                new StrobeAnimation(
                     COLOR.red,
                     COLOR.green,
                     COLOR.blue,
                     0,
-                    DOWN_SPEED,
+                    SCORE_STROBE_SPEED,
                     UPRIGHTS,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
                     UPRIGHTS_OFFSET));
           })),
   LEVEL_X_SCORE(
@@ -430,7 +427,7 @@ public enum FunctionalState {
             ARM.setClawVoltage(
                 Volts.of(
                     switch (getScoreMode()) {
-                      case L1 -> inBack ? -8.0 : -16.0;
+                      case L1 -> inBack ? -2.75 : -2.75;
                       case L4 -> inBack ? -3.0 : -2.5;
                       default -> inBack ? -2.0 : -1.4;
                     }));

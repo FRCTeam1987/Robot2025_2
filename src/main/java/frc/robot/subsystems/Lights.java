@@ -12,6 +12,7 @@ import com.ctre.phoenix.led.CANdle;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.state.Abomination;
+import frc.robot.state.logic.functional.FunctionalState;
 import frc.robot.state.logic.mode.CollectMode;
 import frc.robot.state.logic.mode.ScoreMode;
 import frc.robot.subsystems.constants.SubsystemConstants;
@@ -19,6 +20,7 @@ import frc.robot.subsystems.constants.SubsystemConstants;
 /** Add your docs here. */
 public class Lights extends BroncSystem {
   public static ScoreMode PREVIOUS_SCORE_MODE = Abomination.getScoreMode();
+  public static FunctionalState PREVIOUS_STATE = FunctionalState.COLLECT;
   public static CollectMode PREVIOUS_COLLECT_MODE = Abomination.getCollectMode();
   public static boolean PREVIOUSLY_ENABLED = false;
   public static DriverStation.Alliance PREVIOUS_ALLIANCE = DriverStation.Alliance.Red;
@@ -37,6 +39,7 @@ public class Lights extends BroncSystem {
 
   @Override
   public void postCycle() {
+    PREVIOUS_STATE = Abomination.getPreviousState();
     PREVIOUS_SCORE_MODE = Abomination.getScoreMode();
     PREVIOUS_COLLECT_MODE = Abomination.getCollectMode();
     PREVIOUSLY_ENABLED = DriverStation.isEnabled();
@@ -73,6 +76,7 @@ public class Lights extends BroncSystem {
     return Abomination.getScoreMode() != PREVIOUS_SCORE_MODE
         || Abomination.getCollectMode() != PREVIOUS_COLLECT_MODE
         || DriverStation.isEnabled() != PREVIOUSLY_ENABLED
+        || Abomination.getPreviousState() != PREVIOUS_STATE
         || DRIVETRAIN.getAlliance() != PREVIOUS_ALLIANCE;
   }
 
