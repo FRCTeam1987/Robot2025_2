@@ -55,7 +55,6 @@ public class RobotContainer {
   public static final Elevator ELEVATOR = new Elevator();
   public static final Arm ARM = new Arm();
   public static final Intake INTAKE = new Intake();
-  public static final Algae ALGAE = new Algae();
   public static final Climber CLIMBER = new Climber();
   public static final Lights LIGHTS = new Lights();
 

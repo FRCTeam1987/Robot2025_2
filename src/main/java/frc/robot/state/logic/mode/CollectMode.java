@@ -5,8 +5,7 @@ import frc.robot.state.logic.constants.MechanismConstant;
 public enum CollectMode {
   HUMAN_PLAYER_STATION(MechanismConstant.HP_INTAKE),
   ALGAE_2(MechanismConstant.A2),
-  ALGAE_3(MechanismConstant.A3),
-  ALGAE_GROUND(MechanismConstant.AGROUND);
+  ALGAE_3(MechanismConstant.A3);
 
   public MechanismConstant getMechanismConstant() {
     return COLLECT_POS;

@@ -29,10 +29,6 @@ public enum FunctionalState {
                           ? ARM.hasGamePieceEntrance() ? Volts.of(9.0) : Volts.of(2.5)
                           : Volts.of(14.0)
                       : Volts.of(0.0)),
-          () ->
-              ALGAE.run(
-                  getCollectMode().getMechanismConstant().getDeployerAngle(),
-                  getCollectMode() == CollectMode.ALGAE_GROUND),
           () -> {
             if (JOYSTICK.back().getAsBoolean()) {
               INTAKE.reverse();
@@ -93,7 +89,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.9)),
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -116,7 +111,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
           ARM::dynamicHold,
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -131,7 +125,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(MechanismConstant.A2.getArmAngle()),
           ARM::dynamicHold,
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -163,7 +156,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(getScoreMode().getMechanismConstant().getArmAngle()),
           ARM::dynamicHold,
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -195,7 +187,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(getScoreMode().getMechanismConstant().getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(-6.0)),
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -219,7 +210,6 @@ public enum FunctionalState {
                   getScoreMode().getMechanismConstant().getArmAngle().minus(Degrees.of(35))),
           ARM::dynamicHold,
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -253,7 +243,6 @@ public enum FunctionalState {
                   getScoreMode().getMechanismConstant().getArmAngle().minus(Degrees.of(35))),
           () -> ARM.setClawVoltage(Volts.of(4.25)),
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -288,7 +277,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(MechanismConstant.HP_INTAKE.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(-16.0)),
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -310,7 +298,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(MechanismConstant.HP_INTAKE.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(1.0)),
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -342,7 +329,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(MechanismConstant.HP_INTAKE.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(1.0)),
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -376,7 +362,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(getScoreMode().getIdleMechanismConstant().getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(1)),
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -410,7 +395,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(getScoreMode().getMechanismConstant().getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(1)),
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -452,7 +436,6 @@ public enum FunctionalState {
                     }));
           },
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -474,7 +457,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(MechanismConstant.IDLE_CORAL.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(-6.0)),
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -506,7 +488,6 @@ public enum FunctionalState {
           () -> ARM.setArmPosition(MechanismConstant.HP_INTAKE.getArmAngle()),
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -539,7 +520,6 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop,
           CLIMBER::deploy,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             Color8Bit COLOR = getScoreColor();
             LIGHTS.applyAnimationSide(
@@ -572,7 +552,6 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop,
           CLIMBER::climb,
-          () -> ALGAE.run(getCollectMode().getMechanismConstant().getDeployerAngle(), false),
           () -> {
             if (!Robot.hasCoasted) {
               LIGHTS.applyAnimationSide(

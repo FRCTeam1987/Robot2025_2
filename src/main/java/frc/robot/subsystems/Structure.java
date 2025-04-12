@@ -17,7 +17,6 @@ public class Structure extends SubsystemBase {
     NetworkTableTimer.wrap("INTAKE.preCycle", RobotContainer.INTAKE::preCycle).run();
     NetworkTableTimer.wrap("CLIMBER.preCycle", RobotContainer.CLIMBER::preCycle).run();
     NetworkTableTimer.wrap("LIGHTS.preCycle", RobotContainer.LIGHTS::preCycle).run();
-    NetworkTableTimer.wrap("ALGAE.preCycle", RobotContainer.ALGAE::preCycle).run();
 
     FunctionalState STATE = Abomination.getState();
 
@@ -25,7 +24,6 @@ public class Structure extends SubsystemBase {
     NetworkTableTimer.wrap("STATE.ACTION.getRoller", STATE.ACTION.getRoller()).run();
     NetworkTableTimer.wrap("STATE.ACTION.getElev", STATE.ACTION.getElev()).run();
     NetworkTableTimer.wrap("STATE.ACTION.getIntake", STATE.ACTION.getIntake()).run();
-    NetworkTableTimer.wrap("STATE.ACTION.getAlgae", STATE.ACTION.getAlgae()).run();
     NetworkTableTimer.wrap("STATE.ACTION.getClimb", STATE.ACTION.getClimb()).run();
     NetworkTableTimer.wrap("STATE.ACTION.getLights", STATE.ACTION.getLights()).run();
 

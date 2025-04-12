@@ -42,9 +42,7 @@ public class Bindings extends RobotContainer {
         .onTrue(new InstCmd(() -> Abomination.setCollectMode(CollectMode.HUMAN_PLAYER_STATION)));
     JOYSTICK.povLeft().onTrue(new InstCmd(() -> Abomination.setCollectMode(CollectMode.ALGAE_2)));
     JOYSTICK.povRight().onTrue(new InstCmd(() -> Abomination.setCollectMode(CollectMode.ALGAE_3)));
-    JOYSTICK
-        .povDown()
-        .onTrue(new InstCmd(() -> Abomination.setCollectMode(CollectMode.ALGAE_GROUND)));
+    JOYSTICK.povDown().onTrue(new InstCmd(() -> Abomination.setScoreMode(ScoreMode.CLIMB, true)));
 
     JOYSTICK
         .start()

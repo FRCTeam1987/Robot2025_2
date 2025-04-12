@@ -201,50 +201,6 @@ public class SubsystemConstants {
     }
   }
 
-  public static class AlgaeConstants {
-    public static final int DEPLOYER_ID = 100;
-    public static final int ROLLER_ID = 200;
-    public static final String CAN_BUS = "canfd";
-
-    public static final double DEPLOYER_REDUCTION = 12.375;
-
-    public static final double MOTOR_RUN_VOLTS = -10;
-    public static final Angle DEPLOYER_STOWED_ANGLE = Degrees.of(90.0);
-    public static final Angle DEPLOYER_DEPLOYED_ANGLE = Degrees.of(45.0);
-    public static final Angle DEPLOYER_SEMIDEPLOYED_ANGLE = Degrees.of(25.0);
-
-    public static TalonFXConfiguration rollerConfig() {
-      TalonFXConfiguration CFG = new TalonFXConfiguration();
-      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
-      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(20.0));
-      CFG.CurrentLimits.withSupplyCurrentLowerTime(Seconds.of(2.0));
-      CFG.CurrentLimits.withSupplyCurrentLimitEnable(true);
-      return CFG;
-    }
-
-    public static TalonFXConfiguration deployerConfig() {
-      final TalonFXConfiguration CFG = new TalonFXConfiguration();
-
-      // MotorOutput
-      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
-
-      // Slot0
-      CFG.Slot0.withKP(20.0);
-      CFG.Slot0.withKI(0.0);
-      CFG.Slot0.withKD(0.1);
-      CFG.Slot0.withGravityType(GravityTypeValue.Arm_Cosine);
-
-      // Feedback
-      CFG.Feedback.withSensorToMechanismRatio(DEPLOYER_REDUCTION);
-
-      // CurrentLimits
-      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(20)); // was 32
-      CFG.CurrentLimits.withSupplyCurrentLimitEnable(true);
-
-      return CFG;
-    }
-  }
-
   public static class ClimberConstants {
     public static final int LEADER_MOTOR_ID = 9;
     public static final String CANBUS_NAME = "canfd";
