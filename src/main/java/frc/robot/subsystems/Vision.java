@@ -33,6 +33,11 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
+    LimelightHelpers.SetRobotOrientation_NoFlush(
+        LIMELIGHT_INTAKE_NAME, yaw.getAsDouble(), 0.0, 0.0, 0.0, 0.0, 0.0);
+    LimelightHelpers.SetRobotOrientation(
+        LIMELIGHT_SCORING_NAME, yaw.getAsDouble(), 0.0, 0.0, 0.0, 0.0, 0.0);
+
     LimelightHelpers.PoseEstimate scoringEst = updateAndAcquirePoseEstimate(LIMELIGHT_SCORING_NAME);
     LimelightHelpers.PoseEstimate intakeEst = updateAndAcquirePoseEstimate(LIMELIGHT_INTAKE_NAME);
     if (!processScoringLimelight(scoringEst)) {
@@ -85,8 +90,6 @@ public class Vision extends SubsystemBase {
   }
 
   public LimelightHelpers.PoseEstimate updateAndAcquirePoseEstimate(String LIMELIGHT_NAME) {
-    LimelightHelpers.SetRobotOrientation(
-        LIMELIGHT_NAME, yaw.getAsDouble(), 0.0, 0.0, 0.0, 0.0, 0.0);
     return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(LIMELIGHT_NAME);
   }
 

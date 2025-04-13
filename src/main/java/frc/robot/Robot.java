@@ -24,6 +24,8 @@ public class Robot extends TimedRobot {
 
   private double timeToCoast;
 
+  public static boolean hasCoasted = false;
+
   public Robot() {
     CanBridge.runTCP();
     RobotController.setBrownoutVoltage(6.0);
@@ -58,8 +60,10 @@ public class Robot extends TimedRobot {
     // DRIVETRAIN.resetPose(LocalizationUtil.blueFlipToRed(AUTONOMOUS_COMMAND.getStartingPose()));
     //      }
     //    }
-    if (timeToCoast + 15 < Timer.getFPGATimestamp()) {
+    if (timeToCoast + 15 < Timer.getFPGATimestamp() && !hasCoasted) {
       RobotContainer.CLIMBER.coast();
+      RobotContainer.ARM.coast();
+      hasCoasted = true;
     }
   }
 
@@ -71,6 +75,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     LimelightHelpers.SetThrottle("limelight-scoring", 0);
+
+    RobotContainer.autoTime = Timer.getFPGATimestamp();
 
     RobotContainer.VISION.setShouldUpdatePose(false);
     AUTONOMOUS_COMMAND = RobotContainer.getAutonomousCommand();
@@ -92,8 +98,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    RobotContainer.autoTime = Timer.getFPGATimestamp();
+
     LimelightHelpers.SetThrottle("limelight-scoring", 0);
     RobotContainer.CLIMBER.brake();
+    RobotContainer.ARM.brake();
+    hasCoasted = false;
     RobotContainer.ELEVATOR.setConfigTeleop();
     if (AUTONOMOUS_COMMAND != null) {
       AUTONOMOUS_COMMAND.cancel();

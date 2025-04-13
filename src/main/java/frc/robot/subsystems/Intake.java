@@ -17,7 +17,7 @@ import edu.wpi.first.units.measure.Current;
 import frc.robot.RobotContainer;
 
 /** Add your docs here. */
-public class Intake {
+public class Intake extends BroncSystem {
 
   public enum MotorStatus {
     isRunning,
@@ -44,10 +44,12 @@ public class Intake {
     // INTAKE_MOTOR.optimizeBusUtilization();
   }
 
-  public void cycle() {
+  @Override
+  public void preCycle() {
     log();
   }
 
+  @Override
   public void log() {
     StatusCode motorStatus = BaseStatusSignal.refreshAll(INTAKE_SUPPLY_CURRENT, INTAKE_VELOCITY);
     if (RobotContainer.DEBUG) {

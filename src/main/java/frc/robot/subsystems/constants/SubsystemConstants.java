@@ -3,7 +3,7 @@ package frc.robot.subsystems.constants;
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix.led.Animation;
-import com.ctre.phoenix.led.LarsonAnimation;
+import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -16,6 +16,8 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.units.AngularAccelerationUnit;
 import edu.wpi.first.units.measure.*;
+import edu.wpi.first.wpilibj.util.Color8Bit;
+import frc.robot.state.Abomination;
 import frc.robot.state.logic.constants.MechanismConstant;
 import java.util.List;
 
@@ -48,13 +50,13 @@ public class SubsystemConstants {
       CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
 
       // Slot0
-      CFG.Slot0.withKP(20.0);
+      CFG.Slot0.withKP(15.0);
       CFG.Slot0.withKI(0.0);
       CFG.Slot0.withKD(0.1);
       CFG.Slot0.withKS(0.0);
       CFG.Slot0.withKV(0.15);
       CFG.Slot0.withKA(0.0);
-      CFG.Slot0.withKG(0.2);
+      CFG.Slot0.withKG(0.15);
       CFG.Slot0.withGravityType(GravityTypeValue.Elevator_Static);
 
       // Feedback
@@ -85,7 +87,7 @@ public class SubsystemConstants {
 
     // Ratios and calculations
     public static final double GEAR_RATIO = 30;
-    public static final double ARM_RATIO = (60.0 / 12.0) * (60.0 / 18.0) * (60.0 / 18.0);
+    public static final double ARM_RATIO = (60.0 / 12.0) * (60.0 / 18.0) * (96.0 / 20.0);
     public static final double EFFECTOR_RATIO = (48.0 / 15.0);
     public static final Distance SLOW_HEIGHT =
         MechanismConstant.L4
@@ -99,10 +101,10 @@ public class SubsystemConstants {
     public static final DebounceType ALGAE_DEBOUNCE_TYPE = DebounceType.kBoth;
 
     // Mechanism properties
-    public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.463379);
+    public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.528809);
 
     // Dynamic configs
-    public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(32.0);
+    public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(28);
     public static final AngularVelocity FAST_CRUISE = RotationsPerSecond.of(9.0);
     public static final AngularAcceleration SLOW_ACCEL = RotationsPerSecondPerSecond.of(8.0);
     public static final AngularVelocity SLOW_CRUISE = RotationsPerSecond.of(4.5);
@@ -124,10 +126,10 @@ public class SubsystemConstants {
       final TalonFXConfiguration CFG = new TalonFXConfiguration();
 
       // MotorOutput
-      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Coast); // TODO: brake for competition
+      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake); // TODO: brake for competition
 
       // Slot0
-      CFG.Slot0.withKP(120);
+      CFG.Slot0.withKP(90);
       CFG.Slot0.withKI(0.0);
       CFG.Slot0.withKD(0.1);
 
@@ -265,24 +267,87 @@ public class SubsystemConstants {
   public static class LightsConstants {
     public static final int CANDLE_ID = 1;
     public static final String CANBUS_NAME = "canfd";
-    public static final int LEDS_SIDE = 38;
-    public static final int LEDS_UPRIGHTS = 21;
+    public static final int OG = 8;
+    public static final int SIDE = 33;
+    public static final int SIDE_OFFSET = OG;
+    public static final int UPRIGHTS = 21;
+    public static final int UPRIGHTS_OFFSET = SIDE + OG;
+    public static final int LARSON_SIZE = 5;
+
+    public static final Color8Bit DISABLED = new Color8Bit(255, 0, 0);
+
+    public static final Color8Bit AUTO_DRIVING = new Color8Bit(0, 255, 255);
+
+    public static final Color8Bit L1_COLOR = new Color8Bit(255, 255, 0);
+    public static final Color8Bit L2_COLOR = new Color8Bit(0, 255, 255);
+    public static final Color8Bit L3_COLOR = new Color8Bit(255, 255, 255);
+    public static final Color8Bit L4_COLOR = new Color8Bit(160, 0, 255);
+    public static final Color8Bit PROC_COLOR = new Color8Bit(0, 255, 0);
+    public static final Color8Bit NET_COLOR = new Color8Bit(0, 0, 255);
+    public static final Color8Bit CLIMB_COLOR = new Color8Bit(255, 0, 0);
+
+    public static final double UP_SPEED = 0.65;
+    public static final double DOWN_SPEED = 0.15;
+    public static final double COLLECTED_SPEED = 0.35;
+    public static final double CLIMB_CLIMB_SPEED = 0.75;
+    public static final double IDLE_SPEED = 0.25;
+    public static final double SCORE_STROBE_SPEED = 0.35;
+
+    public static Color8Bit getScoreColor() {
+      switch (Abomination.getScoreMode()) {
+        case L1 -> {
+          return L1_COLOR;
+        }
+        case L2 -> {
+          return L2_COLOR;
+        }
+        case L3 -> {
+          return L3_COLOR;
+        }
+        case L4 -> {
+          return L4_COLOR;
+        }
+        case PROCESSOR -> {
+          return PROC_COLOR;
+        }
+        case NET -> {
+          return NET_COLOR;
+        }
+        case CLIMB -> {
+          return CLIMB_COLOR;
+        }
+        default -> {
+          return DISABLED;
+        }
+      }
+    }
+
+    public static Animation IDLE_RED_SIDE =
+        new SingleFadeAnimation(255, 0, 0, 0, IDLE_SPEED, SIDE, SIDE_OFFSET);
+    public static Animation IDLE_BLUE_SIDE =
+        new SingleFadeAnimation(0, 0, 255, 0, IDLE_SPEED, SIDE, SIDE_OFFSET);
+    public static Animation IDLE_RED_UPRIGHTS =
+        new SingleFadeAnimation(255, 0, 0, 0, IDLE_SPEED, UPRIGHTS, UPRIGHTS_OFFSET);
+    public static Animation IDLE_BLUE_UPRIGHTS =
+        new SingleFadeAnimation(0, 0, 255, 0, IDLE_SPEED, UPRIGHTS, UPRIGHTS_OFFSET);
+    ;
 
     // public LarsonAnimation(int r, int g, int b, int w, double speed, int numLed, BounceMode mode,
     // int size, int ledOffset) {
-    public static final Animation INTAKE_ANIMATION_SIDE =
-        new LarsonAnimation(
-            255, 255, 255, 0, 0.35, LEDS_SIDE, LarsonAnimation.BounceMode.Front, 4, 8);
-    public static final Animation INTAKE_ANIMATION_UPRIGHTS =
-        new LarsonAnimation(
-            255,
-            0,
-            255,
-            0,
-            0.35,
-            LEDS_UPRIGHTS,
-            LarsonAnimation.BounceMode.Front,
-            4,
-            8 + LEDS_SIDE);
+
+    // ColorFlowAnimation, FireAnimation, LarsonAnimation, RainbowAnimation, RgbFadeAnimation,
+    // SingleFadeAnimation, StrobeAnimation, TwinkleAnimation, TwinkleOffAnimation
+
+    //    public static final Animation INTAKE_ANIMATION_UPRIGHTS =
+    //        new LarsonAnimation(
+    //            255,
+    //            0,
+    //            255,
+    //            0,
+    //            0.35,
+    //            LEDS_UPRIGHTS,
+    //            LarsonAnimation.BounceMode.Front,
+    //            4,
+    //            8 + LEDS_SIDE);
   }
 }

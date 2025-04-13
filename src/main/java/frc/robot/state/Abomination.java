@@ -182,9 +182,6 @@ public class Abomination {
               if (shouldScore()) {
                 return CLIMB_CLIMB;
               }
-              if (isDesired(DesiredAction.RECOVERY)) {
-                return CLIMB_STOW;
-              }
             }
             return CLIMB_DEPLOY;
           }

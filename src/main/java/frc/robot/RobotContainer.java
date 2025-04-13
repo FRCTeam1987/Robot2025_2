@@ -9,6 +9,8 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import dev.doglog.DogLog;
+import dev.doglog.DogLogOptions;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -16,6 +18,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -35,7 +38,7 @@ public class RobotContainer {
 
   public static final boolean DEBUG = true;
   public static final boolean TEST_MODE = false;
-  public static boolean BYPASS_TRACKER = false;
+  public static boolean BYPASS_TRACKER = true;
   public static final LinearVelocity MAX_SPEED = TunerConstants.kSpeedAt12Volts;
   public static final AngularVelocity MAX_ANGULAR_RATE = RotationsPerSecond.of(1.15);
   private static SendableChooser<PathPlannerAuto> autoChooser;
@@ -64,6 +67,9 @@ public class RobotContainer {
 
   public RobotContainer() {
     DRIVETRAIN.registerTelemetry(DRIVETRAIN.LOGGER::telemeterize);
+
+    DogLog.setOptions(
+        new DogLogOptions().withLogExtras(false).withCaptureDs(false).withCaptureConsole(false));
     configureAutos();
     Bindings.configureBindings();
     SmartDashboard.putData(
@@ -90,12 +96,19 @@ public class RobotContainer {
     TEST_TAB.add(
         "DECREMENT ARM 0.5", new InstCmd(() -> Utils.incrementArm(-0.5)).ignoringDisable(true));
     TEST_TAB.addDouble("ARM OFFSET", Utils::getArmOverride);
+    //    TEST_TAB.addDouble(
+    //        "DRIVE CURRENT",
+    //        () -> DRIVETRAIN.getModule(0).getDriveMotor().getStatorCurrent().getValueAsDouble());
+    //    TEST_TAB.addDouble(
+    //        "DRIVE VELO",
+    //        () -> DRIVETRAIN.getModule(0).getDriveMotor().getRotorVelocity().getValueAsDouble());
     TEST_TAB.addDouble("MATCH TIME", DriverStation::getMatchTime);
-    TEST_TAB.addBoolean("BYPASS TRACKER", () -> RobotContainer.BYPASS_TRACKER);
-    TEST_TAB.add(
-        "BYPASS TRACKER TOGGLE",
-        new InstCmd(() -> RobotContainer.BYPASS_TRACKER = !RobotContainer.BYPASS_TRACKER)
-            .ignoringDisable(true));
+    TEST_TAB.addDouble("MATCH TIME 2", RobotContainer::getRuntime);
+    //    TEST_TAB.addBoolean("BYPASS TRACKER", () -> RobotContainer.BYPASS_TRACKER);
+    //    TEST_TAB.add(
+    //        "BYPASS TRACKER TOGGLE",
+    //        new InstCmd(() -> RobotContainer.BYPASS_TRACKER = !RobotContainer.BYPASS_TRACKER)
+    //            .ignoringDisable(true));
 
     //    ArrayList<Pose2d> posesRed = new ArrayList<Pose2d>();
     //    ArrayList<Pose2d> posesBlu = new ArrayList<Pose2d>();
@@ -145,5 +158,11 @@ public class RobotContainer {
 
   public static PathPlannerAuto getAutonomousCommand() {
     return autoChooser.getSelected();
+  }
+
+  public static double autoTime;
+
+  public static double getRuntime() {
+    return Timer.getFPGATimestamp() - autoTime;
   }
 }

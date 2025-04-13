@@ -69,7 +69,7 @@ public class DriveToPose extends Command {
 
   @Override
   public void initialize() {
-    this.hasTargetDebounce = new Debouncer(0.02);
+    this.hasTargetDebounce = new Debouncer(0.06);
     Pose2d currentPose = ROBOT.get();
 
     ChassisSpeeds fieldVelocity = RobotContainer.DRIVETRAIN.getState().Speeds;
@@ -144,7 +144,7 @@ public class DriveToPose extends Command {
             && pose.getRotation()
                 .getMeasure()
                 .isNear(TARGET.get().getRotation().getMeasure(), Degrees.of(1.5))
-            && DRIVE.getState().Speeds.vxMetersPerSecond < 0.04
-            && DRIVE.getState().Speeds.vyMetersPerSecond < 0.04);
+            && DRIVE.getState().Speeds.vxMetersPerSecond < 0.03
+            && DRIVE.getState().Speeds.vyMetersPerSecond < 0.03);
   }
 }

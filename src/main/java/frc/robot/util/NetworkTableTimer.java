@@ -8,13 +8,10 @@ public class NetworkTableTimer {
   public static Runnable wrap(String label, Runnable runnable) {
     NetworkTableEntry entry = NetworkTableInstance.getDefault().getTable("timing").getEntry(label);
 
-    return new Runnable() {
-      @Override
-      public void run() {
-        double startTime = Timer.getFPGATimestamp();
-        runnable.run();
-        entry.setDouble(Timer.getFPGATimestamp() - startTime);
-      }
+    return () -> {
+      double startTime = Timer.getFPGATimestamp();
+      runnable.run();
+      entry.setDouble(Timer.getFPGATimestamp() - startTime);
     };
   }
 }

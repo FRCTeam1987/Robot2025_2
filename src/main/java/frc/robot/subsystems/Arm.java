@@ -18,15 +18,13 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.DigitalInputsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.controls.DynamicMotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.CANdi;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.S1FloatStateValue;
-import com.ctre.phoenix6.signals.S1StateValue;
-import com.ctre.phoenix6.signals.S2FloatStateValue;
-import com.ctre.phoenix6.signals.S2StateValue;
+import com.ctre.phoenix6.signals.*;
 import dev.doglog.DogLog;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
@@ -37,10 +35,9 @@ import frc.robot.RobotContainer;
 import frc.robot.state.Abomination;
 import frc.robot.state.logic.functional.FunctionalState;
 import frc.robot.state.logic.mode.ScoreMode;
-import frc.robot.util.NetworkTableTimer;
 import frc.robot.utils.Utils;
 
-public class Arm {
+public class Arm extends BroncSystem {
 
   public final TalonFX ARM_MOTOR = new TalonFX(LEADER_MOTOR_ID, CANBUS_NAME);
 
@@ -78,6 +75,7 @@ public class Arm {
   private boolean isFollowing = true;
   private boolean isAtTarget = false;
   private boolean isNearTarget = false;
+  private boolean isCoast;
 
   private final DynamicMotionMagicVoltage SLOW_MOTION =
       new DynamicMotionMagicVoltage(target, SLOW_CRUISE, SLOW_ACCEL, CARNAGE);
@@ -115,6 +113,7 @@ public class Arm {
         CORAL_S2_SIGNAL,
         ALGAE_S1_SIGNAL);
 
+    isCoast = armConfig().MotorOutput.NeutralMode.equals(NeutralModeValue.Coast);
     // ARM_MOTOR.optimizeBusUtilization(4, 0.1);
     // EFFECTOR_MOTOR.optimizeBusUtilization(4, 0.1);
     // ENCODER.optimizeBusUtilization(4, 0.1);
@@ -122,13 +121,14 @@ public class Arm {
     // ALGAE_CANDI.optimizeBusUtilization(4, 0.1);
   }
 
+  @Override
   public void log() {
     // Update and log inputs from hardware
     DogLog.log("Arm/armSupplyCurrent", ARM_SUPPLY_CURRENT.getValueAsDouble());
-    DogLog.log("Arm/armPosition", ARM_POSITION.getValueAsDouble());
-    DogLog.log("Arm/armVelocity", ARM_VELOCITY.getValueAsDouble());
+    //    DogLog.log("Arm/armPosition", ARM_POSITION.getValueAsDouble());
+    //    DogLog.log("Arm/armVelocity", ARM_VELOCITY.getValueAsDouble());
     DogLog.log("Arm/effectorSupplyCurrent", EFFECTOR_SUPPLY_CURRENT.getValueAsDouble());
-    DogLog.log("Arm/effectorPosition", EFFECTOR_POSITION.getValueAsDouble());
+    //    DogLog.log("Arm/effectorPosition", EFFECTOR_POSITION.getValueAsDouble());
     DogLog.log("Arm/encoderPosition", ENCODER_POSITION.getValueAsDouble());
     DogLog.log("Arm/isAtTarget", isAtTarget);
     DogLog.log("Arm/coralS1", CORAL_S1_SIGNAL.getValue());
@@ -141,7 +141,8 @@ public class Arm {
     //    DogLog.log("Arm/algaeIsConnected", algaeStatus.isOK());
   }
 
-  public void cycle() {
+  @Override
+  public void preCycle() {
     StatusCode allStatus =
         BaseStatusSignal.refreshAll(
             ARM_POSITION,
@@ -165,17 +166,16 @@ public class Arm {
 
     // StatusCode algaeStatus = BaseStatusSignal.refreshAll(ALGAE_S1_SIGNAL);
 
-    isAtTarget =
-        isAtTargetDebouncer.calculate(getArmPosition().isNear(target, AT_TARGET_TOLERANCE));
-    isNearTarget =
-        isNearTargetDebouncer.calculate(getArmPosition().isNear(target, NEAR_TARGET_TOLERANCE));
+    Angle ANGLE = getArmPosition();
 
-    NetworkTableTimer.wrap(
-            "Arm.cycle.log",
-            () -> {
-              if (RobotContainer.DEBUG) log();
-            })
-        .run();
+    isNearTarget = isNearTargetDebouncer.calculate(ANGLE.isNear(target, NEAR_TARGET_TOLERANCE));
+    if (!isNearTarget) {
+      isAtTarget = isAtTargetDebouncer.calculate(false);
+    } else {
+      isAtTarget = isAtTargetDebouncer.calculate(ANGLE.isNear(target, AT_TARGET_TOLERANCE));
+    }
+
+    log();
   }
 
   public void setClawVoltage(Voltage voltage) {
@@ -230,11 +230,11 @@ public class Arm {
   }
 
   public boolean hasGamePieceBack() {
-    return BACK_DEBOUNCER.calculate(CORAL_S2_SIGNAL.getValue().equals(S2StateValue.High));
+    return BACK_DEBOUNCER.calculate(CORAL_S1_SIGNAL.getValue().equals(S1StateValue.High));
   }
 
   public boolean hasGamePieceEntrance() {
-    return ENTRANCE_DEBOUNCER.calculate(CORAL_S1_SIGNAL.getValue().equals(S1StateValue.High));
+    return ENTRANCE_DEBOUNCER.calculate(CORAL_S2_SIGNAL.getValue().equals(S2StateValue.High));
   }
 
   public boolean hasGamePiece() {
@@ -258,5 +258,25 @@ public class Arm {
 
   public void dynamicHold() {
     setClawVoltage(Volts.of(3.0));
+  }
+
+  public void coast() {
+    if (isCoast) {
+      return;
+    }
+    ARM_MOTOR
+        .getConfigurator()
+        .apply(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast));
+    isCoast = true;
+  }
+
+  public void brake() {
+    if (!isCoast) {
+      return;
+    }
+    ARM_MOTOR
+        .getConfigurator()
+        .apply(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake));
+    isCoast = false;
   }
 }

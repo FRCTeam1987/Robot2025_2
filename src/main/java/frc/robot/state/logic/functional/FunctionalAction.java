@@ -27,22 +27,6 @@ public class FunctionalAction {
         LIGHTS);
   }
 
-  public FunctionalAction(Runnable ELEV, Runnable ARM, Runnable ROLL, Runnable INTAKE) {
-    this(
-        ELEV,
-        ARM,
-        ROLL,
-        INTAKE,
-        () -> {
-          if (JOYSTICK.back().getAsBoolean()) {
-            CLIMBER.stow();
-          } else {
-            CLIMBER.stop();
-          }
-        },
-        () -> {});
-  }
-
   public FunctionalAction(
       Runnable ELEV,
       Runnable ARM,
