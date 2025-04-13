@@ -86,13 +86,7 @@ public class Elevator extends BroncSystem {
 
   @Override
   public void log() {
-    StatusCode allStatusCode =
-        BaseStatusSignal.refreshAll(
-            LEADER_POSITION,
-            FOLLOWER_POSITION,
-            LEADER_SUPPLY_CURRENT,
-            FOLLOWER_SUPPLY_CURRENT,
-            LEADER_VELOCITY);
+
     // StatusCode leaderStatus = BaseStatusSignal.refreshAll(LEADER_POSITION,
     // LEADER_SUPPLY_CURRENT);
 
@@ -102,9 +96,9 @@ public class Elevator extends BroncSystem {
     if (RobotContainer.DEBUG) {
       DogLog.log("Elevator/leaderSupplyCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
       DogLog.log("Elevator/leaderPosition", LEADER_POSITION.getValueAsDouble());
-      DogLog.log("Elevator/leaderVelocity", LEADER_VELOCITY.getValueAsDouble());
+      //      DogLog.log("Elevator/leaderVelocity", LEADER_VELOCITY.getValueAsDouble());
       DogLog.log("Elevator/followerSupplyCurrent", FOLLOWER_SUPPLY_CURRENT.getValueAsDouble());
-      DogLog.log("Elevator/followerPosition", FOLLOWER_POSITION.getValueAsDouble());
+      //      DogLog.log("Elevator/followerPosition", FOLLOWER_POSITION.getValueAsDouble());
       DogLog.log("Elevator/isAtTarget", isAtTarget);
       DogLog.log("Elevator/target", target.in(Meters));
       DogLog.log("Elevator/distance", distance.in(Meters));
@@ -117,6 +111,13 @@ public class Elevator extends BroncSystem {
 
   @Override
   public void preCycle() {
+    StatusCode allStatusCode =
+        BaseStatusSignal.refreshAll(
+            LEADER_POSITION,
+            FOLLOWER_POSITION,
+            LEADER_SUPPLY_CURRENT,
+            FOLLOWER_SUPPLY_CURRENT,
+            LEADER_VELOCITY);
     log();
     distance = Conversions.rotationsToMeters(LEADER_POSITION.getValue(), 1.0, PULLEY_RADIUS);
     isAtTarget = isAtTargetDebouncer.calculate(distance.isNear(target, Inches.of(0.5)));

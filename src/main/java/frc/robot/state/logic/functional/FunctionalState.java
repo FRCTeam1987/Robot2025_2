@@ -90,19 +90,32 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(0.9)),
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new SingleFadeAnimation(
-                    COLOR.red, COLOR.green, COLOR.blue, 0, COLLECTED_SPEED, SIDE, SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new SingleFadeAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    COLLECTED_SPEED,
-                    UPRIGHTS,
-                    UPRIGHTS_OFFSET));
+            if (DriverStation.isDisabled()) {
+              Color8Bit C =
+                  DRIVETRAIN.getAlliance() == DriverStation.Alliance.Red
+                      ? new Color8Bit(255, 0, 0)
+                      : new Color8Bit(0, 0, 255);
+              LIGHTS.applyAnimationSide(
+                  new SingleFadeAnimation(
+                      C.red, C.green, C.blue, 0, IDLE_SPEED, SIDE, SIDE_OFFSET));
+              LIGHTS.applyAnimationUpright(
+                  new SingleFadeAnimation(
+                      C.red, C.green, C.blue, 0, IDLE_SPEED, UPRIGHTS, UPRIGHTS_OFFSET));
+            } else {
+              Color8Bit COLOR = getScoreColor();
+              LIGHTS.applyAnimationSide(
+                  new SingleFadeAnimation(
+                      COLOR.red, COLOR.green, COLOR.blue, 0, COLLECTED_SPEED, SIDE, SIDE_OFFSET));
+              LIGHTS.applyAnimationUpright(
+                  new SingleFadeAnimation(
+                      COLOR.red,
+                      COLOR.green,
+                      COLOR.blue,
+                      0,
+                      COLLECTED_SPEED,
+                      UPRIGHTS,
+                      UPRIGHTS_OFFSET));
+            }
           })),
   COLLECTED_ALGAE(
       new FunctionalAction(

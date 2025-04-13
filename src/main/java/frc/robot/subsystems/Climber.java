@@ -182,7 +182,7 @@ public class Climber extends BroncSystem {
     // StatusCode encoderStatus = BaseStatusSignal.refreshAll(ENCODER_POSITION);
 
     if (RobotContainer.DEBUG) {
-      DogLog.log("Climber/leaderPosition", LEADER_POSITION.getValueAsDouble());
+      // DogLog.log("Climber/leaderPosition", LEADER_POSITION.getValueAsDouble());
       DogLog.log("Climber/encoderPosition", ENCODER_POSITION.getValueAsDouble());
       DogLog.log("Climber/leaderCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
       if (Abomination.getScoreMode() == ScoreMode.CLIMB) {

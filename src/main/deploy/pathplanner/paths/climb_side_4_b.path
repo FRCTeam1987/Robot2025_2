@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.736020992366412,
-        "y": 7.178864503816794
+        "x": 1.7081106870229008,
+        "y": 7.234685114503817
       },
       "prevControl": {
-        "x": 1.6937518738177846,
-        "y": 7.551474650776217
+        "x": 1.6658415684742733,
+        "y": 7.607295261463239
       },
       "nextControl": {
-        "x": 1.7642004047321636,
-        "y": 6.9304577391771796
+        "x": 1.7362900993886523,
+        "y": 6.986278349864202
       },
       "isLocked": false,
       "linkedName": "climb_4_collect"
@@ -53,10 +53,10 @@
   "constraintZones": [
     {
       "name": "Slow Coral Station",
-      "minWaypointRelativePos": 0.8995475113122172,
+      "minWaypointRelativePos": 0.8796380090497737,
       "maxWaypointRelativePos": 1.0009049773755656,
       "constraints": {
-        "maxVelocity": 1.2,
+        "maxVelocity": 1.125,
         "maxAcceleration": 2.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -79,7 +79,19 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "PreElevate",
+      "waypointRelativePos": 1.8371040723981873,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "PreElevate"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
