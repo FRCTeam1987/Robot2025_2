@@ -1,0 +1,101 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.9744274809160305,
+        "y": 2.75787213740458
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.1556692593659936,
+        "y": 1.9176787133416906
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.7695133587786258,
+        "y": 0.8599713740458015
+      },
+      "prevControl": {
+        "x": 1.3564408396946561,
+        "y": 1.2339694656488551
+      },
+      "nextControl": {
+        "x": 2.0906029850778003,
+        "y": 0.569255090774927
+      },
+      "isLocked": false,
+      "linkedName": "processor_collect"
+    },
+    {
+      "anchor": {
+        "x": 5.051765267175572,
+        "y": 2.724379770992366
+      },
+      "prevControl": {
+        "x": 4.457008130293841,
+        "y": 2.2380140254104353
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -130.0
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Slow Coral Station",
+      "minWaypointRelativePos": 0.85,
+      "maxWaypointRelativePos": 1.011764705882353,
+      "constraints": {
+        "maxVelocity": 1.125,
+        "maxAcceleration": 2.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "InitL2",
+      "waypointRelativePos": 1.75,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "InitL2"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0.5,
+    "rotation": -60.572543596810235
+  },
+  "reversed": false,
+  "folder": "processor_side",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -119.99999999999999
+  },
+  "useDefaultConstraints": true
+}
