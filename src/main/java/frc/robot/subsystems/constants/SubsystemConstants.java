@@ -26,7 +26,7 @@ public class SubsystemConstants {
 
     // CANBus constants
     public static final CANBus CAN_BUS = new CANBus("canfd");
-    public static final int LEADER_CAN_ID = 18;
+    public static final int LEADER_CAN_ID = 8;
     public static final int FOLLOWER_CAN_ID = 19;
 
     // Ratios & calculations
