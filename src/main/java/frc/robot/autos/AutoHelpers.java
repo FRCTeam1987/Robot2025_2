@@ -32,6 +32,8 @@ public class AutoHelpers {
       MechanismConstant.L4.getElevatorDistance().minus(Inches.of(1.0));
   private static boolean WANTS_CORAL = true;
 
+  public static Distance ELEVATOR_BELOW_NET_HEIGHT = MechanismConstant.L3.getElevatorDistance();
+
   public static void setScoreMode(ScoreMode mode) {
     Abomination.setScoreMode(ScoreMode.L4, false);
   }
@@ -150,9 +152,11 @@ public class AutoHelpers {
     NamedCommands.registerCommand(
         "ScoreAlgae",
         new WaitUntilCommand(() -> RobotContainer.ELEVATOR.isAtTarget())
+            .andThen(new WaitCommand(0.04))
             .andThen(
                 new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE))
                     .andThen(new WaitUntilCommand(AutoHelpers::hasScoredAlgae))));
+    NamedCommands.registerCommand("WaitUntilElevatorIsBelowNet", new WaitUntilCommand(() -> RobotContainer.ELEVATOR.getPosition().lte(ELEVATOR_BELOW_NET_HEIGHT)));
   }
 
   public static List<FieldPosition> processorQueue =

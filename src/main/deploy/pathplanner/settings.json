@@ -3,8 +3,9 @@
   "robotLength": 0.8509,
   "holonomicMode": true,
   "pathFolders": [
-    "climb_side_4piece",
+    "middle_steal",
     "climb_side",
+    "climb_side_4piece",
     "middle",
     "processor_side"
   ],
