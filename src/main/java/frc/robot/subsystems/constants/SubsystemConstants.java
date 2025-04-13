@@ -104,7 +104,7 @@ public class SubsystemConstants {
     public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.528809);
 
     // Dynamic configs
-    public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(28);
+    public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(25);
     public static final AngularVelocity FAST_CRUISE = RotationsPerSecond.of(9.0);
     public static final AngularAcceleration SLOW_ACCEL = RotationsPerSecondPerSecond.of(8.0);
     public static final AngularVelocity SLOW_CRUISE = RotationsPerSecond.of(4.5);
@@ -129,7 +129,7 @@ public class SubsystemConstants {
       CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake); // TODO: brake for competition
 
       // Slot0
-      CFG.Slot0.withKP(90);
+      CFG.Slot0.withKP(103);
       CFG.Slot0.withKI(0.0);
       CFG.Slot0.withKD(0.1);
 

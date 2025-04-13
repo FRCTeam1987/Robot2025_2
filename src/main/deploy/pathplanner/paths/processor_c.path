@@ -16,28 +16,28 @@
     },
     {
       "anchor": {
-        "x": 1.712928082191781,
-        "y": 0.8395547945205476
+        "x": 1.7695133587786258,
+        "y": 0.8599713740458015
       },
       "prevControl": {
-        "x": 1.5174766213131667,
-        "y": 0.9954352822039528
+        "x": 1.5740618979000116,
+        "y": 1.0158518617292067
       },
       "nextControl": {
-        "x": 1.9083795430703954,
-        "y": 0.6836743068371436
+        "x": 1.9649648196572402,
+        "y": 0.7040908863623975
       },
       "isLocked": true,
       "linkedName": "processor_collect"
     },
     {
       "anchor": {
-        "x": 3.901860687022901,
-        "y": 2.746708015267176
+        "x": 3.885114503816794,
+        "y": 2.6518129770992367
       },
       "prevControl": {
-        "x": 3.4018606870229005,
-        "y": 1.880682611482737
+        "x": 3.3851145038167934,
+        "y": 1.7857875733147979
       },
       "nextControl": null,
       "isLocked": false,
@@ -53,7 +53,7 @@
   "constraintZones": [
     {
       "name": "Slow Coral Station",
-      "minWaypointRelativePos": 0.8977375565610859,
+      "minWaypointRelativePos": 0.8542986425339367,
       "maxWaypointRelativePos": 1.0497737556561086,
       "constraints": {
         "maxVelocity": 1.125,
@@ -79,7 +79,19 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "PreElevate",
+      "waypointRelativePos": 1.887782805429864,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "PreElevate"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.5,
     "maxAcceleration": 3.5,
