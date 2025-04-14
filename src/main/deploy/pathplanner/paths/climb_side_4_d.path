@@ -20,12 +20,12 @@
         "y": 7.234685114503817
       },
       "prevControl": {
-        "x": 1.966057386433628,
-        "y": 7.65217341378108
+        "x": 1.8535859845047749,
+        "y": 7.437999988092942
       },
       "nextControl": {
-        "x": 1.480441004420422,
-        "y": 6.866200350776113
+        "x": 1.2447996183206107,
+        "y": 6.587166030534352
       },
       "isLocked": false,
       "linkedName": "climb_4_collect"
@@ -80,8 +80,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 3.25,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -97,5 +97,5 @@
     "velocity": 0,
     "rotation": 119.99999999999999
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import static frc.robot.RobotContainer.ARM;
 import static frc.robot.RobotContainer.DRIVETRAIN;
 
 import au.grapplerobotics.CanBridge;
@@ -15,7 +16,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autos.AutoHelpers;
-import frc.robot.utils.LimelightHelpers;
 
 public class Robot extends TimedRobot {
   private PathPlannerAuto AUTONOMOUS_COMMAND;
@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
 
   private double timeToCoast;
 
-  public static boolean hasCoasted = false;
+  public static boolean hasClimberCoasted = false;
 
   public Robot() {
     CanBridge.runTCP();
@@ -60,22 +60,31 @@ public class Robot extends TimedRobot {
     // DRIVETRAIN.resetPose(LocalizationUtil.blueFlipToRed(AUTONOMOUS_COMMAND.getStartingPose()));
     //      }
     //    }
-    if (timeToCoast + 15 < Timer.getFPGATimestamp() && !hasCoasted) {
-      RobotContainer.CLIMBER.coast();
+    if (timeToCoast + 15 < Timer.getFPGATimestamp() && !hasClimberCoasted) {
+      // RobotContainer.CLIMBER.coast();
       RobotContainer.ARM.coast();
-      hasCoasted = true;
+      hasClimberCoasted = true;
+    }
+    if (timeToCoast + 5 < Timer.getFPGATimestamp()) {
+      if (ARM.hasAlgae() || (ARM.hasGamePieceEntrance() && !ARM.hasGamePieceBack())) {
+        ARM.coast();
+      } else {
+        ARM.brake();
+      }
+    } else {
+      ARM.brake();
     }
   }
 
   @Override
   public void disabledExit() {
-    LimelightHelpers.SetThrottle("limelight-scoring", 0);
+    RobotContainer.CLIMBER.brake();
+    RobotContainer.ARM.brake();
+    hasClimberCoasted = false;
   }
 
   @Override
   public void autonomousInit() {
-    LimelightHelpers.SetThrottle("limelight-scoring", 0);
-
     RobotContainer.autoTime = Timer.getFPGATimestamp();
 
     RobotContainer.VISION.setShouldUpdatePose(false);
@@ -99,11 +108,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     RobotContainer.autoTime = Timer.getFPGATimestamp();
-
-    LimelightHelpers.SetThrottle("limelight-scoring", 0);
-    RobotContainer.CLIMBER.brake();
-    RobotContainer.ARM.brake();
-    hasCoasted = false;
     RobotContainer.ELEVATOR.setConfigTeleop();
     if (AUTONOMOUS_COMMAND != null) {
       AUTONOMOUS_COMMAND.cancel();

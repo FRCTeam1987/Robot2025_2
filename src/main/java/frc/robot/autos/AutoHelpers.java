@@ -156,7 +156,10 @@ public class AutoHelpers {
             .andThen(
                 new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE))
                     .andThen(new WaitUntilCommand(AutoHelpers::hasScoredAlgae))));
-    NamedCommands.registerCommand("WaitUntilElevatorIsBelowNet", new WaitUntilCommand(() -> RobotContainer.ELEVATOR.getPosition().lte(ELEVATOR_BELOW_NET_HEIGHT)));
+    NamedCommands.registerCommand(
+        "WaitUntilElevatorIsBelowNet",
+        new WaitUntilCommand(
+            () -> RobotContainer.ELEVATOR.getPosition().lte(ELEVATOR_BELOW_NET_HEIGHT)));
   }
 
   public static List<FieldPosition> processorQueue =

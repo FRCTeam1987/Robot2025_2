@@ -291,7 +291,7 @@ public class SubsystemConstants {
     public static final double COLLECTED_SPEED = 0.35;
     public static final double CLIMB_CLIMB_SPEED = 0.75;
     public static final double IDLE_SPEED = 0.25;
-    public static final double SCORE_STROBE_SPEED = 0.35;
+    public static final double SCORE_STROBE_SPEED = 0.45;
 
     public static Color8Bit getScoreColor() {
       switch (Abomination.getScoreMode()) {

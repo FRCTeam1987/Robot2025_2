@@ -563,7 +563,7 @@ public enum FunctionalState {
           INTAKE::stop,
           CLIMBER::climb,
           () -> {
-            if (!Robot.hasCoasted) {
+            if (!Robot.hasClimberCoasted) {
               LIGHTS.applyAnimationSide(
                   new SingleFadeAnimation(255, 0, 0, 0, CLIMB_CLIMB_SPEED, SIDE, SIDE_OFFSET));
               LIGHTS.applyAnimationUpright(

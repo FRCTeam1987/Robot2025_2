@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.7695133587786258,
-        "y": 0.8599713740458015
+        "x": 1.7136927480916029,
+        "y": 0.8488072519083971
       },
       "prevControl": {
-        "x": 1.5740618979000116,
-        "y": 1.0158518617292067
+        "x": 1.5182412872129885,
+        "y": 1.004687739591799
       },
       "nextControl": {
-        "x": 1.9649648196572402,
-        "y": 0.7040908863623975
+        "x": 2.167658696290829,
+        "y": 0.4867509486254983
       },
       "isLocked": true,
       "linkedName": "processor_collect"
@@ -53,8 +53,8 @@
   "constraintZones": [
     {
       "name": "Slow Coral Station",
-      "minWaypointRelativePos": 0.8542986425339367,
-      "maxWaypointRelativePos": 1.0497737556561086,
+      "minWaypointRelativePos": 0.8868778280542985,
+      "maxWaypointRelativePos": 1.0895927601809954,
       "constraints": {
         "maxVelocity": 1.125,
         "maxAcceleration": 2.5,
@@ -94,7 +94,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.5,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 3.25,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
