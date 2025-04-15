@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
     //    }
     if (timeToCoast + 15 < Timer.getFPGATimestamp() && !hasClimberCoasted) {
       // RobotContainer.CLIMBER.coast();
-      RobotContainer.ARM.coast();
+      RobotContainer.CLIMBER.coast();
       hasClimberCoasted = true;
     }
     if (timeToCoast + 5 < Timer.getFPGATimestamp()) {

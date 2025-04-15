@@ -69,8 +69,8 @@ public enum PositionConstant {
   //  LC3(new Translation2d(1.672, 6.398), Degrees.of(-55)),
   // NET SCORING POS, CHANGE X FOR DISTANCE TO NET
   //  N1(new Translation2d(7.8, 7.266), Degrees.of(180)),
-  ALL_NET(new Translation2d(7.25, 6.157), Degrees.of(180)),
-  OPP_NET(new Translation2d(LocalizationUtil.blueFlipXCoordinate(7.25), 6.157), Degrees.of(0)),
+  ALL_NET(new Translation2d(7.55, 6.157), Degrees.of(180)),
+  OPP_NET(new Translation2d(LocalizationUtil.blueFlipXCoordinate(7.55), 6.157), Degrees.of(0)),
   //  N3(new Translation2d(7.8, 5.079), Degrees.of(180)),
 
   C1(new Translation2d(7.5, 5.047), Degrees.of(270)),
