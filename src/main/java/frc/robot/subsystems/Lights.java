@@ -47,9 +47,7 @@ public class Lights extends BroncSystem {
   }
 
   @Override
-  public void log() {
-
-  }
+  public void log() {}
 
   public void applyAnimationUpright(Animation animation) {
     if (shouldUpdate()) {

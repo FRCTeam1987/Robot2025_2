@@ -16,14 +16,9 @@ public class Bindings extends RobotContainer {
         DRIVETRAIN.applyRequest(
             () ->
                 DRIVE
-                    .withVelocityX(
-                        MAX_SPEED.times(
-                            -JOYSTICK.getLeftY()))
-                    .withVelocityY(
-                        MAX_SPEED.times(-JOYSTICK.getLeftX()))
-                    .withRotationalRate(
-                        MAX_ANGULAR_RATE.times(
-                            -JOYSTICK.getRightX()))));
+                    .withVelocityX(MAX_SPEED.times(-JOYSTICK.getLeftY()))
+                    .withVelocityY(MAX_SPEED.times(-JOYSTICK.getLeftX()))
+                    .withRotationalRate(MAX_ANGULAR_RATE.times(-JOYSTICK.getRightX()))));
 
     JOYSTICK.rightBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
     JOYSTICK.leftBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.INIT)));

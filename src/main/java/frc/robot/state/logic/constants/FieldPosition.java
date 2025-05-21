@@ -69,7 +69,7 @@ public enum FieldPosition {
   LC2(PositionConstant.LC2, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.LC2),
 
   RC2(PositionConstant.RC2, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.RC2),
-;
+  ;
 
   public PositionConstant getLocation() {
     return LOCATION;

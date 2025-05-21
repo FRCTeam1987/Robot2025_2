@@ -2,8 +2,6 @@ package frc.robot.subsystems.constants;
 
 import static edu.wpi.first.units.Units.*;
 
-import com.ctre.phoenix.led.Animation;
-import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;

@@ -14,7 +14,7 @@ This year, we containerized our robot state, into a class named FunctionalState.
 The FunctionalState enum contains all possible robot states, such as "COLLECT, COLLECTED_CORAL, NET_ELEVATE, NET_ROTATE, NET_SCORE", etc.
 The enum paramaters contained runnables with subsystem instructions. An example is below.
 ```java
-public enum FunctionalState {  
+public enum FunctionalState {
 COLLECT(
       new FunctionalAction(
             //Set elevator to height
@@ -107,7 +107,7 @@ public enum FieldPosition {
 ```
 
 ### Problems with this method
-Other than the carnal java sins we committed to get to where we are with this state machine, it performed very well. It did not have any huge performance issues (that weren't our own fault). 
+Other than the carnal java sins we committed to get to where we are with this state machine, it performed very well. It did not have any huge performance issues (that weren't our own fault).
 ### Advantages of this method
 In last years roundup, I said "A more centralized way to manage the state would be nice, but that'll be next year's endeavor."
-I believe we have successfully accomplished this goal by migration to FunctionalState and Abomination. 
+I believe we have successfully accomplished this goal by migration to FunctionalState and Abomination.
