@@ -61,28 +61,18 @@ public enum FieldPosition {
   AL5(PositionConstant.SIDE_5_ALGAE, CollectMode.ALGAE_3, PositionConstant.SIDE_5_ENTRY),
   AL6(PositionConstant.SIDE_6_ALGAE, CollectMode.ALGAE_2, PositionConstant.SIDE_6_ENTRY),
 
-  //  N1(PositionConstant.N1, ScoreMode.NET, PositionConstant.N1),
   ALL_NET(PositionConstant.ALL_NET, ScoreMode.NET, PositionConstant.ALL_NET),
   OPP_NET(PositionConstant.OPP_NET, ScoreMode.NET, PositionConstant.OPP_NET),
-  //  N3(PositionConstant.N3, ScoreMode.NET, PositionConstant.N3),
 
   P1(PositionConstant.P1, ScoreMode.PROCESSOR, PositionConstant.P1),
 
-  //  LC1(PositionConstant.LC1, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.LC1),
   LC2(PositionConstant.LC2, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.LC2),
-  //  LC3(PositionConstant.LC3, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.LC3),
 
-  //  RC1(PositionConstant.RC1, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.RC1),
   RC2(PositionConstant.RC2, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.RC2),
-//  RC3(PositionConstant.RC3, CollectMode.HUMAN_PLAYER_STATION, PositionConstant.RC3),
 ;
 
   public PositionConstant getLocation() {
     return LOCATION;
-  }
-
-  public PositionConstant getPreLocation() {
-    return PRE_LOCATION != null ? PRE_LOCATION : LOCATION;
   }
 
   public boolean isScored() {

@@ -69,7 +69,6 @@ public class Climber extends BroncSystem {
     LEADER.getConfigurator().apply(config);
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0, LEADER_POSITION, LEADER_SUPPLY_CURRENT, ENCODER_POSITION);
-    // LEADER.optimizeBusUtilization();
     LEADER.setPosition(0.0);
     isCoast = config.MotorOutput.NeutralMode.equals(NeutralModeValue.Coast);
     isStopped = true;

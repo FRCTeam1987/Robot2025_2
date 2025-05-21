@@ -3,15 +3,11 @@ package frc.robot.state.logic.constants;
 import static edu.wpi.first.units.Units.Degrees;
 import static frc.robot.RobotContainer.DRIVETRAIN;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.utils.localization.LocalizationUtil;
 
 public enum PositionConstant {
@@ -59,35 +55,22 @@ public enum PositionConstant {
   SIDE_6_K1(rotateAroundBlueReef(SIDE_5_I1, Degrees.of(60.0)), flip(SIDE_6_ENTRY.getAngle())),
   SIDE_6_L1(rotateAroundBlueReef(SIDE_5_J1, Degrees.of(60.0)), flip(SIDE_6_ENTRY.getAngle())),
 
-  // RIGHT STATION
-  //  RC1(new Translation2d(0.661, 1.367), Degrees.of(55)),
   RC2(new Translation2d(1.658, 1.001), Degrees.of(55)),
-  //  RC3(new Translation2d(1.72, 1.12), Degrees.of(55)),
-
-  //  LC1(new Translation2d(0.661, 6.66), Degrees.of(-55)),
   LC2(LocalizationUtil.flipOverField(RC2.getTranslation()), Degrees.of(-55)),
-  //  LC3(new Translation2d(1.672, 6.398), Degrees.of(-55)),
-  // NET SCORING POS, CHANGE X FOR DISTANCE TO NET
-  //  N1(new Translation2d(7.8, 7.266), Degrees.of(180)),
+
   ALL_NET(new Translation2d(7.55, 6.157), Degrees.of(180)),
   OPP_NET(new Translation2d(LocalizationUtil.blueFlipXCoordinate(7.55), 6.157), Degrees.of(0)),
-  //  N3(new Translation2d(7.8, 5.079), Degrees.of(180)),
 
   C1(new Translation2d(7.5, 5.047), Degrees.of(270)),
   C2(new Translation2d(7.5, 6.159), Degrees.of(270)),
   C3(new Translation2d(7.5, 7.256), Degrees.of(270)),
-  // PROCESSOR
+
   P1(new Translation2d(5.65, 0.63), Degrees.of(-55)),
   ;
 
   private final Translation2d BLUE_TRANSLATION;
   private final Rotation2d ROTATION;
   private final Angle ROTATION_ANGLE;
-
-  private final Command BLUE_PATH;
-  private final Command RED_PATH;
-  //  private final DriveToPose BLUE_HOLO;
-  //  private final DriveToPose RED_HOLO;
   private final Pose2d BLUE_POSE;
   private final Pose2d RED_POSE;
 
@@ -119,30 +102,6 @@ public enum PositionConstant {
     return DRIVETRAIN.getAlliance() == DriverStation.Alliance.Blue ? RED_POSE : BLUE_POSE;
   }
 
-  public Command getRedPath() {
-    return RED_PATH;
-  }
-
-  public Command getBluePath() {
-    return BLUE_PATH;
-  }
-
-  public Command getAlliancePath() {
-    return DRIVETRAIN.getAlliance() == DriverStation.Alliance.Blue ? BLUE_PATH : RED_PATH;
-  }
-
-  //  public DriveToPose getRedHolo() {
-  //    return RED_HOLO;
-  //  }
-  //
-  //  public DriveToPose getBlueHolo() {
-  //    return BLUE_HOLO;
-  //  }
-  //
-  //  public DriveToPose getAllianceHolo() {
-  //    return DRIVETRAIN.getAlliance() == DriverStation.Alliance.Blue ? BLUE_HOLO : RED_HOLO;
-  //  }
-
   PositionConstant(Translation2d TRANSLATION, Angle HEADING) {
     this.BLUE_TRANSLATION = TRANSLATION;
     this.ROTATION_ANGLE = HEADING;
@@ -151,19 +110,6 @@ public enum PositionConstant {
     this.BLUE_POSE = new Pose2d(TRANSLATION, ROTATION.minus(new Rotation2d(Degrees.of(180))));
     this.RED_POSE =
         new Pose2d(LocalizationUtil.blueFlipToRed(BLUE_POSE.getTranslation()), ROTATION);
-
-    this.BLUE_PATH =
-        AutoBuilder.pathfindToPose(
-            BLUE_POSE,
-            new PathConstraints(
-                4.0, 3.0, Units.degreesToRadians(540), Units.degreesToRadians(720)));
-    this.RED_PATH =
-        AutoBuilder.pathfindToPose(
-            RED_POSE,
-            new PathConstraints(
-                4.0, 3.0, Units.degreesToRadians(540), Units.degreesToRadians(720)));
-    //    this.BLUE_HOLO = new DriveToPose(BLUE_POSE);
-    //    this.RED_HOLO = new DriveToPose(RED_POSE);
   }
 
   private static Translation2d rotateAroundBlueReef(PositionConstant POS, Angle ROTATION) {

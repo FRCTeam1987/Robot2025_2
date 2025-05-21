@@ -213,7 +213,7 @@ public class SubsystemConstants {
     public static final Angle FULLY_CLIMBED = Degrees.of(93.0);
 
     public static final double CLIMBER_REDUCTION = (144);
-    //
+
     public static CANcoderConfiguration encoderConfig() {
       final CANcoderConfiguration CFG = new CANcoderConfiguration();
       // MagnetSensor
@@ -228,7 +228,6 @@ public class SubsystemConstants {
 
       // MotorOutput
       CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
-      //      CFG.MotorOutput.ControlTimesyncFreqHz = 100.0;
 
       // Slot0
       CFG.Slot0.withKP(400);
@@ -321,33 +320,5 @@ public class SubsystemConstants {
         }
       }
     }
-
-    public static Animation IDLE_RED_SIDE =
-        new SingleFadeAnimation(255, 0, 0, 0, IDLE_SPEED, SIDE, SIDE_OFFSET);
-    public static Animation IDLE_BLUE_SIDE =
-        new SingleFadeAnimation(0, 0, 255, 0, IDLE_SPEED, SIDE, SIDE_OFFSET);
-    public static Animation IDLE_RED_UPRIGHTS =
-        new SingleFadeAnimation(255, 0, 0, 0, IDLE_SPEED, UPRIGHTS, UPRIGHTS_OFFSET);
-    public static Animation IDLE_BLUE_UPRIGHTS =
-        new SingleFadeAnimation(0, 0, 255, 0, IDLE_SPEED, UPRIGHTS, UPRIGHTS_OFFSET);
-    ;
-
-    // public LarsonAnimation(int r, int g, int b, int w, double speed, int numLed, BounceMode mode,
-    // int size, int ledOffset) {
-
-    // ColorFlowAnimation, FireAnimation, LarsonAnimation, RainbowAnimation, RgbFadeAnimation,
-    // SingleFadeAnimation, StrobeAnimation, TwinkleAnimation, TwinkleOffAnimation
-
-    //    public static final Animation INTAKE_ANIMATION_UPRIGHTS =
-    //        new LarsonAnimation(
-    //            255,
-    //            0,
-    //            255,
-    //            0,
-    //            0.35,
-    //            LEDS_UPRIGHTS,
-    //            LarsonAnimation.BounceMode.Front,
-    //            4,
-    //            8 + LEDS_SIDE);
   }
 }

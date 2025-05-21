@@ -40,8 +40,6 @@ public class Intake extends BroncSystem {
     INTAKE_MOTOR.getConfigurator().apply(intakeConfig());
 
     BaseStatusSignal.setUpdateFrequencyForAll(100.0, INTAKE_SUPPLY_CURRENT, INTAKE_VELOCITY);
-
-    // INTAKE_MOTOR.optimizeBusUtilization();
   }
 
   @Override

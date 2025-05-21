@@ -48,13 +48,7 @@ public class Lights extends BroncSystem {
 
   @Override
   public void log() {
-    //        StatusCode motorStatus = BaseStatusSignal.refreshAll(INTAKE_SUPPLY_CURRENT,
-    // INTAKE_VELOCITY);
-    //        if (RobotContainer.DEBUG) {
-    //            DogLog.log("Intake/supplyCurrent", INTAKE_SUPPLY_CURRENT.getValueAsDouble());
-    //            DogLog.log("Intake/velocity", INTAKE_VELOCITY.getValueAsDouble());
-    //            DogLog.log("Intake/isConnected", motorStatus.isOK());
-    //        }
+
   }
 
   public void applyAnimationUpright(Animation animation) {

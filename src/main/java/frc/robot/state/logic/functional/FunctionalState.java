@@ -77,7 +77,6 @@ public enum FunctionalState {
   COLLECTED_CORAL(
       new FunctionalAction(
           // stroke behaivor
-
           () -> {
             //            if (DriverStation.isAutonomous()
             //                && Timer.getFPGATimestamp() < AutoHelpers.matchTimeIncrement + 3.0) {

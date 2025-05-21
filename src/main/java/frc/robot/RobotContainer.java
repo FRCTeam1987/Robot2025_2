@@ -37,7 +37,7 @@ import frc.robot.utils.localization.LocalizationState;
 public class RobotContainer {
 
   public static final boolean DEBUG = true;
-  public static final boolean TEST_MODE = false;
+  public static final boolean CAMP_MODE = false;
   public static boolean BYPASS_TRACKER = true;
   public static final LinearVelocity MAX_SPEED = TunerConstants.kSpeedAt12Volts;
   public static final AngularVelocity MAX_ANGULAR_RATE = RotationsPerSecond.of(1.15);
@@ -96,20 +96,10 @@ public class RobotContainer {
     TEST_TAB.add(
         "DECREMENT ARM 0.5", new InstCmd(() -> Utils.incrementArm(-0.5)).ignoringDisable(true));
     TEST_TAB.addDouble("ARM OFFSET", Utils::getArmOverride);
-    //    TEST_TAB.addDouble(
-    //        "DRIVE CURRENT",
-    //        () -> DRIVETRAIN.getModule(0).getDriveMotor().getStatorCurrent().getValueAsDouble());
-    //    TEST_TAB.addDouble(
-    //        "DRIVE VELO",
-    //        () -> DRIVETRAIN.getModule(0).getDriveMotor().getRotorVelocity().getValueAsDouble());
     TEST_TAB.addDouble("MATCH TIME", DriverStation::getMatchTime);
     TEST_TAB.addDouble("MATCH TIME 2", RobotContainer::getRuntime);
-    //    TEST_TAB.addBoolean("BYPASS TRACKER", () -> RobotContainer.BYPASS_TRACKER);
-    //    TEST_TAB.add(
-    //        "BYPASS TRACKER TOGGLE",
-    //        new InstCmd(() -> RobotContainer.BYPASS_TRACKER = !RobotContainer.BYPASS_TRACKER)
-    //            .ignoringDisable(true));
 
+    // Uncomment to display all possible DriveToPose destinations (looks epic gamer cool)
     //    ArrayList<Pose2d> posesRed = new ArrayList<Pose2d>();
     //    ArrayList<Pose2d> posesBlu = new ArrayList<Pose2d>();
     //    for (PositionConstant value : PositionConstant.values()) {
@@ -142,18 +132,6 @@ public class RobotContainer {
     localizationState =
         new LocalizationState(
             FieldZones.getZoneFromTranslation(alliance, robotTranslation), Inches.of(5.0));
-    //            Distance.ofRelativeUnits(
-    //                robotTranslation.getDistance(
-    //                    alliance == DriverStation.Alliance.Blue
-    //                        ? Strategy.getCurrentFieldPosition()
-    //                            .getLocation()
-    //                            .getBluePose()
-    //                            .getTranslation()
-    //                        : Strategy.getCurrentFieldPosition()
-    //                            .getLocation()
-    //                            .getRedPose()
-    //                            .getTranslation()),
-    //                Meters));
   }
 
   public static PathPlannerAuto getAutonomousCommand() {

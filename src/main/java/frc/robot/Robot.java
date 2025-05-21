@@ -51,17 +51,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    //    AUTONOMOUS_COMMAND = ROBOT_CONTAINER.getAutonomousCommand();
-    //    if (AUTONOMOUS_COMMAND != null) {
-    //      if (DRIVETRAIN.getAlliance().equals(DriverStation.Alliance.Blue)) {
-    //        DRIVETRAIN.resetPose(AUTONOMOUS_COMMAND.getStartingPose());
-    //      } else {
-    //
-    // DRIVETRAIN.resetPose(LocalizationUtil.blueFlipToRed(AUTONOMOUS_COMMAND.getStartingPose()));
-    //      }
-    //    }
     if (timeToCoast + 15 < Timer.getFPGATimestamp() && !hasClimberCoasted) {
-      // RobotContainer.CLIMBER.coast();
       RobotContainer.CLIMBER.coast();
       hasClimberCoasted = true;
     }

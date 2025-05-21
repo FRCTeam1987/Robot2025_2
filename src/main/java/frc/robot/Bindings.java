@@ -12,31 +12,24 @@ public class Bindings extends RobotContainer {
 
   public static void configureBindings() {
 
-    // Note that X is defined as forward according to WPILib convention,
-    // and Y is defined as to the left according to WPILib convention.
     DRIVETRAIN.setDefaultCommand(
-        // Drivetrain will execute this command periodically
         DRIVETRAIN.applyRequest(
             () ->
                 DRIVE
                     .withVelocityX(
                         MAX_SPEED.times(
-                            -JOYSTICK.getLeftY())) // Drive forward with negative Y (forward)
+                            -JOYSTICK.getLeftY()))
                     .withVelocityY(
-                        MAX_SPEED.times(-JOYSTICK.getLeftX())) // Drive left with negative X (left)
+                        MAX_SPEED.times(-JOYSTICK.getLeftX()))
                     .withRotationalRate(
                         MAX_ANGULAR_RATE.times(
-                            -JOYSTICK.getRightX())))); // Drive counterclockwise with negative X
-    // (left)
+                            -JOYSTICK.getRightX()))));
 
     JOYSTICK.rightBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
     JOYSTICK.leftBumper().onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.INIT)));
 
     JOYSTICK.rightTrigger().whileTrue(new DriveToNearest(false, false));
     JOYSTICK.leftTrigger().whileTrue(new DriveToNearest(true, false));
-    //    new Trigger(() -> NEAREST.isFinished())
-    //        .whileTrue(
-    //            new AsyncRumble(JOYSTICK.getHID(), GenericHID.RumbleType.kBothRumble, 1.0, 3000));
     JOYSTICK
         .povUp()
         .onTrue(new InstCmd(() -> Abomination.setCollectMode(CollectMode.HUMAN_PLAYER_STATION)));
@@ -86,12 +79,5 @@ public class Bindings extends RobotContainer {
     CODRIVER_JOYSTICK
         .rightBumper()
         .onTrue(new InstCmd(() -> Abomination.setAction(DesiredAction.SCORE)));
-
-    //    CODRIVER_JOSYTICK
-    //        .start()
-    //        .whileTrue(
-    //            new DriveToPose(
-    //                DRIVETRAIN,
-    //                LocalizationUtil.blueFlipToRed(new Pose2d(7.15, 5.07, new Rotation2d(0.0)))));
   }
 }

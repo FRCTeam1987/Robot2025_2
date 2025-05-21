@@ -31,9 +31,7 @@ public class DriveToPose extends Command {
   private final Supplier<Pose2d> ROBOT;
   private final HolonomicDriveController HOLONOMIC =
       new HolonomicDriveController(
-          // PID constants for translation
           new PIDController(4.625, 0, 0.0001),
-          // PID constants for rotation
           new PIDController(4.625, 0, 0.0001),
           new ProfiledPIDController(
               12.0,
@@ -42,9 +40,6 @@ public class DriveToPose extends Command {
               new TrapezoidProfile.Constraints(Units.degreesToRadians(360.0), 8.0),
               0.02));
   boolean running = false;
-  private double driveErrorAbs;
-  private double thetaErrorAbs;
-  private Translation2d lastSetpointTranslation = new Translation2d();
   private Debouncer hasTargetDebounce;
   private BooleanSupplier freeY = () -> false;
 
@@ -79,20 +74,14 @@ public class DriveToPose extends Command {
     HOLONOMIC.getXController().reset();
     HOLONOMIC.getYController().reset();
     HOLONOMIC.getThetaController().reset(currentPose.getRotation().getRadians());
-    lastSetpointTranslation = currentPose.getTranslation();
   }
 
   @Override
   public void execute() {
     running = true;
 
-    // Get current pose and target pose
     Pose2d currentPose = ROBOT.get();
     Pose2d targetPose = TARGET.get();
-
-    // Calculate drive speed
-
-    driveErrorAbs = currentPose.getTranslation().getDistance(targetPose.getTranslation());
 
     if (freeY.getAsBoolean()) {
       ChassisSpeeds speeds =
@@ -127,7 +116,6 @@ public class DriveToPose extends Command {
   @Override
   public void end(boolean interrupted) {
     running = false;
-    // Clear logs
   }
 
   @Override
@@ -135,7 +123,6 @@ public class DriveToPose extends Command {
     return atGoal();
   }
 
-  /** Checks if the robot is stopped at the final pose. */
   public boolean atGoal() {
     final Pose2d pose = DRIVE.getPose();
     return hasTargetDebounce.calculate(

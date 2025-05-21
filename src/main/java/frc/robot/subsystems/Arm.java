@@ -87,7 +87,6 @@ public class Arm extends BroncSystem {
     ARM_MOTOR.getConfigurator().apply(armConfig());
     EFFECTOR_MOTOR.getConfigurator().apply(effectorConfig());
 
-    // bruh
     CORAL_CANDI
         .getConfigurator()
         .apply(
@@ -114,11 +113,6 @@ public class Arm extends BroncSystem {
         ALGAE_S1_SIGNAL);
 
     isCoast = armConfig().MotorOutput.NeutralMode.equals(NeutralModeValue.Coast);
-    // ARM_MOTOR.optimizeBusUtilization(4, 0.1);
-    // EFFECTOR_MOTOR.optimizeBusUtilization(4, 0.1);
-    // ENCODER.optimizeBusUtilization(4, 0.1);
-    // CORAL_CANDI.optimizeBusUtilization(4, 0.1);
-    // ALGAE_CANDI.optimizeBusUtilization(4, 0.1);
   }
 
   @Override
@@ -154,17 +148,6 @@ public class Arm extends BroncSystem {
             CORAL_S1_SIGNAL,
             CORAL_S2_SIGNAL,
             ALGAE_S1_SIGNAL);
-    // StatusCode leaderStatus =
-    //     BaseStatusSignal.refreshAll(ARM_POSITION, ARM_VELOCITY, ARM_SUPPLY_CURRENT);
-
-    // StatusCode followerStatus =
-    //     BaseStatusSignal.refreshAll(EFFECTOR_POSITION, EFFECTOR_SUPPLY_CURRENT);
-
-    // StatusCode encoderStatus = BaseStatusSignal.refreshAll(ENCODER_POSITION);
-
-    // StatusCode coralStatus = BaseStatusSignal.refreshAll(CORAL_S1_SIGNAL, CORAL_S2_SIGNAL);
-
-    // StatusCode algaeStatus = BaseStatusSignal.refreshAll(ALGAE_S1_SIGNAL);
 
     Angle ANGLE = getArmPosition();
 
@@ -246,7 +229,6 @@ public class Arm extends BroncSystem {
   }
 
   private void setEffectorPosition(Angle angle) {
-    // suppress tiny changes
     if (!EFFECTOR_POSITION.getValue().isNear(angle, Angle.ofBaseUnits(0.25, Degrees))) {
       EFFECTOR_MOTOR.setControl(new PositionVoltage(angle));
     }

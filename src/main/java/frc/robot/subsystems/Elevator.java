@@ -65,8 +65,6 @@ public class Elevator extends BroncSystem {
         FOLLOWER_SUPPLY_CURRENT,
         LEADER_VELOCITY);
 
-    // LEADER.optimizeBusUtilization();
-    // FOLLOWER.optimizeBusUtilization();
     LEADER.setPosition(0.0);
     FOLLOWER.setPosition(0.0);
   }
@@ -86,12 +84,6 @@ public class Elevator extends BroncSystem {
 
   @Override
   public void log() {
-
-    // StatusCode leaderStatus = BaseStatusSignal.refreshAll(LEADER_POSITION,
-    // LEADER_SUPPLY_CURRENT);
-
-    // StatusCode followerStatus =
-    //     BaseStatusSignal.refreshAll(FOLLOWER_POSITION, FOLLOWER_SUPPLY_CURRENT);
 
     if (RobotContainer.DEBUG) {
       DogLog.log("Elevator/leaderSupplyCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
