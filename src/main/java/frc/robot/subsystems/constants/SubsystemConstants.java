@@ -99,7 +99,7 @@ public class SubsystemConstants {
     public static final DebounceType ALGAE_DEBOUNCE_TYPE = DebounceType.kBoth;
 
     // Mechanism properties
-    public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.528809);
+    public static final Angle ARM_MAGNET_OFFSET = Rotations.of(-0.506348);
 
     // Dynamic configs
     public static final AngularAcceleration FAST_ACCEL = RotationsPerSecondPerSecond.of(25);

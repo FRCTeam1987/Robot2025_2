@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 public class Utils {
 
-  private static double armIncrement = 1.0;
+  private static double armIncrement = 2.75;
 
   public static void incrementArm(double amount) {
     armIncrement += amount;

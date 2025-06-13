@@ -439,7 +439,7 @@ public enum FunctionalState {
             ARM.setClawVoltage(
                 Volts.of(
                     switch (getScoreMode()) {
-                      case L1 -> inBack ? -2.75 : -2.75;
+                      case L1 -> inBack ? -3.75 : -3.75;
                       case L4 -> inBack ? -3.0 : -2.5;
                       default -> inBack ? -2.0 : -1.4;
                     }));
