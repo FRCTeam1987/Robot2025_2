@@ -4,11 +4,17 @@ import static frc.robot.RobotContainer.*;
 import static frc.robot.state.logic.functional.FunctionalState.*;
 
 import dev.doglog.DogLog;
+import edu.wpi.first.networktables.BooleanEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.state.logic.actions.DesiredAction;
 import frc.robot.state.logic.constants.FieldPosition;
 import frc.robot.state.logic.functional.FunctionalState;
 import frc.robot.state.logic.mode.CollectMode;
 import frc.robot.state.logic.mode.ScoreMode;
+import java.util.List;
 
 public class Abomination {
 
@@ -197,7 +203,41 @@ public class Abomination {
     return COLLECT;
   }
 
+  private static final BooleanEntry IS_CAMP_MODE =
+      NetworkTableInstance.getDefault().getBooleanTopic("CAMP_MODE").getEntry(true);
+
+  static {
+    // SmartDashboard.putData("Camp Mode Enable", new InstantCommand(() -> IS_CAMP_MODE.set(true)));
+    // SmartDashboard.putData("Camp Mode Disable", new InstantCommand(() ->
+    IS_CAMP_MODE.set(true);
+    if (IS_CAMP_MODE.get()) {
+      SCORE_MODE = ScoreMode.L2;
+      COLLECT_MODE = CollectMode.HUMAN_PLAYER_STATION;
+    }
+    SmartDashboard.putData(
+        "Camp Mode Toggle",
+        new InstantCommand(
+                () -> {
+                  IS_CAMP_MODE.set(!IS_CAMP_MODE.get());
+                  if (IS_CAMP_MODE.get()) {
+                    setScoreMode(ScoreMode.L2, true);
+                    setCollectMode(CollectMode.HUMAN_PLAYER_STATION);
+                  }
+                })
+            .ignoringDisable(true));
+  }
+
+  private static final List<ScoreMode> DISALLOWED_CAMP_SCORE_MODE =
+      List.of(ScoreMode.CLIMB, ScoreMode.L3, ScoreMode.L4, ScoreMode.NET, ScoreMode.PROCESSOR);
+  private static final List<CollectMode> DISALLOWED_CAMP_COLLECT_MODE =
+      List.of(CollectMode.ALGAE_2, CollectMode.ALGAE_3);
+
   public static void setScoreMode(ScoreMode DESIRED_MODE, boolean force) {
+    if (IS_CAMP_MODE.getAsBoolean() && DISALLOWED_CAMP_SCORE_MODE.contains(DESIRED_MODE)) {
+      DriverStation.reportWarning(
+          "Cannot set score mode to " + DESIRED_MODE.toString() + " when in camp mode!", false);
+      return;
+    }
     if (force) {
       SCORE_MODE = DESIRED_MODE;
       return;
@@ -254,6 +294,11 @@ public class Abomination {
   }
 
   public static void setCollectMode(CollectMode MODE) {
+    if (IS_CAMP_MODE.getAsBoolean() && DISALLOWED_CAMP_COLLECT_MODE.contains(MODE)) {
+      DriverStation.reportWarning(
+          "Cannot set collect mode to " + MODE.toString() + " when in camp mode!", false);
+      return;
+    }
     COLLECT_MODE = MODE;
   }
 
