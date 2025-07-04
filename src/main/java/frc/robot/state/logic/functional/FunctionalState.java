@@ -441,7 +441,7 @@ public enum FunctionalState {
                     switch (getScoreMode()) {
                       case L1 -> inBack ? -3.75 : -3.75;
                       case L4 -> inBack ? -3.0 : -2.5;
-                      default -> inBack ? -2.0 : -1.4;
+                      default -> inBack ? -3.0 : -1.8;
                     }));
           },
           INTAKE::stop,
