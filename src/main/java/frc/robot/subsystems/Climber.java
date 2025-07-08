@@ -15,8 +15,6 @@ import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Rotations;
 import static frc.robot.subsystems.constants.SubsystemConstants.ClimberConstants.*;
 
-import au.grapplerobotics.LaserCan;
-import au.grapplerobotics.interfaces.LaserCanInterface;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
@@ -30,28 +28,29 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import dev.doglog.DogLog;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.GenericHID;
 import frc.robot.RobotContainer;
-import frc.robot.state.Abomination;
-import frc.robot.state.commands.AsyncRumble;
-import frc.robot.state.logic.mode.ScoreMode;
-import java.util.function.Supplier;
+import frc.robot.subsystems.constants.SubsystemConstants.ClimberConstants;
 
 public class Climber extends BroncSystem {
 
   public final TalonFX LEADER = new TalonFX(LEADER_MOTOR_ID, CANBUS_NAME);
 
+  public final TalonFX ROLLER = new TalonFX(ROLLER_MOTOR_ID);
+
   public final CANcoder ENCODER = new CANcoder(ENCODER_ID, CANBUS_NAME);
 
-  public final LaserCan LASER_L = new LaserCan(LASER_L_ID);
-  ;
-  public final LaserCan LASER_R = new LaserCan(LASER_R_ID);
-  ;
+  // public final LaserCan LASER_L = new LaserCan(LASER_L_ID);
+  // ;
+  // public final LaserCan LASER_R = new LaserCan(LASER_R_ID);
+  // ;
 
-  public final Supplier<LaserCanInterface.Measurement> LASER_L_DATA = () -> getMeasurement(LASER_L);
-  public final Supplier<LaserCanInterface.Measurement> LASER_R_DATA = () -> getMeasurement(LASER_R);
+  // public final Supplier<LaserCanInterface.Measurement> LASER_L_DATA = () ->
+  // getMeasurement(LASER_L);
+  // public final Supplier<LaserCanInterface.Measurement> LASER_R_DATA = () ->
+  // getMeasurement(LASER_R);
 
   private final StatusSignal<Angle> ENCODER_POSITION = ENCODER.getPosition();
   private final StatusSignal<Angle> LEADER_POSITION = LEADER.getPosition();
@@ -67,6 +66,7 @@ public class Climber extends BroncSystem {
     TalonFXConfiguration config = climberConfig();
     ENCODER.getConfigurator().apply(encoderConfig());
     LEADER.getConfigurator().apply(config);
+    ROLLER.getConfigurator().apply(rollerConfig());
     BaseStatusSignal.setUpdateFrequencyForAll(
         50.0, LEADER_POSITION, LEADER_SUPPLY_CURRENT, ENCODER_POSITION);
     LEADER.setPosition(0.0);
@@ -74,13 +74,13 @@ public class Climber extends BroncSystem {
     isStopped = true;
   }
 
-  public LaserCanInterface.Measurement getMeasurement(LaserCan device) {
-    if (device.getMeasurement() != null && device.getMeasurement().ambient < 100) {
-      return device.getMeasurement();
-    }
-    return new LaserCanInterface.Measurement(
-        4, 200, 0, false, 0, new LaserCanInterface.RegionOfInterest(0, 0, 0, 0));
-  }
+  // public LaserCanInterface.Measurement getMeasurement(LaserCan device) {
+  //   if (device.getMeasurement() != null && device.getMeasurement().ambient < 100) {
+  //     return device.getMeasurement();
+  //   }
+  //   return new LaserCanInterface.Measurement(
+  //       4, 200, 0, false, 0, new LaserCanInterface.RegionOfInterest(0, 0, 0, 0));
+  // }
 
   @Override
   public void preCycle() {
@@ -88,17 +88,17 @@ public class Climber extends BroncSystem {
     if (ENCODER_POSITION.getValue().lt(Degrees.of(89))) {
       LEADER.stopMotor();
     }
-    if (Abomination.getScoreMode() == ScoreMode.CLIMB) {
-      if (LASER_R_DATA.get().distance_mm <= 70)
-        new AsyncRumble(
-                RobotContainer.JOYSTICK.getHID(), GenericHID.RumbleType.kRightRumble, 1.0, 150)
-            .schedule();
+    // if (Abomination.getScoreMode() == ScoreMode.CLIMB) {
+    //   if (LASER_R_DATA.get().distance_mm <= 70)
+    //     new AsyncRumble(
+    //             RobotContainer.JOYSTICK.getHID(), GenericHID.RumbleType.kRightRumble, 1.0, 150)
+    //         .schedule();
 
-      if (LASER_L_DATA.get().distance_mm <= 70)
-        new AsyncRumble(
-                RobotContainer.JOYSTICK.getHID(), GenericHID.RumbleType.kLeftRumble, 1.0, 150)
-            .schedule();
-    }
+    //   if (LASER_L_DATA.get().distance_mm <= 70)
+    //     new AsyncRumble(
+    //             RobotContainer.JOYSTICK.getHID(), GenericHID.RumbleType.kLeftRumble, 1.0, 150)
+    //         .schedule();
+    // }
     //        double voltage = Math.abs(getPosition().minus(target).in(Rotations)) * 100;
     //        if (getPosition().lt(FULLY_STOWED)) {
     //
@@ -120,8 +120,12 @@ public class Climber extends BroncSystem {
 
   public static final PositionVoltage mmDeploy = new PositionVoltage(FULLY_EXTENDED);
 
+  public static final VoltageOut runRollers = new VoltageOut(ROLLER_VOLTAGE);
+  public static final VoltageOut stopRollers = new VoltageOut(0);
+
   public void deploy() {
     setPosition(mmDeploy);
+    ROLLER.setControl(runRollers);
     // setPosition(FULLY_EXTENDED);
   }
 
@@ -129,6 +133,7 @@ public class Climber extends BroncSystem {
 
   public void climb() {
     setPosition(mmClimb);
+    ROLLER.setControl(stopRollers);
     // setPosition(FULLY_CLIMBED);
   }
 
@@ -136,6 +141,7 @@ public class Climber extends BroncSystem {
 
   public void stow() {
     setPosition(mmStow);
+    ROLLER.setControl(stopRollers);
     // setPosition(FULLY_STOWED);
   }
 
@@ -168,7 +174,16 @@ public class Climber extends BroncSystem {
   }
 
   public boolean isAtTarget() {
-    return getPosition().isNear(target, Degrees.of(0.5));
+    return getPosition()
+        .isNear(target, Degrees.of(3.0)); // was 0.5, new climber doesn't seem to be as consistent
+  }
+
+  public AngularVelocity getRollerRPS() {
+    return ROLLER.getVelocity().getValue();
+  }
+
+  public boolean hasCage() {
+    return getRollerRPS().lt(ClimberConstants.ROLLER_VELOCITY_THRESHOLD);
   }
 
   @Override
@@ -181,17 +196,21 @@ public class Climber extends BroncSystem {
     // StatusCode encoderStatus = BaseStatusSignal.refreshAll(ENCODER_POSITION);
 
     if (RobotContainer.DEBUG) {
-      // DogLog.log("Climber/leaderPosition", LEADER_POSITION.getValueAsDouble());
+      DogLog.log("Climber/leaderPosition", LEADER_POSITION.getValueAsDouble());
       DogLog.log("Climber/encoderPosition", ENCODER_POSITION.getValueAsDouble());
+      DogLog.log(
+          "Climber/encoderDegrees",
+          Degrees.convertFrom(ENCODER_POSITION.getValueAsDouble(), Rotations));
       DogLog.log("Climber/leaderCurrent", LEADER_SUPPLY_CURRENT.getValueAsDouble());
-      if (Abomination.getScoreMode() == ScoreMode.CLIMB) {
-        DogLog.log("Climber/laserLDist", LASER_L_DATA.get().distance_mm);
-        DogLog.log("Climber/laserRDist", LASER_R_DATA.get().distance_mm);
-        DogLog.log("Climber/laserRTrip", LASER_R_DATA.get().distance_mm <= 70);
-        DogLog.log("Climber/laserLTrip", LASER_L_DATA.get().distance_mm <= 70);
-      }
+      // if (Abomination.getScoreMode() == ScoreMode.CLIMB) {
+      //   DogLog.log("Climber/laserLDist", LASER_L_DATA.get().distance_mm);
+      //   DogLog.log("Climber/laserRDist", LASER_R_DATA.get().distance_mm);
+      //   DogLog.log("Climber/laserRTrip", LASER_R_DATA.get().distance_mm <= 70);
+      //   DogLog.log("Climber/laserLTrip", LASER_L_DATA.get().distance_mm <= 70);
+      // }
       DogLog.log("Climber/isAtTarget", isAtTarget());
       DogLog.log("Climber/target", target.in(Rotations));
+      DogLog.log("Climber/rollerRPS", getRollerRPS().baseUnitMagnitude());
     }
   }
 

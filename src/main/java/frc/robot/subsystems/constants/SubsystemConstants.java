@@ -8,13 +8,13 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.RGBWColor;
 import com.ctre.phoenix6.signals.ReverseLimitSourceValue;
 import com.ctre.phoenix6.signals.ReverseLimitTypeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.units.AngularAccelerationUnit;
 import edu.wpi.first.units.measure.*;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.state.Abomination;
 import frc.robot.state.logic.constants.MechanismConstant;
 import java.util.List;
@@ -201,14 +201,19 @@ public class SubsystemConstants {
 
   public static class ClimberConstants {
     public static final int LEADER_MOTOR_ID = 9;
+    public static final int ROLLER_MOTOR_ID = 10;
     public static final String CANBUS_NAME = "canfd";
     public static final int ENCODER_ID = 6;
     public static final int LASER_L_ID = 2;
     public static final int LASER_R_ID = 1;
 
     public static final Angle FULLY_STOWED = Degrees.of(90.0);
-    public static final Angle FULLY_EXTENDED = Degrees.of(180.0);
-    public static final Angle FULLY_CLIMBED = Degrees.of(93.0);
+    public static final Angle FULLY_EXTENDED = Degrees.of(178.0); // was 180.0
+    public static final Angle FULLY_CLIMBED = Degrees.of(94.5); // was 93.0
+
+    public static final Voltage ROLLER_VOLTAGE = Volts.of(10.0);
+    public static final AngularVelocity ROLLER_VELOCITY_THRESHOLD =
+        AngularVelocity.ofBaseUnits(150.0, RotationsPerSecond);
 
     public static final double CLIMBER_REDUCTION = (144);
 
@@ -216,8 +221,21 @@ public class SubsystemConstants {
       final CANcoderConfiguration CFG = new CANcoderConfiguration();
       // MagnetSensor
       CFG.MagnetSensor.withSensorDirection(SensorDirectionValue.CounterClockwise_Positive);
-      CFG.MagnetSensor.withMagnetOffset(Rotations.of(-0.347168).plus(Degrees.of(90.0)));
+      CFG.MagnetSensor.withMagnetOffset(Rotations.of(-0.296).plus(Degrees.of(90.0)));
       CFG.MagnetSensor.withAbsoluteSensorDiscontinuityPoint(Rotations.of(1.0));
+      return CFG;
+    }
+
+    public static TalonFXConfiguration rollerConfig() {
+      final TalonFXConfiguration CFG = new TalonFXConfiguration();
+
+      // MotorOutput
+      CFG.MotorOutput.withNeutralMode(NeutralModeValue.Brake);
+
+      // CurrentLimits
+      CFG.CurrentLimits.withSupplyCurrentLimit(Amps.of(20.0));
+      CFG.CurrentLimits.withSupplyCurrentLimitEnable(true);
+
       return CFG;
     }
 
@@ -232,8 +250,8 @@ public class SubsystemConstants {
       CFG.Slot0.withKI(0.0);
       CFG.Slot0.withKD(0.01);
 
-      CFG.MotionMagic.withMotionMagicAcceleration(600);
-      CFG.MotionMagic.withMotionMagicCruiseVelocity(100);
+      CFG.MotionMagic.withMotionMagicAcceleration(600); // want more, like 900
+      CFG.MotionMagic.withMotionMagicCruiseVelocity(100); // want more, like 200
 
       // Feedback
       CFG.Feedback.withFeedbackRemoteSensorID(ENCODER_ID);
@@ -265,32 +283,33 @@ public class SubsystemConstants {
     public static final int CANDLE_ID = 1;
     public static final String CANBUS_NAME = "canfd";
     public static final int OG = 8;
-    public static final int SIDE = 33;
-    public static final int SIDE_OFFSET = OG;
-    public static final int UPRIGHTS = 21;
-    public static final int UPRIGHTS_OFFSET = SIDE + OG;
+    public static final int SIDE_START = OG;
+    public static final int SIDE_END = OG + 33;
+    public static final int UPRIGHTS_START = SIDE_END;
+    public static final int UPRIGHTS_END = UPRIGHTS_START + 22;
     public static final int LARSON_SIZE = 5;
 
-    public static final Color8Bit DISABLED = new Color8Bit(255, 0, 0);
+    public static final RGBWColor DISABLED = new RGBWColor(255, 0, 0);
 
-    public static final Color8Bit AUTO_DRIVING = new Color8Bit(0, 255, 255);
+    public static final RGBWColor AUTO_DRIVING = new RGBWColor(0, 255, 255);
 
-    public static final Color8Bit L1_COLOR = new Color8Bit(255, 255, 0);
-    public static final Color8Bit L2_COLOR = new Color8Bit(0, 255, 255);
-    public static final Color8Bit L3_COLOR = new Color8Bit(255, 255, 255);
-    public static final Color8Bit L4_COLOR = new Color8Bit(160, 0, 255);
-    public static final Color8Bit PROC_COLOR = new Color8Bit(0, 255, 0);
-    public static final Color8Bit NET_COLOR = new Color8Bit(0, 0, 255);
-    public static final Color8Bit CLIMB_COLOR = new Color8Bit(255, 0, 0);
+    public static final RGBWColor L1_COLOR = new RGBWColor(255, 255, 0);
+    public static final RGBWColor L2_COLOR = new RGBWColor(0, 255, 255);
+    public static final RGBWColor L3_COLOR = new RGBWColor(255, 255, 255);
+    public static final RGBWColor L4_COLOR = new RGBWColor(160, 0, 255);
+    public static final RGBWColor PROC_COLOR = new RGBWColor(0, 255, 0);
+    public static final RGBWColor NET_COLOR = new RGBWColor(0, 0, 255);
+    public static final RGBWColor CLIMB_COLOR = new RGBWColor(255, 0, 0);
+    public static final RGBWColor COLLECT_COLOR = new RGBWColor(0, 255, 255);
 
-    public static final double UP_SPEED = 0.65;
-    public static final double DOWN_SPEED = 0.15;
-    public static final double COLLECTED_SPEED = 0.35;
-    public static final double CLIMB_CLIMB_SPEED = 0.75;
-    public static final double IDLE_SPEED = 0.25;
-    public static final double SCORE_STROBE_SPEED = 0.45;
+    public static final double UP_SPEED = 50;
+    public static final double DOWN_SPEED = 30;
+    public static final double COLLECTED_SPEED = 60;
+    public static final double CLIMB_CLIMB_SPEED = 80;
+    public static final double IDLE_SPEED = 40;
+    public static final double SCORE_STROBE_SPEED = 50;
 
-    public static Color8Bit getScoreColor() {
+    public static RGBWColor getScoreColor() {
       switch (Abomination.getScoreMode()) {
         case L1 -> {
           return L1_COLOR;

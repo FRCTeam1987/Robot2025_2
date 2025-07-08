@@ -9,9 +9,9 @@ import edu.wpi.first.units.measure.Distance;
 public enum MechanismConstant {
   // CORAL SCORING LOCATIONS
   L1(Inches.of(0.0), Degrees.of(140)),
-  L2(Inches.of(0.0), Degrees.of(296)),
-  L3(Inches.of(17.25), Degrees.of(297)),
-  L4(Inches.of(47.95), Degrees.of(313.75)),
+  L2(Inches.of(1.0), Degrees.of(296.5)),
+  L3(Inches.of(17.75), Degrees.of(297)),
+  L4(Inches.of(47.95), Degrees.of(314.25)),
 
   // ALGAE SCORING LOCATIONS
   NET(Inches.of(50.5), Degrees.of(-45)),

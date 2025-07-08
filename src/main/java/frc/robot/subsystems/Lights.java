@@ -5,12 +5,10 @@
 package frc.robot.subsystems;
 
 import static frc.robot.RobotContainer.DRIVETRAIN;
-import static frc.robot.subsystems.constants.SubsystemConstants.LightsConstants.UPRIGHTS;
 
-import com.ctre.phoenix.led.Animation;
-import com.ctre.phoenix.led.CANdle;
+import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.hardware.CANdle;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.state.Abomination;
 import frc.robot.state.logic.functional.FunctionalState;
 import frc.robot.state.logic.mode.CollectMode;
@@ -49,22 +47,25 @@ public class Lights extends BroncSystem {
   @Override
   public void log() {}
 
-  public void applyAnimationUpright(Animation animation) {
-    if (shouldUpdate()) {
-      CANDLE.clearAnimation(1);
-      CANDLE.animate(animation, 1);
-    }
+  public void setControl(ControlRequest req) {
+    CANDLE.setControl(req);
   }
 
-  public void applyAnimationSide(Animation animation) {
-    if (shouldUpdate()) {
-      CANDLE.clearAnimation(0);
-      CANDLE.animate(animation, 0);
-    }
-  }
+  // public void applyAnimationUpright(Animation animation) {
+  //   if (shouldUpdate()) {
+  //     CANDLE.clearAnimation(1);
+  //     CANDLE.animate(animation, 1);
+  //   }
+  // }
+
+  // public void applyAnimationSide(Animation animation) {
+  //   if (shouldUpdate()) {
+  //     CANDLE.clearAnimation(0);
+  //     CANDLE.animate(animation, 0);
+  //   }
+  // }
 
   public boolean shouldUpdate() {
-
     return Abomination.getScoreMode() != PREVIOUS_SCORE_MODE
         || Abomination.getCollectMode() != PREVIOUS_COLLECT_MODE
         || DriverStation.isEnabled() != PREVIOUSLY_ENABLED
@@ -72,25 +73,25 @@ public class Lights extends BroncSystem {
         || DRIVETRAIN.getAlliance() != PREVIOUS_ALLIANCE;
   }
 
-  public void applyAnimations(Animation animationSide, Animation animationUpright) {
-    applyAnimationSide(animationSide);
-    applyAnimationUpright(animationUpright);
-  }
+  // public void applyAnimations(Animation animationSide, Animation animationUpright) {
+  //   applyAnimationSide(animationSide);
+  //   applyAnimationUpright(animationUpright);
+  // }
 
-  public void setColor(Color8Bit color) {
-    CANDLE.clearAnimation(0);
-    CANDLE.clearAnimation(1);
-    CANDLE.setLEDs(
-        color.red,
-        color.green,
-        color.blue,
-        0,
-        0,
-        SubsystemConstants.LightsConstants.SIDE + UPRIGHTS);
-  }
+  // public void setColor(Color8Bit color) {
+  //   CANDLE.clearAnimation(0);
+  //   CANDLE.clearAnimation(1);
+  //   CANDLE.setLEDs(
+  //       color.red,
+  //       color.green,
+  //       color.blue,
+  //       0,
+  //       0,
+  //       SubsystemConstants.LightsConstants.SIDE + UPRIGHTS);
+  // }
 
-  public void off() {
-    CANDLE.clearAnimation(0);
-    CANDLE.setLEDs(0, 0, 0);
-  }
+  // public void off() {
+  //   CANDLE.clearAnimation(0);
+  //   CANDLE.setLEDs(0, 0, 0);
+  // }
 }

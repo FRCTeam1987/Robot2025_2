@@ -94,8 +94,8 @@ public class Elevator extends BroncSystem {
       DogLog.log("Elevator/isAtTarget", isAtTarget);
       DogLog.log("Elevator/target", target.in(Meters));
       DogLog.log("Elevator/distance", distance.in(Meters));
-      //    DogLog.log("Elevator/current", LEADER.getSupplyCurrent().getValueAsDouble());
-      //    DogLog.log("Elevator/voltage", LEADER.getMotorVoltage().getValueAsDouble());
+      DogLog.log("Elevator/current", LEADER.getSupplyCurrent().getValueAsDouble());
+      DogLog.log("Elevator/voltage", LEADER.getMotorVoltage().getValueAsDouble());
       // DogLog.log("Elevator/leaderIsConnected", leaderStatus.isOK());
       // DogLog.log("Elevator/followerIsConnected", followerStatus.isOK());
     }
@@ -119,8 +119,8 @@ public class Elevator extends BroncSystem {
   public void setDistance(Distance distance) {
     if (recovering) return;
     if (distance.gt(MAXIMUM_HEIGHT) || distance.lt(MINIMUM_HEIGHT)) return;
-    if ((RobotContainer.DRIVETRAIN.getChassisSpeeds().vyMetersPerSecond > 2.0)
-        || (RobotContainer.DRIVETRAIN.getChassisSpeeds().vxMetersPerSecond > 2.0)) return;
+    if ((RobotContainer.DRIVETRAIN.getChassisSpeeds().vxMetersPerSecond > 2.0)
+        || (RobotContainer.DRIVETRAIN.getChassisSpeeds().vyMetersPerSecond > 2.0)) return;
     Angle distanceAngle = Conversions.metersToRotations(distance, 1.0, PULLEY_RADIUS);
     if (LEADER.getPosition().getValue().lt(distanceAngle)) {
 

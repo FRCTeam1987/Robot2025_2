@@ -7,11 +7,13 @@ import static frc.robot.state.Abomination.getScoreMode;
 import static frc.robot.state.logic.constants.StateConstants.COLLECT_ZONES;
 import static frc.robot.subsystems.constants.SubsystemConstants.LightsConstants.*;
 
-import com.ctre.phoenix.led.LarsonAnimation;
-import com.ctre.phoenix.led.SingleFadeAnimation;
-import com.ctre.phoenix.led.StrobeAnimation;
+import com.ctre.phoenix6.controls.EmptyAnimation;
+import com.ctre.phoenix6.controls.LarsonAnimation;
+import com.ctre.phoenix6.controls.SingleFadeAnimation;
+import com.ctre.phoenix6.controls.StrobeAnimation;
+import com.ctre.phoenix6.signals.LarsonBounceValue;
+import com.ctre.phoenix6.signals.RGBWColor;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.Robot;
 import frc.robot.state.Abomination;
 import frc.robot.state.logic.constants.MechanismConstant;
@@ -38,39 +40,29 @@ public enum FunctionalState {
           },
           () -> {
             if (DriverStation.isDisabled()) {
-              Color8Bit C =
+              RGBWColor C =
                   DRIVETRAIN.getAlliance() == DriverStation.Alliance.Red
-                      ? new Color8Bit(255, 0, 0)
-                      : new Color8Bit(0, 0, 255);
-              LIGHTS.applyAnimationSide(
-                  new SingleFadeAnimation(
-                      C.red, C.green, C.blue, 0, IDLE_SPEED, SIDE, SIDE_OFFSET));
-              LIGHTS.applyAnimationUpright(
-                  new SingleFadeAnimation(
-                      C.red, C.green, C.blue, 0, IDLE_SPEED, UPRIGHTS, UPRIGHTS_OFFSET));
+                      ? new RGBWColor(255, 0, 0)
+                      : new RGBWColor(0, 0, 255);
+              LIGHTS.setControl(new EmptyAnimation(1));
+              LIGHTS.setControl(
+                  new SingleFadeAnimation(SIDE_START, UPRIGHTS_END)
+                      .withSlot(0)
+                      .withColor(C)
+                      .withFrameRate(60));
             } else {
-              LIGHTS.applyAnimationSide(
-                  new LarsonAnimation(
-                      0,
-                      255,
-                      255,
-                      0,
-                      UP_SPEED,
-                      SIDE,
-                      LarsonAnimation.BounceMode.Front,
-                      LARSON_SIZE,
-                      SIDE_OFFSET));
-              LIGHTS.applyAnimationUpright(
-                  new LarsonAnimation(
-                      0,
-                      255,
-                      255,
-                      0,
-                      UP_SPEED,
-                      UPRIGHTS,
-                      LarsonAnimation.BounceMode.Front,
-                      LARSON_SIZE,
-                      UPRIGHTS_OFFSET));
+              LIGHTS.setControl(
+                  new LarsonAnimation(SIDE_START, SIDE_END)
+                      .withSlot(0)
+                      .withColor(COLLECT_COLOR)
+                      .withBounceMode(LarsonBounceValue.Center)
+                      .withFrameRate(IDLE_SPEED));
+              LIGHTS.setControl(
+                  new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                      .withSlot(1)
+                      .withColor(COLLECT_COLOR)
+                      .withBounceMode(LarsonBounceValue.Center)
+                      .withFrameRate(IDLE_SPEED));
             }
           })),
 
@@ -90,30 +82,30 @@ public enum FunctionalState {
           INTAKE::stop,
           () -> {
             if (DriverStation.isDisabled()) {
-              Color8Bit C =
+              RGBWColor C =
                   DRIVETRAIN.getAlliance() == DriverStation.Alliance.Red
-                      ? new Color8Bit(255, 0, 0)
-                      : new Color8Bit(0, 0, 255);
-              LIGHTS.applyAnimationSide(
-                  new SingleFadeAnimation(
-                      C.red, C.green, C.blue, 0, IDLE_SPEED, SIDE, SIDE_OFFSET));
-              LIGHTS.applyAnimationUpright(
-                  new SingleFadeAnimation(
-                      C.red, C.green, C.blue, 0, IDLE_SPEED, UPRIGHTS, UPRIGHTS_OFFSET));
+                      ? new RGBWColor(255, 0, 0)
+                      : new RGBWColor(0, 0, 255);
+              LIGHTS.setControl(new EmptyAnimation(1));
+              LIGHTS.setControl(
+                  new SingleFadeAnimation(SIDE_START, UPRIGHTS_END)
+                      .withSlot(0)
+                      .withColor(C)
+                      .withFrameRate(60));
             } else {
-              Color8Bit COLOR = getScoreColor();
-              LIGHTS.applyAnimationSide(
-                  new SingleFadeAnimation(
-                      COLOR.red, COLOR.green, COLOR.blue, 0, COLLECTED_SPEED, SIDE, SIDE_OFFSET));
-              LIGHTS.applyAnimationUpright(
-                  new SingleFadeAnimation(
-                      COLOR.red,
-                      COLOR.green,
-                      COLOR.blue,
-                      0,
-                      COLLECTED_SPEED,
-                      UPRIGHTS,
-                      UPRIGHTS_OFFSET));
+              RGBWColor C = getScoreColor();
+              LIGHTS.setControl(
+                  new LarsonAnimation(SIDE_START, SIDE_END)
+                      .withSlot(0)
+                      .withColor(C)
+                      .withBounceMode(LarsonBounceValue.Center)
+                      .withFrameRate(COLLECTED_SPEED));
+              LIGHTS.setControl(
+                  new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                      .withSlot(1)
+                      .withColor(C)
+                      .withBounceMode(LarsonBounceValue.Center)
+                      .withFrameRate(COLLECTED_SPEED));
             }
           })),
   COLLECTED_ALGAE(
@@ -124,19 +116,32 @@ public enum FunctionalState {
           ARM::dynamicHold,
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new SingleFadeAnimation(
-                    COLOR.red, COLOR.green, COLOR.blue, 0, COLLECTED_SPEED, SIDE, SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new SingleFadeAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    COLLECTED_SPEED,
-                    UPRIGHTS,
-                    UPRIGHTS_OFFSET));
+            if (DriverStation.isDisabled()) {
+              RGBWColor C =
+                  DRIVETRAIN.getAlliance() == DriverStation.Alliance.Red
+                      ? new RGBWColor(255, 0, 0)
+                      : new RGBWColor(0, 0, 255);
+              LIGHTS.setControl(new EmptyAnimation(1));
+              LIGHTS.setControl(
+                  new SingleFadeAnimation(SIDE_START, UPRIGHTS_END)
+                      .withSlot(0)
+                      .withColor(C)
+                      .withFrameRate(60));
+            } else {
+              RGBWColor C = getScoreColor();
+              LIGHTS.setControl(
+                  new LarsonAnimation(SIDE_START, SIDE_END)
+                      .withSlot(0)
+                      .withColor(C)
+                      .withBounceMode(LarsonBounceValue.Center)
+                      .withFrameRate(COLLECTED_SPEED));
+              LIGHTS.setControl(
+                  new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                      .withSlot(1)
+                      .withColor(C)
+                      .withBounceMode(LarsonBounceValue.Center)
+                      .withFrameRate(COLLECTED_SPEED));
+            }
           })),
   PROCESSOR_ELEVATE(
       new FunctionalAction(
@@ -145,29 +150,19 @@ public enum FunctionalState {
           ARM::dynamicHold,
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    SIDE,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    UPRIGHTS,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new LarsonAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
+            LIGHTS.setControl(
+                new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
           })),
   PROCESSOR_ROTATE(
       new FunctionalAction(
@@ -176,29 +171,19 @@ public enum FunctionalState {
           ARM::dynamicHold,
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    SIDE,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    UPRIGHTS,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new LarsonAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
+            LIGHTS.setControl(
+                new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
           })),
   PROCESSOR_SCORE(
       new FunctionalAction(
@@ -207,19 +192,17 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(-6.0)),
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new StrobeAnimation(
-                    COLOR.red, COLOR.green, COLOR.blue, 0, SCORE_STROBE_SPEED, SIDE, SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new StrobeAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    SCORE_STROBE_SPEED,
-                    UPRIGHTS,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new StrobeAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withFrameRate(SCORE_STROBE_SPEED));
+            LIGHTS.setControl(
+                new StrobeAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withFrameRate(SCORE_STROBE_SPEED));
           })),
   NET_ELEVATE(
       new FunctionalAction(
@@ -230,29 +213,19 @@ public enum FunctionalState {
           ARM::dynamicHold,
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    SIDE,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    UPRIGHTS,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new LarsonAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
+            LIGHTS.setControl(
+                new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
           })),
   NET_ROTATE(
       new FunctionalAction(
@@ -263,29 +236,19 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(4.25)),
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    SIDE,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    UPRIGHTS,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new LarsonAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
+            LIGHTS.setControl(
+                new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
           })),
   NET_SCORE(
       new FunctionalAction(
@@ -297,19 +260,17 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(-16.0)),
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new StrobeAnimation(
-                    COLOR.red, COLOR.green, COLOR.blue, 0, SCORE_STROBE_SPEED, SIDE, SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new StrobeAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    SCORE_STROBE_SPEED,
-                    UPRIGHTS,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new StrobeAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withFrameRate(SCORE_STROBE_SPEED));
+            LIGHTS.setControl(
+                new StrobeAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withFrameRate(SCORE_STROBE_SPEED));
           })),
   NET_UNROTATE(
       new FunctionalAction(
@@ -318,29 +279,19 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(1.0)),
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    DOWN_SPEED,
-                    SIDE,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    DOWN_SPEED,
-                    UPRIGHTS,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new LarsonAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(DOWN_SPEED));
+            LIGHTS.setControl(
+                new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(DOWN_SPEED));
           })),
   NET_UNELEVATE(
       new FunctionalAction(
@@ -349,29 +300,19 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(1.0)),
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    DOWN_SPEED,
-                    SIDE,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    DOWN_SPEED,
-                    UPRIGHTS,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new LarsonAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(DOWN_SPEED));
+            LIGHTS.setControl(
+                new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(DOWN_SPEED));
           })),
   LEVEL_X_ELEVATE(
       new FunctionalAction(
@@ -382,29 +323,19 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(1)),
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    SIDE,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    UPRIGHTS,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new LarsonAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
+            LIGHTS.setControl(
+                new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
           })),
   LEVEL_X_ROTATE(
       new FunctionalAction(
@@ -415,19 +346,19 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(1)),
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new StrobeAnimation(
-                    COLOR.red, COLOR.green, COLOR.blue, 0, SCORE_STROBE_SPEED, SIDE, SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new StrobeAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    SCORE_STROBE_SPEED,
-                    UPRIGHTS,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new LarsonAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
+            LIGHTS.setControl(
+                new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
           })),
   LEVEL_X_SCORE(
       new FunctionalAction(
@@ -441,24 +372,22 @@ public enum FunctionalState {
                     switch (getScoreMode()) {
                       case L1 -> inBack ? -3.75 : -3.75;
                       case L4 -> inBack ? -3.0 : -2.5;
-                      default -> inBack ? -2.0 : -1.4;
+                      default -> inBack ? -3.0 : -1.8;
                     }));
           },
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new StrobeAnimation(
-                    COLOR.red, COLOR.green, COLOR.blue, 0, SCORE_STROBE_SPEED, SIDE, SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new StrobeAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    SCORE_STROBE_SPEED,
-                    UPRIGHTS,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new StrobeAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withFrameRate(SCORE_STROBE_SPEED));
+            LIGHTS.setControl(
+                new StrobeAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withFrameRate(SCORE_STROBE_SPEED));
           })),
   LEVEL_X_UNROTATE(
       new FunctionalAction(
@@ -467,29 +396,19 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(-6.0)),
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    DOWN_SPEED,
-                    SIDE,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    DOWN_SPEED,
-                    UPRIGHTS,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new LarsonAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(DOWN_SPEED));
+            LIGHTS.setControl(
+                new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(DOWN_SPEED));
           })),
   LEVEL_X_UNELEVATE(
       new FunctionalAction(
@@ -498,29 +417,19 @@ public enum FunctionalState {
           () -> ARM.setClawVoltage(Volts.of(0.0)),
           INTAKE::stop,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    DOWN_SPEED,
-                    SIDE,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    DOWN_SPEED,
-                    UPRIGHTS,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new LarsonAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(DOWN_SPEED));
+            LIGHTS.setControl(
+                new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(DOWN_SPEED));
           })),
   CLIMB_DEPLOY(
       new FunctionalAction(
@@ -530,29 +439,19 @@ public enum FunctionalState {
           INTAKE::stop,
           CLIMBER::deploy,
           () -> {
-            Color8Bit COLOR = getScoreColor();
-            LIGHTS.applyAnimationSide(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    SIDE,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    SIDE_OFFSET));
-            LIGHTS.applyAnimationUpright(
-                new LarsonAnimation(
-                    COLOR.red,
-                    COLOR.green,
-                    COLOR.blue,
-                    0,
-                    UP_SPEED,
-                    UPRIGHTS,
-                    LarsonAnimation.BounceMode.Front,
-                    LARSON_SIZE,
-                    UPRIGHTS_OFFSET));
+            RGBWColor C = getScoreColor();
+            LIGHTS.setControl(
+                new LarsonAnimation(SIDE_START, SIDE_END)
+                    .withSlot(0)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
+            LIGHTS.setControl(
+                new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                    .withSlot(1)
+                    .withColor(C)
+                    .withBounceMode(LarsonBounceValue.Center)
+                    .withFrameRate(UP_SPEED));
           })),
   CLIMB_CLIMB(
       new FunctionalAction(
@@ -563,16 +462,30 @@ public enum FunctionalState {
           CLIMBER::climb,
           () -> {
             if (!Robot.hasClimberCoasted) {
-              LIGHTS.applyAnimationSide(
-                  new SingleFadeAnimation(255, 0, 0, 0, CLIMB_CLIMB_SPEED, SIDE, SIDE_OFFSET));
-              LIGHTS.applyAnimationUpright(
-                  new SingleFadeAnimation(
-                      255, 0, 0, 0, CLIMB_CLIMB_SPEED, UPRIGHTS, UPRIGHTS_OFFSET));
+              RGBWColor C =
+                  DRIVETRAIN.getAlliance() == DriverStation.Alliance.Red
+                      ? new RGBWColor(255, 0, 0)
+                      : new RGBWColor(0, 0, 255);
+              LIGHTS.setControl(new EmptyAnimation(1));
+              LIGHTS.setControl(
+                  new SingleFadeAnimation(SIDE_START, UPRIGHTS_END)
+                      .withSlot(0)
+                      .withColor(C)
+                      .withFrameRate(60));
             } else {
-              LIGHTS.applyAnimationSide(
-                  new SingleFadeAnimation(255, 0, 0, 0, IDLE_SPEED, SIDE, SIDE_OFFSET));
-              LIGHTS.applyAnimationUpright(
-                  new SingleFadeAnimation(255, 0, 0, 0, IDLE_SPEED, UPRIGHTS, UPRIGHTS_OFFSET));
+              RGBWColor C = getScoreColor();
+              LIGHTS.setControl(
+                  new LarsonAnimation(SIDE_START, SIDE_END)
+                      .withSlot(0)
+                      .withColor(C)
+                      .withBounceMode(LarsonBounceValue.Center)
+                      .withFrameRate(CLIMB_CLIMB_SPEED));
+              LIGHTS.setControl(
+                  new LarsonAnimation(UPRIGHTS_START, UPRIGHTS_END)
+                      .withSlot(1)
+                      .withColor(C)
+                      .withBounceMode(LarsonBounceValue.Center)
+                      .withFrameRate(UP_SPEED));
             }
           })),
   ;
